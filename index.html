@@ -6966,14 +6966,13 @@ button:focus-visible,a:focus-visible,[role="button"]:focus-visible{outline:1px s
     const orbit=t5.querySelector('.f2s-t5-orbit'); if(orbit) orbit.parentNode.insertBefore(ring,orbit);
     if(!reduce){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){ring.classList.add('is-live');io.disconnect()}}),{threshold:.25});io.observe(ring)}else ring.classList.add('is-live');
    }
-   /* 7-day cinematic cycle */
-   if(!t5.querySelector('.f2s-t5-cycle-dots')){
+   /* 7-day cinematic cycle — intentionally omitted: the signature already has its 7-day bar. */
+   if(false && !t5.querySelector('.f2s-t5-cycle-dots')){
     const champion=q('.t5w37-champion-row'); let score=7;if(champion){const m=(champion.textContent||'').match(/(\d)\/7/);if(m)score=+m[1]}
     const dots=document.createElement('div');dots.className='f2s-t5-cycle-dots';dots.setAttribute('aria-label',`Weekly consistency ${score} of 7 days`);dots.innerHTML=Array.from({length:7},(_,i)=>`<i class="${i<score?'is-on':''}" title="Day ${i+1}"></i>`).join('');
     const cycle=t5.querySelector('.f2s-t5-cycle');if(cycle)cycle.parentNode.insertBefore(dots,cycle);else t5.appendChild(dots);
    }
-   /* Living system status */
-   const head=t5.querySelector('.f2s-t5-sig-head'); if(head && !head.querySelector('.f2s-system-status')){const st=document.createElement('div');st.className='f2s-system-status';st.innerHTML='<i></i> F2S SYSTEM · W40 ACTIVE';head.appendChild(st)}
+   /* Living system status — kept once in the signature header as W40 · ACTIVE. */
    /* Universe caption */
    const orbit=t5.querySelector('.f2s-t5-orbit');if(orbit && !t5.querySelector('.f2s-t5-universe-caption')){const c=document.createElement('div');c.className='f2s-t5-universe-caption';c.textContent='F2S · ONE SYSTEM · FIVE PILLARS · ONE WEEKLY CYCLE';orbit.parentNode.insertBefore(c,orbit)}
    /* Active node choreography + line hot state */
@@ -7145,5 +7144,23 @@ body{overflow-x:hidden}
   });
 })();
 </script>
+
+<style id="f2s-t5-refined-final">
+/* Final T5 refinement: one status, one 7-day visualization, lower five-pillar composition. */
+.f2s-t5-cycle-dots{display:none!important}
+.f2s-system-status{display:none!important}
+.f2s-t5-orbit{padding-top:10px;box-sizing:border-box}
+.f2s-t5-node[data-i="0"]{top:12px}
+.f2s-t5-node[data-i="1"],.f2s-t5-node[data-i="4"]{top:46%}
+.f2s-t5-node[data-i="2"],.f2s-t5-node[data-i="3"]{bottom:-2px}
+@media(max-width:700px){
+  .f2s-t5-orbit{height:282px;padding-top:10px}
+  .f2s-t5-node{width:104px}
+  .f2s-t5-node[data-i="0"]{top:14px}
+  .f2s-t5-node[data-i="1"],.f2s-t5-node[data-i="4"]{top:47%}
+  .f2s-t5-node[data-i="2"],.f2s-t5-node[data-i="3"]{bottom:-1px}
+}
+@media(prefers-reduced-motion:reduce){.f2s-t5-signature:before{animation:none!important}}
+</style>
 </body>
 </html>
