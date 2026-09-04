@@ -1334,7 +1334,7 @@ img[alt*="Leaderboard"]{
 
 
 /* =========================================================
-   T5 Week 38 — FINAL BLACK LUXURY / PREMIUM OVERRIDE
+   T5 Weekly — FINAL BLACK LUXURY / PREMIUM OVERRIDE
    ========================================================= */
 .t5w37-premium-board{
   background:
@@ -1505,7 +1505,7 @@ img[alt*="Leaderboard"]{
 
 
 /* =========================================================
-   T5 Week 38 + Top 5 Stars — refined black / soft-gold
+   T5 Weekly + Top 5 Stars — refined black / soft-gold
    ========================================================= */
 .top5-stars-box{
   margin:0 !important;
@@ -1773,6 +1773,83 @@ img[alt*="Leaderboard"]{
   }
 }
 
+
+
+/* F2S · Weekly T5 ticker — premium information rail */
+.f2s-weekly-ticker-wrap{
+  display:flex;align-items:stretch;width:100%;box-sizing:border-box;
+  margin-top:18px;margin-bottom:-8px;min-height:46px;
+  border:1px solid rgba(217,167,85,.18);border-radius:13px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(14,13,11,.98),rgba(6,6,6,.99));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 12px 32px rgba(0,0,0,.24),0 0 0 1px rgba(217,167,85,.025);
+}
+.f2s-weekly-ticker-label{
+  position:relative;z-index:5;flex:0 0 66px;width:66px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:3px;padding:0 5px;box-sizing:border-box;
+  background:linear-gradient(180deg,rgba(217,167,85,.15),rgba(217,167,85,.045));
+  border-right:1px solid rgba(217,167,85,.22);
+  box-shadow:10px 0 24px rgba(0,0,0,.32),inset -1px 0 0 rgba(255,255,255,.018);
+}
+.f2s-weekly-ticker-label-main{
+  font-family:"JetBrains Mono",monospace;font-size:13px;font-weight:900;letter-spacing:.12em;
+  color:#F1C873;line-height:1;
+}
+.f2s-weekly-ticker-label-week{
+  font-family:"JetBrains Mono",monospace;font-size:8.5px;font-weight:800;letter-spacing:.16em;
+  color:#A69B85;line-height:1;text-transform:uppercase;
+}
+.f2s-weekly-ticker-label-live{display:flex;align-items:center;gap:4px;margin-top:1px;font:700 6.5px/1 Inter,sans-serif;letter-spacing:.12em;color:#74684f;text-transform:uppercase}
+.f2s-weekly-ticker-live-dot{width:4px;height:4px;border-radius:50%;background:#D9A755;box-shadow:0 0 7px rgba(217,167,85,.7);animation:f2sTickerPulse 1.8s ease-in-out infinite}
+@keyframes f2sTickerPulse{0%,100%{opacity:.45;transform:scale(.85)}50%{opacity:1;transform:scale(1)}}
+.f2s-weekly-ticker-wrap .f2s-weekly-ticker{flex:1;min-width:0;margin:0;border:0;border-radius:0;box-shadow:none}
+.f2s-weekly-ticker{
+  position:relative;width:100%;box-sizing:border-box;overflow:hidden;
+  background:linear-gradient(90deg,rgba(217,167,85,.035),rgba(7,7,7,.98) 12%,rgba(7,7,7,.98) 88%,rgba(217,167,85,.035));
+}
+.f2s-weekly-ticker::before,.f2s-weekly-ticker::after{content:"";position:absolute;top:0;bottom:0;width:52px;z-index:3;pointer-events:none}
+.f2s-weekly-ticker::before{left:0;background:linear-gradient(90deg,#070707,rgba(7,7,7,.78),transparent)}
+.f2s-weekly-ticker::after{right:0;background:linear-gradient(270deg,#070707,rgba(7,7,7,.78),transparent)}
+.f2s-weekly-ticker-track{
+  display:flex;width:max-content;min-width:max-content;height:100%;
+  animation:f2sTickerRTL 24s linear infinite!important;
+  animation-delay:0s!important;animation-timing-function:linear!important;
+  animation-iteration-count:infinite!important;animation-direction:normal!important;
+  will-change:transform;transform:translate3d(0,0,0);
+}
+.f2s-weekly-ticker-set{display:flex;align-items:center;flex-shrink:0;height:100%}
+.f2s-weekly-ticker-item{
+  position:relative;display:flex;align-items:center;gap:8px;min-height:46px;padding:0 21px;
+  white-space:nowrap;font-family:Inter,sans-serif;font-size:10px;letter-spacing:.025em;color:#c9c5b5;
+}
+.f2s-weekly-ticker-item::after{content:"";position:absolute;right:0;width:1px;height:18px;background:rgba(217,167,85,.12)}
+.f2s-weekly-ticker-rank{font-family:"JetBrains Mono",monospace;font-weight:900;font-size:9px;color:#A69B85;letter-spacing:.02em}
+.f2s-weekly-ticker-item.rank-1 .f2s-weekly-ticker-rank{color:#F1C873}
+.f2s-weekly-ticker-item.rank-2 .f2s-weekly-ticker-rank{color:#C6C4BC}
+.f2s-weekly-ticker-item.rank-3 .f2s-weekly-ticker-rank{color:#B99162}
+.f2s-weekly-ticker-name{color:#F1E7D2;font-weight:750}
+.f2s-weekly-ticker-id{color:#8F876F;font-family:"JetBrains Mono",monospace;font-size:9px}
+.f2s-weekly-ticker-score{color:#D9A755;font-family:"JetBrains Mono",monospace;font-weight:900;font-size:9px}
+.f2s-weekly-ticker-time{color:#EDE7D8;font-family:"JetBrains Mono",monospace;font-size:9px}
+.f2s-weekly-ticker-star{font-size:9px;color:#D9A755;margin-left:-3px;text-shadow:0 0 9px rgba(217,167,85,.3)}
+.f2s-weekly-ticker-sep{color:rgba(217,167,85,.30);font-weight:700}
+@keyframes f2sTickerRTL{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-50%,0,0)}}
+@media(min-width:601px){
+  .f2s-weekly-ticker-track{display:flex!important;flex-direction:row!important;width:max-content!important;min-width:max-content!important}
+  .f2s-weekly-ticker-set{display:flex!important;flex:0 0 auto!important;flex-direction:row!important}
+  .f2s-weekly-ticker-item{display:flex!important;flex:0 0 auto!important}
+}
+@media(max-width:600px){
+  .f2s-weekly-ticker-wrap{margin-top:16px;margin-bottom:-7px;min-height:42px;border-radius:11px}
+  .f2s-weekly-ticker-label{flex-basis:58px;width:58px}
+  .f2s-weekly-ticker-label-main{font-size:12px}.f2s-weekly-ticker-label-week{font-size:8px}
+  .f2s-weekly-ticker-label-live{font-size:6px}
+  .f2s-weekly-ticker-item{min-height:42px;padding:0 15px;gap:7px;font-size:9.5px}
+  .f2s-weekly-ticker-track{animation-duration:16s}
+  .f2s-weekly-ticker-item:not(:first-child){display:none!important}
+}
+@media(prefers-reduced-motion:reduce){.f2s-weekly-ticker-track,.f2s-weekly-ticker-live-dot{animation:none!important;transform:none!important}}
+
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js">
   (() => {
@@ -2021,6 +2098,316 @@ body::before{
 }
 </style>
 
+
+<style>
+/* F2S Premium Surface System — final card & box refinement */
+.f2s-premium-card{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  background:
+    radial-gradient(120% 100% at 100% 0%,rgba(217,167,85,.055),transparent 42%),
+    linear-gradient(145deg,rgba(30,23,15,.98),rgba(17,13,9,.99)) !important;
+  border-color:rgba(217,167,85,.16) !important;
+  border-radius:16px !important;
+  box-shadow:
+    0 14px 38px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.035),
+    inset 0 -1px 0 rgba(0,0,0,.18);
+  transition:
+    transform .28s cubic-bezier(.2,.7,.2,1),
+    border-color .28s ease,
+    box-shadow .28s ease,
+    background .28s ease;
+}
+.f2s-premium-card::before{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:-1;
+  background:linear-gradient(115deg,transparent 20%,rgba(255,255,255,.035) 48%,transparent 66%);
+  transform:translateX(-125%);transition:transform .8s cubic-bezier(.2,.7,.2,1);
+}
+.f2s-premium-card::after{
+  content:"";position:absolute;left:16px;right:16px;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(217,167,85,.24),transparent);
+  opacity:.7;pointer-events:none;
+}
+.f2s-premium-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(217,167,85,.30) !important;
+  box-shadow:
+    0 22px 55px rgba(0,0,0,.25),
+    0 0 0 1px rgba(217,167,85,.025),
+    inset 0 1px 0 rgba(255,255,255,.045);
+}
+.f2s-premium-card:hover::before{transform:translateX(125%)}
+.f2s-premium-card:focus-within{
+  border-color:rgba(217,167,85,.38) !important;
+  box-shadow:0 0 0 3px rgba(217,167,85,.07),0 18px 48px rgba(0,0,0,.22);
+}
+.f2s-premium-table{
+  position:relative;overflow:auto;isolation:isolate;
+  background:linear-gradient(145deg,rgba(28,22,15,.98),rgba(16,12,8,.99)) !important;
+  border-color:rgba(217,167,85,.15) !important;
+  border-radius:16px !important;
+  box-shadow:0 16px 42px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.03);
+}
+.f2s-premium-table table tbody tr{transition:background .2s ease,transform .2s ease}
+.f2s-premium-table table tbody tr:hover{background:rgba(217,167,85,.035)}
+.f2s-premium-table table thead th{background:rgba(217,167,85,.035)}
+/* Premium content-boxes generated by common inline styles */
+.f2s-section-stage > div[style*="borderRadius"]{transition:box-shadow .25s ease,border-color .25s ease,transform .25s ease}
+@media(max-width:700px){
+  .f2s-premium-card{border-radius:14px !important;padding-left:16px !important;padding-right:16px !important;box-shadow:0 10px 28px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.03)}
+  .f2s-premium-card:hover{transform:none}
+  .f2s-premium-card::before{display:none}
+  .f2s-premium-table{border-radius:14px !important}
+}
+@media(prefers-reduced-motion:reduce){
+  .f2s-premium-card,.f2s-premium-card::before,.f2s-premium-table table tbody tr{transition:none !important}
+  .f2s-premium-card:hover{transform:none}
+}
+</style>
+<style id="f2s-final-final-polish">
+/* F2S FINAL-FINAL POLISH — restrained luxury */
+:root{
+  --f2s-gold-soft:rgba(217,167,85,.78);
+  --f2s-gold-halo:rgba(217,167,85,.065);
+}
+
+/* Reduce gold glow so the interface feels more expensive and less flashy. */
+body::before{opacity:.012!important}
+.site-header img[alt="F2S Logo"]{
+  border-color:rgba(217,167,85,.42)!important;
+  box-shadow:0 7px 20px rgba(0,0,0,.34),0 0 16px rgba(217,167,85,.065)!important;
+}
+.site-header img[alt="F2S Logo"]:hover{
+  box-shadow:0 9px 24px rgba(0,0,0,.36),0 0 22px rgba(217,167,85,.10)!important;
+}
+.site-header::after{
+  background:linear-gradient(90deg,transparent,rgba(217,167,85,.42),transparent)!important;
+  opacity:.68!important;
+}
+
+/* Stronger brand presence without increasing glow. */
+.site-header img[alt="F2S Logo"]{
+  transform:scale(1.025);
+}
+.site-header img[alt="F2S Logo"]:hover{transform:translateY(-1px) scale(1.035)!important}
+
+/* Cleaner, consistent typography. */
+.content-column h1,
+.content-column h2,
+.content-column h3,
+.voices-page h1,
+.voices-page h2,
+.voices-page h3{
+  text-rendering:geometricPrecision;
+}
+.content-column h1,.voices-page h1{letter-spacing:-.04em!important}
+.content-column h2,.voices-page h2{letter-spacing:-.022em!important}
+.content-column h3,.voices-page h3{letter-spacing:-.01em}
+
+/* Keep gold hierarchy limited to meaningful UI elements. */
+.home-voices-box{
+  border-color:rgba(217,167,85,.12)!important;
+  box-shadow:0 22px 58px rgba(0,0,0,.40),inset 0 1px 0 rgba(255,255,255,.026)!important;
+}
+.home-voices-box::before{
+  background:linear-gradient(90deg,transparent,rgba(217,167,85,.48),transparent)!important;
+}
+.home-voices-box::after{
+  background:radial-gradient(circle,rgba(217,167,85,.065),transparent 68%)!important;
+}
+.home-voices-box:hover{
+  border-color:rgba(217,167,85,.31)!important;
+  box-shadow:0 27px 64px rgba(0,0,0,.43),0 0 24px rgba(217,167,85,.022),inset 0 1px 0 rgba(255,255,255,.03)!important;
+}
+
+/* Voices page: quieter default cards, slightly richer featured card. */
+.voices-page .voice-story-card{
+  border-color:rgba(217,167,85,.14)!important;
+  box-shadow:0 18px 46px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.02)!important;
+}
+.voices-page .voice-story-card:hover{
+  border-color:rgba(217,167,85,.24)!important;
+  box-shadow:0 23px 56px rgba(0,0,0,.38),0 0 20px rgba(217,167,85,.018),inset 0 1px 0 rgba(255,255,255,.024)!important;
+}
+.voices-page .voice-featured{
+  border-color:rgba(217,167,85,.28)!important;
+  box-shadow:0 24px 66px rgba(0,0,0,.40),inset 0 1px 0 rgba(255,255,255,.028)!important;
+}
+.voices-page .voice-share-panel,
+.voices-page .voice-cta{
+  border-color:rgba(217,167,85,.18)!important;
+  box-shadow:0 21px 56px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.022)!important;
+}
+
+/* One consistent premium divider language. */
+.content-column h2::after,
+.voices-page h2::after{
+  background:linear-gradient(90deg,rgba(217,167,85,.72),rgba(217,167,85,0))!important;
+}
+
+@media(max-width:700px){
+  .site-header img[alt="F2S Logo"]{transform:scale(1.015)}
+  .site-header img[alt="F2S Logo"]:hover{transform:scale(1.02)!important}
+  .content-column h1,.voices-page h1{letter-spacing:-.035em!important}
+}
+
+/* F2S Living Interface — premium micro-interactions */
+.f2s-pulse-strip{position:relative;overflow:hidden;margin:10px 0 16px;height:25px;border:1px solid rgba(217,167,85,.10);border-radius:999px;background:linear-gradient(90deg,rgba(217,167,85,.035),rgba(255,255,255,.012),rgba(217,167,85,.035));mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
+.f2s-pulse-track{display:flex;align-items:center;gap:13px;width:max-content;height:100%;padding:0 18px;color:#7f755f;font:700 8px/1 Inter,sans-serif;letter-spacing:.16em;white-space:nowrap;text-transform:uppercase;animation:f2sPulse 32s linear infinite;}
+.f2s-pulse-track span:first-child{color:#D9A755}.f2s-pulse-track i{font-style:normal;color:rgba(217,167,85,.38)}
+@keyframes f2sPulse{from{transform:translateX(0)}to{transform:translateX(-35%)}}
+.f2s-voice-rotator{position:relative;overflow:hidden;margin:0 0 32px;padding:22px 24px;border:1px solid rgba(217,167,85,.16);border-radius:18px;background:radial-gradient(420px 180px at 100% 0%,rgba(217,167,85,.075),transparent 68%),linear-gradient(145deg,rgba(16,13,9,.98),rgba(5,5,5,.99));box-shadow:0 18px 48px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.025);}
+.f2s-voice-rotator-kicker{color:#D9A755;font:700 9px/1 Inter,sans-serif;letter-spacing:.15em;text-transform:uppercase}.f2s-voice-rotator-quote{margin-top:12px;color:#eee8da;font:500 17px/1.72 Fraunces,Georgia,serif}.f2s-voice-rotator-author{margin-top:12px;color:#8f856f;font:600 10.5px/1.4 "JetBrains Mono",monospace}.f2s-voice-rotator-dots{display:flex;gap:5px;margin-top:15px}.f2s-voice-rotator-dots span{width:5px;height:5px;border-radius:50%;background:rgba(217,167,85,.20);transition:transform .2s,background .2s}.f2s-voice-rotator-dots span.is-active{background:#D9A755;transform:scale(1.35)}
+.t5w37-champion-row{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(180px,.8fr);gap:14px;align-items:center;margin:14px 0;padding:12px 13px;border:1px solid rgba(217,167,85,.13);border-radius:13px;background:linear-gradient(100deg,rgba(217,167,85,.055),rgba(255,255,255,.008));}.t5w37-champion-copy{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}.t5w37-champion-label{color:#8e826a;font:700 8px/1 Inter,sans-serif;letter-spacing:.13em}.t5w37-champion-copy strong{color:#F1C873;font:650 13px/1.2 Inter,sans-serif}.t5w37-champion-copy>span:last-child{color:#8e856f;font:10px/1.3 "JetBrains Mono",monospace}.t5w37-progress-head{display:flex;justify-content:space-between;color:#716854;font:700 8px/1 Inter,sans-serif;letter-spacing:.12em}.t5w37-progress-head b{color:#D9A755}.t5w37-progress{height:4px;margin-top:7px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden}.t5w37-progress span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,rgba(217,167,85,.45),rgba(241,200,115,.95));box-shadow:0 0 12px rgba(217,167,85,.12)}
+.f2s-section-rail{display:flex;gap:5px;margin:16px 0 13px;padding-bottom:11px;border-bottom:1px solid rgba(217,167,85,.08)}.f2s-section-rail span{display:grid;place-items:center;width:22px;height:16px;border-radius:5px;background:rgba(217,167,85,.035);color:#625b4d;font:700 7px/1 "JetBrains Mono",monospace}.f2s-section-rail span:first-child{color:#D9A755;background:rgba(217,167,85,.08)}
+.site-header{transition:padding .25s ease,background .25s ease,box-shadow .25s ease}.site-header.f2s-scrolled{background:rgba(7,6,5,.94)!important;box-shadow:0 14px 38px rgba(0,0,0,.34)!important}
+@media(max-width:700px){.f2s-pulse-strip{margin:8px 0 14px}.f2s-pulse-track{font-size:7px;animation-duration:27s}.f2s-voice-rotator{padding:18px 16px;border-radius:16px}.f2s-voice-rotator-quote{font-size:15px;line-height:1.7}.t5w37-champion-row{grid-template-columns:1fr;gap:10px;padding:11px}.f2s-section-rail{display:none}}
+@media(prefers-reduced-motion:reduce){.f2s-pulse-track{animation:none}.f2s-voice-rotator-dots span{transition:none}}
+
+
+/* F2S Premium Experience Layer v3 */
+.f2s-journey-panel{margin:24px 0 20px;padding:22px 24px;border:1px solid rgba(217,167,85,.15);border-radius:18px;background:radial-gradient(520px 180px at 100% 0%,rgba(217,167,85,.065),transparent 65%),linear-gradient(145deg,rgba(15,12,8,.98),rgba(5,5,5,.99));box-shadow:0 18px 50px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.025)}
+.f2s-journey-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}.f2s-journey-kicker{color:#8f836b;font:700 8px/1 Inter,sans-serif;letter-spacing:.17em}.f2s-journey-head h3{margin:8px 0 0;color:#eee8da;font:500 20px/1.25 Fraunces,Georgia,serif}.f2s-journey-mark{font:700 10px/1 "JetBrains Mono",monospace;color:#D9A755;letter-spacing:.18em;padding:8px 9px;border:1px solid rgba(217,167,85,.18);border-radius:9px;background:rgba(217,167,85,.04)}
+.f2s-journey-line{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:24px;position:relative}.f2s-journey-line:before{content:"";position:absolute;left:6%;right:6%;top:8px;height:1px;background:linear-gradient(90deg,rgba(217,167,85,.12),rgba(217,167,85,.42),rgba(217,167,85,.12))}.f2s-journey-step{position:relative;z-index:1;display:grid;grid-template-columns:auto 1fr;column-gap:8px;row-gap:5px}.f2s-journey-num{grid-column:1;color:#655d4d;font:700 7px/1 "JetBrains Mono",monospace;margin-top:17px}.f2s-journey-dot{grid-column:2;width:17px;height:17px;border:1px solid rgba(217,167,85,.45);border-radius:50%;background:#080706;box-shadow:0 0 0 4px rgba(217,167,85,.025)}.f2s-journey-step div{grid-column:1/-1;padding-right:12px}.f2s-journey-step b{display:block;color:#D9A755;font:700 8px/1 Inter,sans-serif;letter-spacing:.13em}.f2s-journey-step small{display:block;color:#7d7463;font:10px/1.45 Inter,sans-serif;margin-top:5px}
+.f2s-editorial-quote{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;margin:10px 0 34px;padding:5px 2px;color:#7f7665}.f2s-editorial-quote span{color:rgba(217,167,85,.45);font:400 28px/1 Fraunces,serif}.f2s-editorial-quote p{margin:0;text-align:center;color:#a69b85;font:500 14px/1.6 Fraunces,Georgia,serif;font-style:italic}
+.t5w37-board-row{position:relative}.t5w37-member-hit{width:100%;display:grid;grid-template-columns:38px minmax(150px,1.6fr) 90px 70px minmax(95px,1fr) 34px;align-items:center;gap:8px;padding:0;background:none;border:0;color:inherit;text-align:left;cursor:pointer;font:inherit}.t5w37-member-hit:focus-visible{outline:1px solid rgba(217,167,85,.5);outline-offset:-2px;border-radius:10px}.f2s-achievement-badge{display:inline-flex;margin-top:4px;padding:3px 6px;border-radius:999px;border:1px solid rgba(217,167,85,.13);background:rgba(217,167,85,.035);color:#7e755f;font:700 6.5px/1 Inter,sans-serif;letter-spacing:.08em}.f2s-member-popover{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:8px 0 0 38px;padding:10px 12px;border:1px solid rgba(217,167,85,.12);border-radius:11px;background:linear-gradient(100deg,rgba(217,167,85,.045),rgba(255,255,255,.008));animation:f2sPop .18s ease both}.f2s-member-popover>div:first-child{display:flex;flex-direction:column;gap:3px}.f2s-member-popover b{color:#eee8da;font:650 11px/1.2 Inter,sans-serif}.f2s-member-popover span{color:#77705f;font:8px/1 "JetBrains Mono",monospace}.f2s-member-stats{display:flex;gap:14px;flex-wrap:wrap;color:#77705f;font:8px/1.3 Inter,sans-serif}.f2s-member-stats strong{color:#D9A755;font-weight:700}.t5w37-board-row.is-expanded{padding-bottom:8px}.t5w37-board-row.is-expanded .t5w37-member-hit{background:linear-gradient(90deg,rgba(217,167,85,.025),transparent)}
+@keyframes f2sPop{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@media(max-width:700px){.f2s-journey-panel{padding:18px 16px;border-radius:16px}.f2s-journey-head h3{font-size:18px}.f2s-journey-line{grid-template-columns:1fr 1fr;gap:18px 10px}.f2s-journey-line:before{display:none}.f2s-journey-step{grid-template-columns:auto 1fr}.f2s-journey-step div{padding-right:4px}.f2s-editorial-quote{margin-bottom:26px}.f2s-editorial-quote p{font-size:12.5px}.t5w37-member-hit{grid-template-columns:30px minmax(120px,1.4fr) 60px 54px 78px 24px;gap:5px}.f2s-achievement-badge{font-size:5.5px}.f2s-member-popover{margin-left:30px;align-items:flex-start;flex-direction:column}.f2s-member-stats{gap:9px}}
+@media(prefers-color-scheme:light){.f2s-journey-panel,.f2s-voice-rotator{box-shadow:0 14px 36px rgba(30,24,16,.10)}}
+@media(prefers-reduced-motion:reduce){.f2s-member-popover{animation:none}}
+
+/* F2S ALL-SECTIONS — cohesive premium motion language */
+.f2s-section-stage{position:relative;overflow:visible}
+.f2s-section-index{display:flex;align-items:center;gap:8px;margin:-8px 0 11px;opacity:.78;user-select:none}
+.f2s-section-index span{font:700 8px/1 "JetBrains Mono",monospace;color:#6f6758;letter-spacing:.08em}
+.f2s-section-index i{width:26px;height:1px;background:linear-gradient(90deg,rgba(217,167,85,.48),rgba(217,167,85,.08));display:block}
+.f2s-section-index b{font:700 7px/1 Inter,sans-serif;color:#8d816c;letter-spacing:.18em}
+.f2s-section-stage>h2{position:relative}
+.f2s-section-stage>h2:after{content:"";display:block;width:38px;height:1px;margin-top:9px;background:linear-gradient(90deg,#D9A755,rgba(217,167,85,0));transform-origin:left;transition:width .45s ease}
+.f2s-section-stage:hover>h2:after{width:64px}
+.f2s-section-stage .f2s-card,.f2s-section-stage [class*="card"],.f2s-section-stage [class*="panel"]{transition:transform .28s cubic-bezier(.2,.7,.2,1),border-color .28s ease,box-shadow .28s ease}
+.f2s-section-stage .f2s-card:hover,.f2s-section-stage [class*="card"]:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(0,0,0,.16)}
+.f2s-section-t5 .f2s-journey-step,.f2s-section-moderators .f2s-journey-step{transition:transform .28s ease,opacity .28s ease}
+.f2s-section-t5 .f2s-journey-step:hover,.f2s-section-moderators .f2s-journey-step:hover{transform:translateY(-3px)}
+.f2s-section-submit [role="button"],.f2s-section-submit button,.f2s-section-tasks button,.f2s-section-dayoff button{transition:transform .2s ease,box-shadow .2s ease}
+.f2s-section-submit [role="button"]:hover,.f2s-section-submit button:hover,.f2s-section-tasks button:hover,.f2s-section-dayoff button:hover{transform:translateX(2px)}
+.f2s-section-boards .t5w37-board-row{transition:transform .28s ease,background .28s ease}
+.f2s-section-boards .t5w37-board-row:hover{transform:translateX(3px)}
+.f2s-section-premium{--f2s-section-accent:rgba(217,167,85,.22)}
+.f2s-section-premium:before,.f2s-section-enforcement:before,.f2s-section-copyright:before{content:"";position:absolute;left:-10px;top:34px;bottom:0;width:1px;background:linear-gradient(180deg,var(--f2s-section-accent),transparent);opacity:.7}
+.f2s-section-enforcement{--f2s-section-accent:rgba(190,130,90,.20)}
+.f2s-section-copyright{--f2s-section-accent:rgba(160,150,130,.18)}
+.f2s-section-dayoff .f2s-status-dot,.f2s-section-moderators .f2s-status-dot{transition:transform .25s ease,box-shadow .25s ease}
+.f2s-section-dayoff .f2s-status-dot:hover,.f2s-section-moderators .f2s-status-dot:hover{transform:scale(1.15);box-shadow:0 0 0 5px rgba(217,167,85,.06)}
+.f2s-section-archive table tbody tr{transition:background .2s ease,transform .2s ease}
+.f2s-section-archive table tbody tr:hover{transform:translateX(2px);background:rgba(217,167,85,.025)}
+/* Voices + Q&A use the same editorial rhythm */
+.qna-page .qna-card{transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s ease,border-color .3s ease}
+.qna-page .qna-card:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(0,0,0,.16)}
+.qna-page .qna-question-label{transition:transform .25s ease,color .25s ease}
+.qna-page .qna-card:hover .qna-question-label{transform:translateX(2px);color:#D9A755}
+.voices-page .voice-story-card{transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s ease,border-color .3s ease}
+.voices-page .voice-story-card:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(0,0,0,.17)}
+@media(max-width:700px){.f2s-section-index{margin-top:-3px}.f2s-section-stage>h2:after{width:30px}.f2s-section-stage:hover>h2:after{width:44px}.f2s-section-premium:before,.f2s-section-enforcement:before,.f2s-section-copyright:before{left:-6px}.f2s-section-stage .f2s-card:hover,.f2s-section-stage [class*="card"]:hover,.qna-page .qna-card:hover,.voices-page .voice-story-card:hover{transform:none;box-shadow:none}}
+@media(prefers-reduced-motion:reduce){.f2s-section-stage *,.qna-page .qna-card,.voices-page .voice-story-card{transition:none!important;animation:none!important;transform:none!important}}
+</style>
+<style>
+/* F2S Final Motion Polish */
+.f2s-load-reveal{opacity:0;transform:translateY(14px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.2,1)}
+.f2s-load-reveal.f2s-loaded{opacity:1;transform:none}
+.f2s-load-reveal:nth-child(2){transition-delay:.08s}.f2s-load-reveal:nth-child(3){transition-delay:.16s}.f2s-load-reveal:nth-child(4){transition-delay:.24s}
+.f2s-hero-parallax{will-change:transform;transition:transform .12s linear}
+.f2s-magnetic{transition:transform .18s cubic-bezier(.2,.7,.2,1),box-shadow .25s ease!important;will-change:transform}
+.f2s-magnetic:hover{box-shadow:0 12px 30px rgba(217,167,85,.12)!important}
+.f2s-value-pop{animation:f2sValuePop .55s cubic-bezier(.2,.8,.2,1)}
+@keyframes f2sValuePop{0%{opacity:.45;transform:translateY(4px)}60%{opacity:1;transform:translateY(-2px)}100%{transform:none}}
+.t5w37-board-row.f2s-rank-shift{animation:f2sRankShift .48s cubic-bezier(.2,.7,.2,1)}
+@keyframes f2sRankShift{0%{opacity:.55;transform:translateY(7px)}100%{opacity:1;transform:none}}
+.f2s-voice-rotator.f2s-voice-transition{animation:f2sVoiceTransition .55s ease both}
+@keyframes f2sVoiceTransition{from{opacity:.2;transform:translateY(5px)}to{opacity:1;transform:none}}
+.f2s-journey-panel.f2s-journey-live .f2s-journey-line:before{animation:f2sJourneyLine 1.25s .15s cubic-bezier(.2,.7,.2,1) both;transform-origin:left}
+@keyframes f2sJourneyLine{from{transform:scaleX(0);opacity:.1}to{transform:scaleX(1);opacity:1}}
+.f2s-easter-mark{position:relative;cursor:pointer}
+.f2s-easter-mark::after{content:"From Fajr, toward success.";position:absolute;left:0;top:calc(100% + 8px);width:max-content;max-width:210px;padding:7px 9px;border:1px solid rgba(217,167,85,.18);border-radius:8px;background:rgba(10,8,6,.96);color:#a69b85;font:500 9px/1.35 Inter,sans-serif;letter-spacing:.02em;box-shadow:0 10px 28px rgba(0,0,0,.28);opacity:0;pointer-events:none;transform:translateY(-3px);transition:opacity .18s ease,transform .18s ease;z-index:50}
+.f2s-easter-mark.f2s-easter-open::after,.f2s-easter-mark:focus-visible::after{opacity:1;transform:none}
+@media(max-width:700px){.f2s-magnetic{transform:none!important}.f2s-hero-parallax{transition:none}.f2s-easter-mark::after{left:auto;right:0}}
+@media(prefers-reduced-motion:reduce){.f2s-load-reveal{opacity:1;transform:none;transition:none}.f2s-hero-parallax{transform:none!important}.f2s-value-pop,.f2s-rank-shift,.f2s-voice-transition,.f2s-journey-live .f2s-journey-line:before{animation:none!important}.f2s-magnetic{transform:none!important}}
+</style>
+
+<style id="f2s-desktop-final-polish">
+/* F2S DESKTOP / LARGE-SCREEN FINAL POLISH
+   Keep the cover composition stable on wide displays while giving the page
+   a centered, editorial frame. No vertical image drift. */
+@media (min-width:861px){
+  .hero-cover{
+    width:100%!important;
+    max-width:1680px!important;
+    height:clamp(320px,26vw,420px)!important;
+    max-height:none!important;
+    margin:0 auto!important;
+    overflow:hidden!important;
+    border-radius:0 0 26px 26px!important;
+    box-shadow:0 34px 100px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.028)!important;
+  }
+  .hero-cover img{
+    width:100%!important;
+    height:100%!important;
+    min-height:100%!important;
+    max-height:none!important;
+    object-fit:cover!important;
+    object-position:center 22%!important;
+    transform:none!important;
+    will-change:auto!important;
+  }
+  .hero-cover::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+    background:
+      linear-gradient(180deg,rgba(0,0,0,.03) 0%,transparent 42%,rgba(7,5,3,.16) 78%,rgba(7,5,3,.55) 100%),
+      linear-gradient(90deg,rgba(0,0,0,.10),transparent 24%,transparent 76%,rgba(217,167,85,.035));
+  }
+  .hero-cover::after{z-index:2!important}
+  .hero-cover .f2s-hero-atmosphere{z-index:3!important}
+  .site-header > div{
+    width:min(1440px,calc(100% - 56px))!important;
+  }
+  .site-shell{
+    width:min(1430px,calc(100% - 56px))!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+  }
+  .desktop-layout{
+    width:100%!important;
+  }
+  .content-column{
+    width:100%!important;
+  }
+}
+
+/* Ultra-wide displays: preserve comfortable reading width and visual balance. */
+@media (min-width:1681px){
+  .hero-cover{height:420px!important}
+  .site-shell{max-width:1430px!important}
+  .site-header > div{max-width:1440px!important}
+}
+
+/* Large desktop motion stays cinematic but never changes the cover crop. */
+@media (min-width:861px) and (pointer:fine){
+  .hero-cover img{transition:filter .5s ease!important}
+  .hero-cover:hover img{filter:saturate(.94) contrast(1.04) brightness(.975)!important}
+}
+
+/* Touch and reduced-motion safety. */
+@media (prefers-reduced-motion:reduce){
+  .hero-cover img{transform:none!important;transition:none!important}
+}
+</style>
+
 </head>
 <body>
 <div id="root"></div>
@@ -2245,6 +2632,14 @@ const STAR_HOLDERS_ALL = [
 ];
 
 // Website displays only the current Top 5; the complete Week 1–40 data is retained above for future weekly updates.
+// Single source of truth for the current weekly T5 leaderboard.
+// Update this array each week; the Hero ticker and the leaderboard rows stay in sync.
+const WEEKLY_T5_TOP3 = [
+  { rank: 1, name: "JUBAYER ABDULLAH", id: "F2S-96", score: "7/7", time: "70:57:41", star: true },
+  { rank: 2, name: "Mehejaben Islam", id: "F2S-97", score: "5/7", time: "67:04:49", star: false },
+  { rank: 3, name: "Taifa", id: "F2S-36", score: "4/7", time: "87:58:01", star: false },
+];
+
 const STAR_HOLDERS = STAR_HOLDERS_ALL
   .slice()
   .sort((a, b) => b[3] - a[3] || Number(a[0]) - Number(b[0]))
@@ -2788,12 +3183,13 @@ const TELI_WEEK_LINKS = [
   ["Sunday", ["https://www.facebook.com/share/p/1887BzXvQG/"]],
   ["Monday", ["https://www.facebook.com/share/p/17SSf9t7mn/"]],
   ["Tuesday", ["https://www.facebook.com/share/p/1BvSB9p4DJ/"]],
-  ["Wednesday", [
-    "https://t.me/Call2light",
-    "https://whatsapp.com/channel/0029VbBhvQILtOjIDGsIRL1U",
-  ]],
   ["Thursday", ["https://www.facebook.com/share/p/1Jvg5TnWe1/"]],
   ["Friday", ["https://www.facebook.com/share/p/1bRHUiZUs2/"]],
+];
+
+const TELI_WEDNESDAY_CHANNELS = [
+  ["Telegram", "https://t.me/Call2light"],
+  ["WhatsApp", "https://whatsapp.com/channel/0029VbBhvQILtOjIDGsIRL1U"],
 ];
 
 const ID_DIRECTORY = [
@@ -2822,8 +3218,16 @@ const ID_DIRECTORY = [
 ];
 
 function Section({ id, title, kicker, children }) {
+  const sectionMeta = {
+    origin: ["01", "ORIGIN"], t5: ["02", "SYSTEM"], submit: ["03", "RULES"], tasks: ["04", "TASKS"],
+    boards: ["05", "LEADERBOARD"], premium: ["06", "IDENTITY"], enforcement: ["07", "ENFORCEMENT"],
+    dayoff: ["08", "STATUS"], adminpanel: ["09", "LEADERSHIP"], moderators: ["10", "MODERATION"],
+    copyright: ["11", "POLICY"], archive: ["12", "ARCHIVE"]
+  };
+  const meta = sectionMeta[id] || ["", ""];
   return (
-    <section id={id} className="f2s-reveal" style={{ scrollMarginTop: 90, marginBottom: 56 }}>
+    <section id={id} data-f2s-section={meta[1]} className={`f2s-reveal f2s-section-stage f2s-section-${id}`} style={{ scrollMarginTop: 90, marginBottom: 56 }}>
+      {meta[0] && <div className="f2s-section-index" aria-hidden="true"><span>{meta[0]}</span><i></i><b>{meta[1]}</b></div>}
       {kicker && (
         <div style={{ fontFamily: "Inter", fontSize: 11, letterSpacing: 3, color: "#D9A755", textTransform: "uppercase", marginBottom: 6 }}>
           {kicker}
@@ -2837,7 +3241,7 @@ function Section({ id, title, kicker, children }) {
 
 function Card({ children, accent = "#2E2415", style, className = "" }) {
   return (
-    <div className={className} style={{ background: "#1A140D", border: `1px solid ${accent}`, borderRadius: 14, padding: "18px 20px", ...style }}>
+    <div className={`f2s-premium-card ${className}`} style={{ background: "#1A140D", border: `1px solid ${accent}`, borderRadius: 14, padding: "18px 20px", ...style }}>
       {children}
     </div>
   );
@@ -2866,7 +3270,7 @@ function Pill({ children, color = "#D9A755" }) {
 
 function Table({ head, rows }) {
   return (
-    <div style={{ background: "#1A140D", border: "1px solid #2E2415", borderRadius: 14, overflow: "auto" }}>
+    <div className="f2s-premium-table" style={{ background: "#1A140D", border: "1px solid #2E2415", borderRadius: 14, overflow: "auto" }}>
       <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 520 }}>
         <thead>
           <tr style={{ borderBottom: "1px solid #2E2415" }}>
@@ -2989,6 +3393,9 @@ function App() {
   const [showOriginMore, setShowOriginMore] = useState(true);
   const [voiceQuery, setVoiceQuery] = useState("");
   const [voiceCategory, setVoiceCategory] = useState("All Voices");
+  const [featuredVoiceIndex, setFeaturedVoiceIndex] = useState(0);
+  const [selectedLeaderboardMember, setSelectedLeaderboardMember] = useState(null);
+  const FEATURED_VOICE_INDICES = [6, 7, 2];
   const directMsgBoxRef = useRef(null);
   const voicesSectionRef = useRef(null);
   const writeSectionRef = useRef(null);
@@ -3171,6 +3578,15 @@ function App() {
       const progress = Math.min(100, Math.max(0, (window.scrollY / max) * 100));
       setScrollProgress(progress);
       setShowBackTop(window.scrollY > 520);
+      if (page === "home") {
+        const marker = window.scrollY + Math.min(150, window.innerHeight * 0.18);
+        let currentId = "origin";
+        SECTIONS.forEach((section) => {
+          const el = document.getElementById(section.id);
+          if (el && el.offsetTop <= marker) currentId = section.id;
+        });
+        setActive(currentId);
+      }
     };
     updateScrollUI();
     window.addEventListener("scroll", updateScrollUI, { passive: true });
@@ -3209,6 +3625,13 @@ function App() {
       return (!q || haystack.includes(q)) && voiceMatchesCategory(voice, voiceCategory);
     });
   }, [voiceQuery, voiceCategory]);
+
+  useEffect(() => {
+    const featured = FEATURED_VOICE_INDICES;
+    if (featured.length < 2) return;
+    const timer = setInterval(() => setFeaturedVoiceIndex(i => (i + 1) % featured.length), 6500);
+    return () => clearInterval(timer);
+  }, []);
 
   const filteredDirectory = useMemo(() => {
     if (!dirQuery.trim()) return ID_DIRECTORY;
@@ -3258,7 +3681,7 @@ function App() {
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(10,11,18,0) 55%, #120D08 100%)" }} />
       </div>
 
-      <header className="site-header"
+      <header className={`site-header ${scrollProgress > 3 ? "f2s-scrolled" : ""}`}
         style={{
           position: "sticky",
           top: 0,
@@ -3492,6 +3915,7 @@ function App() {
               <aside className="desktop-sidebar" aria-label="F2S sections">
                 <div className="sidebar-title">F2S · A to Z</div>
                 <div className="sidebar-subtitle">Complete reference</div>
+                <div className="f2s-section-rail"><span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span></div>
                 <nav className="sidebar-nav">
                   {SECTIONS.map((s) => (
                     <button key={s.id} onClick={() => scrollTo(s.id)} className={`sidebar-link ${active === s.id ? "is-active" : ""}`}>
@@ -3517,7 +3941,40 @@ function App() {
               Welcome to the F2S family — let's move forward toward success with every Fajr.
             </p>
 
-            <div
+            <div className="f2s-weekly-ticker-wrap" aria-label="Weekly T5 leaderboard highlights">
+              <div className="f2s-weekly-ticker-label">
+                <span className="f2s-weekly-ticker-label-main">T5</span>
+                <span className="f2s-weekly-ticker-label-week">W40</span>
+                <span className="f2s-weekly-ticker-label-live"><i className="f2s-weekly-ticker-live-dot" /> LIVE</span>
+              </div>
+              <div className="f2s-weekly-ticker" aria-hidden="false">
+                <div className="f2s-weekly-ticker-track">
+                  {[0, 1].map((copy) => (
+                    <div className="f2s-weekly-ticker-set" key={copy} aria-hidden={copy === 1}>
+                      {WEEKLY_T5_TOP3.map((member) => (
+                        <div className={`f2s-weekly-ticker-item rank-${member.rank}`} key={`${copy}-${member.id}`}>
+                          <span className="f2s-weekly-ticker-rank">#{member.rank}</span>
+                          <span className="f2s-weekly-ticker-name">{member.name}</span>
+                          <span className="f2s-weekly-ticker-sep">•</span>
+                          <span className="f2s-weekly-ticker-id">{member.id}</span>
+                          <span className="f2s-weekly-ticker-sep">•</span>
+                          <span className="f2s-weekly-ticker-score">{member.score}</span>
+                          <span className="f2s-weekly-ticker-sep">•</span>
+                          <span className="f2s-weekly-ticker-time">{member.time}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="f2s-pulse-strip" aria-label="F2S Pulse">
+              <div className="f2s-pulse-track">
+                <span>F2S PULSE</span><i>•</i><span>T5 CONSISTENCY</span><i>•</i><span>QUR’AN</span><i>•</i><span>SALAH</span><i>•</i><span>STUDY</span><i>•</i><span>DISCIPLINE</span><i>•</i><span>CONSISTENCY</span>
+              </div>
+            </div>
+                        <div
               className="home-voices-box"
               style={{
                 width: "100%",
@@ -3657,10 +4114,31 @@ function App() {
             )}
           </Section>
 
+          <section className="f2s-journey-panel" aria-label="The F2S journey">
+            <div className="f2s-journey-head">
+              <div><span className="f2s-journey-kicker">THE F2S JOURNEY</span><h3>One day. One rhythm. One direction.</h3></div>
+              <span className="f2s-journey-mark">F2S</span>
+            </div>
+            <div className="f2s-journey-line">
+              {[
+                ["01","FAJR","Begin with purpose"],
+                ["02","T5","Keep the five pillars"],
+                ["03","STUDY","Build focused hours"],
+                ["04","REFLECT","Return, improve, continue"]
+              ].map(([n,t,d],i)=>(<div className="f2s-journey-step" key={n}>
+                <span className="f2s-journey-num">{n}</span><span className="f2s-journey-dot"/><div><b>{t}</b><small>{d}</small></div>
+              </div>))}
+            </div>
+          </section>
+
+          <div className="f2s-editorial-quote" aria-label="F2S principle">
+            <span>“</span><p>Small consistency, repeated daily, becomes a different life.</p><span>”</span>
+          </div>
+
           <Section id="t5" title="The T5 System" kicker="Core concept">
             <Card accent="#D9A75544">
               <div style={{ fontFamily: "Inter", fontSize: 11, letterSpacing: 1.5, color: "#D9A755", textTransform: "uppercase", marginBottom: 8 }}>
-                F2S Special “Alhamdulillah T5”
+                “Alhamdulillah T5”
               </div>
               <p style={{ fontFamily: "Inter", fontSize: 13.5, lineHeight: 1.8, margin: 0, color: "#c9c5b5" }}>
                 To qualify for the <strong style={{ color: "#EDE7D8" }}>Fajr to Success weekly T5 Leaderboard</strong> and earn your
@@ -3880,10 +4358,10 @@ May Allah help us stay consistent.`}
           <Section id="tasks" title="All Tasks" kicker="Every task in F2S">
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {[
-                ["FDAMI", "Self-created tasbih/dhikr task after all 5 prayers: Subhanallah (33x), Alhamdulillah (33x), Allahu Akbar (34x), Salawat (35x), Astaghfirullah (3x), Surah Ikhlas/Falaq/Nas (3x each). Needs at least 3 on-time waqts to be valid. If a member misses one prayer's check-in by mistake but still prays on time, FDAMI still counts as complete.", "https://drive.google.com/drive/folders/1cnG2pMb3SIwqt0JMJMaW4svG_aImCs13"],
-                ["5WSD | Kaza", "For days where all 5 prayers were completed but not all on time. Logged separately from T5; never counts toward the T5 total. At least 2–3 waqts should still be on time even on a Kaza day."],
+                ["FDAMI", "FDAMI means Fajr - Dhuhr - Asr - Magrib - Isha. This is the 5-waqt Salah tasbih task: after each of the five prayers, complete the assigned tasbih/dhikr — Subhanallah (33x), Alhamdulillah (33x), Allahu Akbar (34x), Salawat (35x), Astaghfirullah (3x), and Surah Ikhlas/Falaq/Nas (3x each).", "https://drive.google.com/drive/folders/1cnG2pMb3SIwqt0JMJMaW4svG_aImCs13"],
+                ["Teli Task", "A daily F2S special Admin task — named from when it was only sent via the Telegram portal."],
                 ["Call to Light", "Remind, invite, or take at least one other person to Salah — a friend, sibling, roommate, anyone. Rewards effort spent on others' prayer, not just your own."],
-                ["Teli Task", "A daily F2S special task — named from when it was only sent via the Telegram portal, now also sent via WhatsApp."],
+                ["5WSD | Kaza", "For days where all 5 prayers were completed but not all on time. Logged separately from T5; never counts toward the T5 total. At least 2–3 waqts should still be on time even on a Kaza day."],
                 ["To-Do List", "Daily task list, expected right after Fajr, alongside the Qur'an and Teli tasks."],
                 ["Alhamdulillah T5 done", "The official daily check-in task marked in YPT once T5 is complete."],
               ].map(([t, d, link]) => (
@@ -3966,18 +4444,59 @@ May Allah help us stay consistent.`}
                           cursor: "pointer",
                         }}
                       >
-                        📎 This Week's Teli Task Links {teliLinksOpen ? "▲" : "▼"}
+                        📎 This Week's Teli Task Links · 6 Days {teliLinksOpen ? "▲" : "▼"}
                       </button>
                       {teliLinksOpen && (
-                        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 8 }}>
-                          {TELI_WEEK_LINKS.map(([day, urls]) => (
-                            <div key={day} style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
-                              {urls.map((url, i) => (
+                        <div style={{ marginTop: 10 }}>
+                          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                            {TELI_WEEK_LINKS.map(([day, urls]) => (
+                              <div key={day} style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+                                {urls.map((url) => (
+                                  <a
+                                    key={url}
+                                    href={url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{
+                                      display: "inline-block",
+                                      fontFamily: "JetBrains Mono",
+                                      fontSize: 11.5,
+                                      color: "#4E7C68",
+                                      textDecoration: "none",
+                                      border: "1px solid #4E7C6866",
+                                      borderRadius: 8,
+                                      padding: "5px 10px",
+                                    }}
+                                  >
+                                    📎 {day}
+                                  </a>
+                                ))}
+                              </div>
+                            ))}
+                          </div>
+
+                          <div style={{
+                            marginTop: 12,
+                            padding: "10px 12px",
+                            borderRadius: 10,
+                            border: "1px solid #D9A75544",
+                            background: "linear-gradient(135deg, rgba(217,167,85,0.07), rgba(255,255,255,0.015))"
+                          }}>
+                            <div style={{
+                              fontFamily: "Inter",
+                              fontSize: 12,
+                              lineHeight: 1.65,
+                              color: "#C9C5B5"
+                            }}>
+                              <strong style={{ color: "#D9A755" }}>Wednesday:</strong> The Wednesday Teli Task will be posted in the <strong style={{ color: "#EDE7D8" }}>Call to Light</strong> channel.
+                            </div>
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 9 }}>
+                              {TELI_WEDNESDAY_CHANNELS.map(([label, url]) => (
                                 <a
                                   key={url}
                                   href={url}
                                   target="_blank"
-                                  rel="noreferrer"
+                                  rel="noopener noreferrer"
                                   style={{
                                     display: "inline-block",
                                     fontFamily: "JetBrains Mono",
@@ -3989,11 +4508,11 @@ May Allah help us stay consistent.`}
                                     padding: "5px 10px",
                                   }}
                                 >
-                                  📎 {day}{urls.length > 1 ? (i === 0 ? " (Telegram)" : " (WhatsApp)") : ""}
+                                  📎 Call to Light · {label}
                                 </a>
                               ))}
                             </div>
-                          ))}
+                          </div>
                         </div>
                       )}
                     </div>
@@ -4198,24 +4717,30 @@ May Allah help us stay consistent.`}
                   </div>
                   <div className="t5w37-week-badge">WEEK<br/>40</div>
                 </div>
+                <div className="t5w37-champion-row">
+                  <div className="t5w37-champion-copy"><span className="t5w37-champion-label">W40 CHAMPION</span><strong>{WEEKLY_T5_TOP3[0].name}</strong><span>{WEEKLY_T5_TOP3[0].score} · {WEEKLY_T5_TOP3[0].time}</span></div>
+                  <div className="t5w37-progress-wrap"><div className="t5w37-progress-head"><span>TOP SCORE · F2S STARS</span><b>{WEEKLY_T5_TOP3[0].score} · {((STAR_HOLDERS_ALL.find(x => x[2] === WEEKLY_T5_TOP3[0].id) || ["","","",0])[3])} ★</b></div><div className="t5w37-progress"><span style={{width: `${Math.min(100, (parseInt(WEEKLY_T5_TOP3[0].score) / 7) * 100)}%`}} /></div></div>
+                </div>
                 <div className="t5w37-board-columns">
                   <div>#</div><div>Name</div><div>F2S ID</div><div>T5</div><div>Study Time</div><div>Star</div>
                 </div>
-                <div className="t5w37-board-row rank-one">
-                  <div className="t5w37-rank">1</div><div className="t5w37-identity"><div className="t5w37-name">JUBAYER ABDULLAH</div></div>
-                  <div className="t5w37-id">F2S-96</div><div className="t5w37-score">7/7</div><div className="t5w37-time">70:57:41</div>
-                  <div className="t5w37-star-cell"><span className="t5w37-star">★</span></div>
-                </div>
-                <div className="t5w37-board-row rank-two">
-                  <div className="t5w37-rank">2</div><div className="t5w37-identity"><div className="t5w37-name">Mehejaben Islam</div></div>
-                  <div className="t5w37-id">F2S-97</div><div className="t5w37-score partial">5/7</div><div className="t5w37-time">67:04:49</div>
-                  <div className="t5w37-star-cell"><span className="t5w37-no-star">—</span></div>
-                </div>
-                <div className="t5w37-board-row rank-three">
-                  <div className="t5w37-rank">3</div><div className="t5w37-identity"><div className="t5w37-name">Taifa</div></div>
-                  <div className="t5w37-id">F2S-36</div><div className="t5w37-score partial">4/7</div><div className="t5w37-time">87:58:01</div>
-                  <div className="t5w37-star-cell"><span className="t5w37-no-star">—</span></div>
-                </div>
+                {WEEKLY_T5_TOP3.map((member) => {
+                  const allStar = STAR_HOLDERS_ALL.find(x => x[2] === member.id);
+                  const stars = allStar ? allStar[3] : 0;
+                  const achievement = member.score === "7/7" ? "PERFECT WEEK" : member.rank === 1 ? "STUDY CHAMPION" : member.score === "6/7" ? "STRONG CONSISTENCY" : "T5 CONSISTENCY";
+                  return (
+                    <div className={`t5w37-board-row ${member.rank === 1 ? "rank-one" : member.rank === 2 ? "rank-two" : "rank-three"} ${selectedLeaderboardMember?.id === member.id ? "is-expanded" : ""}`} key={member.id}>
+                      <button className="t5w37-member-hit" onClick={() => setSelectedLeaderboardMember(selectedLeaderboardMember?.id === member.id ? null : member)} aria-expanded={selectedLeaderboardMember?.id === member.id}>
+                        <div className="t5w37-rank">{member.rank}</div><div className="t5w37-identity"><div className="t5w37-name">{member.name}</div><span className="f2s-achievement-badge">{achievement}</span></div>
+                        <div className="t5w37-id">{member.id}</div><div className={`t5w37-score ${member.rank === 1 ? "" : "partial"}`}>{member.score}</div><div className="t5w37-time">{member.time}</div>
+                        <div className="t5w37-star-cell"><span className="t5w37-no-star">—</span></div>
+                      </button>
+                      {selectedLeaderboardMember?.id === member.id && (
+                        <div className="f2s-member-popover"><div><b>{member.name}</b><span>{member.id}</span></div><div className="f2s-member-stats"><span><strong>{member.score}</strong> T5</span><span><strong>{member.time}</strong> study</span><span><strong>{stars}</strong> ★ F2S Stars</span></div></div>
+                      )}
+                    </div>
+                  );
+                })}
                 <div className="t5w37-summary">
                   <div className="t5w37-summary-card"><div className="t5w37-summary-label">Perfect Scores</div><div className="t5w37-summary-value">1 / 3 Members</div></div>
                   <div className="t5w37-summary-card"><div className="t5w37-summary-label">Week 40 Stars</div><div className="t5w37-summary-value">1 <span className="t5w37-star">★</span> Earned</div></div>
@@ -5002,6 +5527,13 @@ F2S Ramadan Express is preparing to depart 🚂
               Facebook using the hashtag <span style={{ color: "#D9A755" }}>#Fajr2success</span>. A few of those
               stories, in their own words:
             </p>
+
+            <div className="f2s-voice-rotator" aria-live="polite">
+              <div className="f2s-voice-rotator-kicker">FEATURED F2SIAN VOICE · ROTATING</div>
+              <div className="f2s-voice-rotator-quote">“{TESTIMONIALS[FEATURED_VOICE_INDICES[featuredVoiceIndex % FEATURED_VOICE_INDICES.length]].text}”</div>
+              <div className="f2s-voice-rotator-author">— {TESTIMONIALS[FEATURED_VOICE_INDICES[featuredVoiceIndex % FEATURED_VOICE_INDICES.length]].author || "Anonymous F2Sian"}</div>
+              <div className="f2s-voice-rotator-dots">{FEATURED_VOICE_INDICES.map((_,i)=><span key={i} className={i===featuredVoiceIndex%FEATURED_VOICE_INDICES.length?"is-active":""} />)}</div>
+            </div>
 
             <div ref={writeSectionRef} style={{ marginBottom: 40, scrollMarginTop: 24 }}>
               <h2 style={{ fontFamily: "Fraunces", fontWeight: 500, fontSize: 22, margin: "0 0 6px", letterSpacing: -0.3 }}>
@@ -6198,93 +6730,420 @@ body::after{
 }
 </style>
 
-</body>
-</html>
 
-<style id="f2s-final-final-polish">
-/* F2S FINAL-FINAL POLISH — restrained luxury */
-:root{
-  --f2s-gold-soft:rgba(217,167,85,.78);
-  --f2s-gold-halo:rgba(217,167,85,.065);
-}
 
-/* Reduce gold glow so the interface feels more expensive and less flashy. */
-body::before{opacity:.012!important}
-.site-header img[alt="F2S Logo"]{
-  border-color:rgba(217,167,85,.42)!important;
-  box-shadow:0 7px 20px rgba(0,0,0,.34),0 0 16px rgba(217,167,85,.065)!important;
+<style id="f2s-v5-final-polish">
+/* F2S v5 — final production polish */
+:root{--f2s-focus:rgba(217,167,85,.58)}
+html{scroll-behavior:smooth}
+button,a,[role="button"]{ -webkit-tap-highlight-color:transparent }
+button:focus-visible,a:focus-visible,[role="button"]:focus-visible{outline:1px solid var(--f2s-focus)!important;outline-offset:3px!important;box-shadow:0 0 0 3px rgba(217,167,85,.07)!important}
+.f2s-premium-hover{transition:transform .22s cubic-bezier(.2,.7,.2,1),border-color .22s ease,box-shadow .22s ease}
+@media (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .f2s-premium-hover:hover{transform:translateY(-2px)}
 }
-.site-header img[alt="F2S Logo"]:hover{
-  box-shadow:0 9px 24px rgba(0,0,0,.36),0 0 22px rgba(217,167,85,.10)!important;
-}
-.site-header::after{
-  background:linear-gradient(90deg,transparent,rgba(217,167,85,.42),transparent)!important;
-  opacity:.68!important;
-}
-
-/* Stronger brand presence without increasing glow. */
-.site-header img[alt="F2S Logo"]{
-  transform:scale(1.025);
-}
-.site-header img[alt="F2S Logo"]:hover{transform:translateY(-1px) scale(1.035)!important}
-
-/* Cleaner, consistent typography. */
-.content-column h1,
-.content-column h2,
-.content-column h3,
-.voices-page h1,
-.voices-page h2,
-.voices-page h3{
-  text-rendering:geometricPrecision;
-}
-.content-column h1,.voices-page h1{letter-spacing:-.04em!important}
-.content-column h2,.voices-page h2{letter-spacing:-.022em!important}
-.content-column h3,.voices-page h3{letter-spacing:-.01em}
-
-/* Keep gold hierarchy limited to meaningful UI elements. */
-.home-voices-box{
-  border-color:rgba(217,167,85,.12)!important;
-  box-shadow:0 22px 58px rgba(0,0,0,.40),inset 0 1px 0 rgba(255,255,255,.026)!important;
-}
-.home-voices-box::before{
-  background:linear-gradient(90deg,transparent,rgba(217,167,85,.48),transparent)!important;
-}
-.home-voices-box::after{
-  background:radial-gradient(circle,rgba(217,167,85,.065),transparent 68%)!important;
-}
-.home-voices-box:hover{
-  border-color:rgba(217,167,85,.31)!important;
-  box-shadow:0 27px 64px rgba(0,0,0,.43),0 0 24px rgba(217,167,85,.022),inset 0 1px 0 rgba(255,255,255,.03)!important;
-}
-
-/* Voices page: quieter default cards, slightly richer featured card. */
-.voices-page .voice-story-card{
-  border-color:rgba(217,167,85,.14)!important;
-  box-shadow:0 18px 46px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.02)!important;
-}
-.voices-page .voice-story-card:hover{
-  border-color:rgba(217,167,85,.24)!important;
-  box-shadow:0 23px 56px rgba(0,0,0,.38),0 0 20px rgba(217,167,85,.018),inset 0 1px 0 rgba(255,255,255,.024)!important;
-}
-.voices-page .voice-featured{
-  border-color:rgba(217,167,85,.28)!important;
-  box-shadow:0 24px 66px rgba(0,0,0,.40),inset 0 1px 0 rgba(255,255,255,.028)!important;
-}
-.voices-page .voice-share-panel,
-.voices-page .voice-cta{
-  border-color:rgba(217,167,85,.18)!important;
-  box-shadow:0 21px 56px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.022)!important;
-}
-
-/* One consistent premium divider language. */
-.content-column h2::after,
-.voices-page h2::after{
-  background:linear-gradient(90deg,rgba(217,167,85,.72),rgba(217,167,85,0))!important;
-}
-
-@media(max-width:700px){
-  .site-header img[alt="F2S Logo"]{transform:scale(1.015)}
-  .site-header img[alt="F2S Logo"]:hover{transform:scale(1.02)!important}
-  .content-column h1,.voices-page h1{letter-spacing:-.035em!important}
+/* Avoid layout shifts while dynamic UI initializes */
+.f2s-voice-rotator,.t5w37-champion-row,.f2s-journey-panel{contain:layout paint}
+/* Smooth data refresh states */
+.f2s-data-refresh{transition:opacity .22s ease,filter .22s ease}
+.f2s-data-refresh.is-refreshing{opacity:.72;filter:saturate(.8)}
+/* Keep touch devices clean: no hover-only visual lift */
+@media (hover:none){.f2s-premium-hover:hover{transform:none!important}}
+/* Respect reduced motion everywhere, including native smooth scrolling */
+@media (prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto!important}
+ *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
 </style>
+<script>
+(function(){
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine=window.matchMedia('(pointer:fine)').matches;
+  const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+  const ready=fn=>document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fn,{once:true}):fn();
+  ready(()=>{
+    /* 1) Add restrained hover polish only to existing interactive surfaces. */
+    $$('.home-voices-box,.voice-story-card,.voice-featured,.f2s-journey-panel,.f2s-voice-rotator,.t5w37-champion-row').forEach(el=>el.classList.add('f2s-premium-hover'));
+
+    /* 2) Prevent hover/magnetic transforms from persisting after touch/pointer cancellation. */
+    if(fine && !reduce){
+      $$('.f2s-magnetic').forEach(el=>{
+        ['pointercancel','blur'].forEach(evt=>el.addEventListener(evt,()=>el.style.transform='',{passive:true}));
+      });
+    }
+
+    /* 3) Give dynamic leaderboard/value updates a subtle refresh cue without polling. */
+    const targets=$$('.t5w37-board-row,.t5w37-progress span,.f2s-value-pop');
+    if(targets.length && 'MutationObserver' in window){
+      const obs=new MutationObserver(muts=>{
+        const changed=new Set();
+        muts.forEach(m=>{const el=m.target.nodeType===1?m.target:m.target.parentElement;if(el) changed.add(el.closest('.t5w37-board-row')||el);});
+        changed.forEach(el=>{if(!el || !el.classList) return; el.classList.add('f2s-data-refresh'); if(!reduce){void el.offsetWidth;el.classList.add('is-refreshing');setTimeout(()=>el.classList.remove('is-refreshing'),220);}});
+      });
+      targets.forEach(el=>obs.observe(el,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['class','style','aria-label']}));
+      setTimeout(()=>obs.disconnect(),120000);
+    }
+
+    /* 4) Keep keyboard users informed on interactive leaderboard rows. */
+    $$('.t5w37-member-hit').forEach(btn=>{
+      if(!btn.getAttribute('aria-label')){
+        const name=btn.querySelector('strong')?.textContent?.trim();
+        if(name) btn.setAttribute('aria-label','View '+name+' weekly F2S profile');
+      }
+    });
+  });
+})();
+</script>
+
+
+<style>
+/* F2S v7 — Signature T5 + section-specific micro-interactions */
+.f2s-t5-signature{position:relative;margin:16px 0 18px;padding:18px;border:1px solid rgba(217,167,85,.14);border-radius:18px;background:radial-gradient(circle at 50% 48%,rgba(217,167,85,.065),transparent 34%),linear-gradient(135deg,rgba(255,255,255,.018),rgba(217,167,85,.018));overflow:hidden;box-shadow:inset 0 1px rgba(255,255,255,.035),0 18px 45px rgba(0,0,0,.13)}
+.f2s-t5-signature:after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,rgba(217,167,85,.055),transparent 70%);transform:translateX(-120%);animation:f2sT5Sheen 7s ease-in-out infinite;pointer-events:none}
+@keyframes f2sT5Sheen{0%,65%{transform:translateX(-120%)}82%,100%{transform:translateX(120%)}}
+.f2s-t5-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.f2s-t5-head b{font:700 9px/1 Inter,sans-serif;letter-spacing:.18em;color:#D9A755}.f2s-t5-status{font:700 7px/1 "JetBrains Mono",monospace;color:#7e755f;letter-spacing:.08em}.f2s-t5-status i{display:inline-block;width:5px;height:5px;border-radius:50%;background:#D9A755;box-shadow:0 0 0 4px rgba(217,167,85,.06);margin-right:5px;animation:f2sPulse 2s ease-in-out infinite}
+@keyframes f2sPulse{50%{opacity:.45;box-shadow:0 0 0 7px rgba(217,167,85,.02)}}
+.f2s-t5-orbit{position:relative;height:230px;max-width:640px;margin:auto;display:grid;place-items:center}.f2s-t5-core{position:relative;z-index:3;width:82px;height:82px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(217,167,85,.42);background:radial-gradient(circle,rgba(217,167,85,.13),rgba(8,7,6,.95) 68%);box-shadow:0 0 0 9px rgba(217,167,85,.025),0 0 42px rgba(217,167,85,.09);font:700 20px/1 Fraunces,serif;color:#D9A755}.f2s-t5-core small{display:block;margin-top:3px;font:700 6px/1 Inter,sans-serif;letter-spacing:.16em;color:#8b806a;text-transform:uppercase}.f2s-t5-ring{position:absolute;width:174px;height:174px;border:1px dashed rgba(217,167,85,.13);border-radius:50%;animation:f2sOrbit 22s linear infinite}.f2s-t5-ring:before{content:"";position:absolute;inset:-1px;border-radius:50%;border-top:1px solid rgba(217,167,85,.3)}
+@keyframes f2sOrbit{to{transform:rotate(360deg)}}
+.f2s-t5-pillar{position:absolute;z-index:4;width:108px;padding:9px 7px;text-align:center;border:1px solid rgba(217,167,85,.11);border-radius:11px;background:rgba(8,7,6,.9);box-shadow:0 9px 24px rgba(0,0,0,.18);transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease,opacity .3s ease}.f2s-t5-pillar b{display:block;color:#e8e0d0;font:700 8px/1.2 Inter,sans-serif}.f2s-t5-pillar span{display:block;margin-top:4px;color:#746c5c;font:7px/1.35 "JetBrains Mono",monospace}.f2s-t5-pillar:nth-of-type(1){top:0;left:50%;transform:translateX(-50%)}.f2s-t5-pillar:nth-of-type(2){right:2%;top:50%;transform:translateY(-50%)}.f2s-t5-pillar:nth-of-type(3){right:17%;bottom:0}.f2s-t5-pillar:nth-of-type(4){left:17%;bottom:0}.f2s-t5-pillar:nth-of-type(5){left:2%;top:50%;transform:translateY(-50%)}
+.f2s-t5-pillar.is-active{border-color:rgba(217,167,85,.45);box-shadow:0 0 0 4px rgba(217,167,85,.035),0 14px 32px rgba(0,0,0,.28);z-index:6}.f2s-t5-pillar.is-active b{color:#D9A755}.f2s-t5-flow{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin-top:8px;color:#746c5c;font:700 7px/1 Inter,sans-serif;letter-spacing:.1em}.f2s-t5-flow em{font-style:normal;color:#D9A755;opacity:.55}.f2s-t5-week{margin-top:13px;padding-top:11px;border-top:1px solid rgba(217,167,85,.08)}.f2s-t5-week-head{display:flex;justify-content:space-between;align-items:center;color:#77705f;font:700 7px/1 Inter,sans-serif;letter-spacing:.12em}.f2s-t5-days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:8px}.f2s-t5-day{height:7px;border-radius:999px;background:#242018;border:1px solid rgba(217,167,85,.08);overflow:hidden}.f2s-t5-day i{display:block;height:100%;width:100%;background:linear-gradient(90deg,rgba(217,167,85,.28),rgba(217,167,85,.7));transform:scaleX(0);transform-origin:left;transition:transform .6s ease}.f2s-t5-signature.is-live .f2s-t5-day:nth-child(1) i{transition-delay:.05s}.f2s-t5-signature.is-live .f2s-t5-day:nth-child(2) i{transition-delay:.12s}.f2s-t5-signature.is-live .f2s-t5-day:nth-child(3) i{transition-delay:.19s}.f2s-t5-signature.is-live .f2s-t5-day:nth-child(4) i{transition-delay:.26s}.f2s-t5-signature.is-live .f2s-t5-day:nth-child(5) i{transition-delay:.33s}.f2s-t5-signature.is-live .f2s-t5-day:nth-child(6) i{transition-delay:.40s}.f2s-t5-signature.is-live .f2s-t5-day:nth-child(7) i{transition-delay:.47s}.f2s-t5-signature.is-live .f2s-t5-day i{transform:scaleX(1)}
+.f2s-t5-particle{position:absolute;width:3px;height:3px;border-radius:50%;background:rgba(217,167,85,.45);box-shadow:0 0 10px rgba(217,167,85,.18);animation:f2sParticle 5s ease-in-out infinite}.f2s-t5-particle:nth-child(1){left:16%;top:20%}.f2s-t5-particle:nth-child(2){left:30%;top:75%;animation-delay:-1s}.f2s-t5-particle:nth-child(3){right:27%;top:18%;animation-delay:-2s}.f2s-t5-particle:nth-child(4){right:12%;top:70%;animation-delay:-3s}.f2s-t5-particle:nth-child(5){left:50%;top:9%;animation-delay:-4s}.f2s-t5-particle:nth-child(6){left:9%;top:52%;animation-delay:-2.5s}
+@keyframes f2sParticle{50%{transform:translate(5px,-7px);opacity:.25}}
+/* Section signatures */
+.f2s-section-stage[data-f2s-kind] .f2s-section-index:after{content:"";margin-left:auto;width:5px;height:5px;border-radius:50%;background:rgba(217,167,85,.35);box-shadow:0 0 0 5px rgba(217,167,85,.025)}
+.f2s-kind-rules .f2s-card li,.f2s-kind-tasks .f2s-card,.f2s-kind-policy .f2s-card,.f2s-kind-archive tr,.f2s-kind-qna .qna-card,.f2s-kind-voices .voice-story-card{transition:transform .28s cubic-bezier(.2,.7,.2,1),border-color .28s ease,box-shadow .28s ease}
+.f2s-kind-rules .f2s-card li:hover{transform:translateX(4px)}.f2s-kind-tasks .f2s-card:hover{transform:translateY(-3px)}.f2s-kind-policy .f2s-card:hover{box-shadow:0 12px 30px rgba(0,0,0,.12)}.f2s-kind-archive tr:hover{transform:translateX(3px)}
+.f2s-kind-leadership [class*="card"]:hover,.f2s-kind-moderators [class*="card"]:hover{transform:translateY(-3px) scale(1.005)}
+.f2s-kind-dayoff .f2s-status-dot{box-shadow:0 0 0 0 rgba(217,167,85,.18)}.f2s-kind-dayoff .f2s-status-dot:hover{box-shadow:0 0 0 6px rgba(217,167,85,.06)}
+.f2s-kind-premium .f2s-card:first-child{position:relative;overflow:hidden}.f2s-kind-premium .f2s-card:first-child:after{content:"";position:absolute;top:0;left:-30%;width:20%;height:100%;background:linear-gradient(90deg,transparent,rgba(217,167,85,.06),transparent);transform:skewX(-15deg);animation:f2sIdShimmer 6s ease-in-out infinite}@keyframes f2sIdShimmer{0%,72%{left:-30%}90%,100%{left:120%}}
+.f2s-kind-enforcement .f2s-card:hover{border-color:rgba(190,130,90,.25)}.f2s-kind-submit .f2s-card li{transition:transform .2s ease}.f2s-kind-submit .f2s-card li:hover{transform:translateX(3px)}
+.f2s-kind-copyright .f2s-card{border-left:1px solid rgba(160,150,130,.18)}
+@media(max-width:700px){.f2s-t5-signature{padding:15px;border-radius:15px}.f2s-t5-orbit{height:255px;transform:scale(.9);transform-origin:center}.f2s-t5-pillar{width:96px}.f2s-t5-flow{font-size:6px}.f2s-t5-signature:after{animation:none}.f2s-kind-rules .f2s-card li:hover,.f2s-kind-tasks .f2s-card:hover,.f2s-kind-policy .f2s-card:hover,.f2s-kind-archive tr:hover,.f2s-kind-leadership [class*="card"]:hover,.f2s-kind-moderators [class*="card"]:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.f2s-t5-signature:after,.f2s-t5-ring,.f2s-t5-status i,.f2s-t5-particle,.f2s-kind-premium .f2s-card:first-child:after{animation:none!important}.f2s-t5-day i{transition:none}.f2s-kind-rules .f2s-card li:hover,.f2s-kind-tasks .f2s-card:hover,.f2s-kind-policy .f2s-card:hover,.f2s-kind-archive tr:hover{transform:none!important}}
+</style>
+<script>
+(function(){
+ const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const q=s=>document.querySelector(s), qa=s=>Array.from(document.querySelectorAll(s));
+ function setup(){
+   /* T5 signature centerpiece */
+   const t5=q('#t5');
+   if(t5 && !q('.f2s-t5-signature')){
+     const h=t5.querySelector('h2');
+     if(h){
+       const box=document.createElement('div'); box.className='f2s-t5-signature'; box.setAttribute('aria-label','Interactive T5 system overview');
+       box.innerHTML=`<div class="f2s-t5-head"><b>T5 SYSTEM · WEEKLY CYCLE</b><span class="f2s-t5-status"><i></i>W40 · ACTIVE</span></div>
+       <div class="f2s-t5-orbit"><div class="f2s-t5-ring"></div><span class="f2s-t5-particle"></span><span class="f2s-t5-particle"></span><span class="f2s-t5-particle"></span><span class="f2s-t5-particle"></span><span class="f2s-t5-particle"></span><span class="f2s-t5-particle"></span>
+       <div class="f2s-t5-core">T5<small>F2S CORE</small></div>
+       <button class="f2s-t5-pillar" type="button"><b>5 Salah</b><span>ON TIME</span></button><button class="f2s-t5-pillar" type="button"><b>5 Qur'an</b><span>VERSES</span></button><button class="f2s-t5-pillar" type="button"><b>5 Hours</b><span>STUDY</span></button><button class="f2s-t5-pillar" type="button"><b>Fajr</b><span>START</span></button><button class="f2s-t5-pillar" type="button"><b>Consistency</b><span>7 DAYS</span></button></div>
+       <div class="f2s-t5-flow"><span>DAILY TASKS</span><em>→</em><span>SUBMISSION</span><em>→</em><span>SCORE</span><em>→</em><span>WEEKLY T5</span><em>→</em><span>LEADERBOARD</span></div>
+       <div class="f2s-t5-week"><div class="f2s-t5-week-head"><span>7-DAY CONSISTENCY</span><span>MON · SUN</span></div><div class="f2s-t5-days">${[1,2,3,4,5,6,7].map(()=>'<span class="f2s-t5-day"><i></i></span>').join('')}</div></div>`;
+       h.parentNode.insertBefore(box,h.nextSibling);
+       const pillars=qa('.f2s-t5-pillar');
+       let active=0;
+       const activate=i=>pillars.forEach((p,j)=>p.classList.toggle('is-active',j===i));
+       activate(0);
+       if(!reduce){setInterval(()=>{active=(active+1)%pillars.length;activate(active)},2600)}
+       pillars.forEach((p,i)=>p.addEventListener('mouseenter',()=>activate(i))); pillars.forEach((p,i)=>p.addEventListener('focus',()=>activate(i)));
+       if('IntersectionObserver' in window && !reduce){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){box.classList.add('is-live');io.disconnect()}}),{threshold:.25});io.observe(box)} else box.classList.add('is-live');
+     }
+   }
+   /* Section-specific signatures */
+   const kinds={story:'story',t5:'t5',submit:'rules',tasks:'tasks',boards:'leaderboard',premium:'premium',enforcement:'enforcement',dayoff:'dayoff',leadership:'leadership',moderators:'moderators',copyright:'copyright',archive:'archive'};
+   Object.entries(kinds).forEach(([id,kind])=>{const el=q('#'+id);if(el)el.dataset.f2sKind=kind,el.classList.add('f2s-kind-'+kind)});
+   const voices=q('.voices-page'); if(voices)voices.dataset.f2sKind='voices',voices.classList.add('f2s-kind-voices');
+   const qna=q('.qna-page'); if(qna)qna.dataset.f2sKind='qna',qna.classList.add('f2s-kind-qna');
+ }
+ const run=()=>requestAnimationFrame(()=>requestAnimationFrame(setup));
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);else run();
+})();
+</script>
+
+
+
+<style id="f2s-signature-effects-v8">
+/* F2S Signature System — Living Core / Constellation / Consistency / Material */
+.f2s-t5-signature{position:relative;margin:18px 0 20px;padding:20px;border:1px solid rgba(217,167,85,.18);border-radius:20px;overflow:hidden;background:radial-gradient(340px 220px at 50% 45%,rgba(217,167,85,.08),transparent 68%),linear-gradient(145deg,rgba(14,11,7,.98),rgba(4,4,4,.99));box-shadow:0 20px 55px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.025)}
+.f2s-t5-signature:before{content:"";position:absolute;inset:-35%;background:conic-gradient(from 0deg,transparent 0 72%,rgba(217,167,85,.035) 78%,transparent 86%);animation:f2sCoreSweep 18s linear infinite;pointer-events:none}
+.f2s-t5-sig-head{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.f2s-t5-sig-kicker{font:700 8px/1 Inter,sans-serif;letter-spacing:.18em;color:#8f836b}.f2s-t5-sig-state{display:flex;align-items:center;gap:6px;font:700 7px/1 "JetBrains Mono",monospace;color:#9d8b6d;letter-spacing:.12em}.f2s-t5-live-dot{width:5px;height:5px;border-radius:50%;background:#D9A755;box-shadow:0 0 0 0 rgba(217,167,85,.35);animation:f2sLive 2.2s ease-out infinite}
+.f2s-t5-orbit{position:relative;height:270px;max-width:620px;margin:0 auto}.f2s-t5-core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:88px;height:88px;border-radius:50%;display:grid;place-items:center;text-align:center;border:1px solid rgba(217,167,85,.46);background:radial-gradient(circle,rgba(217,167,85,.13),rgba(9,8,6,.98) 65%);box-shadow:0 0 0 7px rgba(217,167,85,.025),0 0 45px rgba(217,167,85,.10);z-index:4}.f2s-t5-core b{font:600 25px/1 Fraunces,serif;color:#F0C36F}.f2s-t5-core small{display:block;margin-top:5px;font:700 6px/1 "JetBrains Mono",monospace;color:#7f745f;letter-spacing:.12em}.f2s-t5-ring{position:absolute;left:50%;top:50%;width:154px;height:154px;border:1px solid rgba(217,167,85,.12);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 1px rgba(255,255,255,.01) inset}.f2s-t5-ring:after{content:"";position:absolute;inset:14px;border:1px dashed rgba(217,167,85,.09);border-radius:50%;animation:f2sRingSpin 28s linear infinite}
+.f2s-t5-dayring{position:absolute;left:50%;top:50%;width:126px;height:126px;transform:translate(-50%,-50%);border-radius:50%;z-index:3}.f2s-day{position:absolute;left:50%;top:50%;width:7px;height:7px;margin:-3.5px;border-radius:50%;background:rgba(217,167,85,.18);box-shadow:0 0 0 2px rgba(217,167,85,.02);transform:rotate(var(--a)) translateY(-63px);transition:background .35s,box-shadow .35s,transform .35s}.f2s-day.is-active{background:#D9A755;box-shadow:0 0 11px rgba(217,167,85,.45)}
+.f2s-t5-node{position:absolute;display:flex;flex-direction:column;align-items:center;gap:6px;width:100px;text-align:center;z-index:5}.f2s-t5-node b{font:700 8px/1 Inter,sans-serif;letter-spacing:.12em;color:#B6A88F}.f2s-t5-node small{font:9px/1.35 Inter,sans-serif;color:#6f6758}.f2s-t5-node-dot{width:12px;height:12px;border-radius:50%;border:1px solid rgba(217,167,85,.34);background:#090806;box-shadow:0 0 0 4px rgba(217,167,85,.025);transition:.25s}.f2s-t5-node:hover .f2s-t5-node-dot,.f2s-t5-node.is-active .f2s-t5-node-dot{background:#D9A755;box-shadow:0 0 0 5px rgba(217,167,85,.07),0 0 16px rgba(217,167,85,.25)}.f2s-t5-node.is-active b{color:#E8C477}
+.f2s-t5-node[data-i="0"]{left:50%;top:4px;transform:translateX(-50%)}.f2s-t5-node[data-i="1"]{right:2%;top:43%;transform:translateY(-50%)}.f2s-t5-node[data-i="2"]{right:15%;bottom:1%}.f2s-t5-node[data-i="3"]{left:15%;bottom:1%}.f2s-t5-node[data-i="4"]{left:2%;top:43%;transform:translateY(-50%)}
+.f2s-t5-links{position:absolute;inset:0;z-index:1;pointer-events:none}.f2s-t5-links line{stroke:rgba(217,167,85,.10);stroke-width:1;stroke-dasharray:3 8;animation:f2sDash 9s linear infinite}.f2s-t5-links line.is-hot{stroke:rgba(217,167,85,.42);stroke-width:1.4}
+.f2s-t5-flow{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;margin:2px auto 0;max-width:620px;color:#756b59;font:700 7px/1 "JetBrains Mono",monospace;letter-spacing:.08em}.f2s-t5-flow span{padding:6px 7px;border:1px solid rgba(217,167,85,.09);border-radius:999px;background:rgba(217,167,85,.025)}.f2s-t5-flow i{width:12px;height:1px;background:linear-gradient(90deg,transparent,#D9A755,transparent);position:relative}.f2s-t5-flow i:after{content:"";position:absolute;top:-2px;left:-3px;width:4px;height:4px;border-radius:50%;background:#D9A755;animation:f2sFlow .95s linear infinite}
+.f2s-t5-cycle{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:15px;padding-top:11px;border-top:1px solid rgba(217,167,85,.07)}.f2s-t5-cycle label{font:700 7px/1 Inter,sans-serif;letter-spacing:.14em;color:#756b59}.f2s-cycle-bar{flex:1;height:3px;border-radius:99px;background:rgba(255,255,255,.055);overflow:hidden}.f2s-cycle-bar span{display:block;height:100%;width:57%;background:linear-gradient(90deg,rgba(217,167,85,.3),#D9A755);box-shadow:0 0 12px rgba(217,167,85,.15);animation:f2sCycle 5s ease-in-out infinite}.f2s-t5-cycle b{font:700 7px/1 "JetBrains Mono",monospace;color:#A99572}
+.f2s-t5-particles{position:absolute;inset:0;pointer-events:none;z-index:2}.f2s-t5-particles span{position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(217,167,85,.48);box-shadow:0 0 7px rgba(217,167,85,.25);animation:f2sParticle 5s ease-in-out infinite}.f2s-t5-particles span:nth-child(1){left:24%;top:22%;animation-delay:-1s}.f2s-t5-particles span:nth-child(2){left:73%;top:19%;animation-delay:-3s}.f2s-t5-particles span:nth-child(3){left:81%;top:67%;animation-delay:-2s}.f2s-t5-particles span:nth-child(4){left:19%;top:70%;animation-delay:-4s}.f2s-t5-particles span:nth-child(5){left:50%;top:11%;animation-delay:-1.7s}.f2s-t5-particles span:nth-child(6){left:52%;top:89%;animation-delay:-3.4s}
+.f2s-champion-aura{position:relative;overflow:hidden}.f2s-champion-aura:before{content:"";position:absolute;inset:-35%;background:radial-gradient(circle at 22% 50%,rgba(217,167,85,.11),transparent 28%);animation:f2sAura 4.5s ease-in-out infinite;pointer-events:none}.f2s-champion-aura>*{position:relative;z-index:1}
+.f2s-id-holo{position:relative;overflow:hidden}.f2s-id-holo:after{content:"";position:absolute;inset:-20%;background:linear-gradient(115deg,transparent 38%,rgba(217,167,85,.12) 48%,rgba(255,255,255,.05) 51%,transparent 61%);transform:translateX(-55%);animation:f2sHolo 7s ease-in-out infinite;pointer-events:none}.f2s-id-holo:before{content:"F2S";position:absolute;right:12px;bottom:8px;color:rgba(217,167,85,.055);font:700 42px/1 Inter,sans-serif;letter-spacing:-.06em;pointer-events:none}
+.f2s-t5-tilt{transform-style:preserve-3d;will-change:transform;transition:transform .2s ease,box-shadow .25s ease}.f2s-t5-tilt:hover{box-shadow:0 18px 40px rgba(0,0,0,.25),0 0 0 1px rgba(217,167,85,.06) inset}
+@keyframes f2sCoreSweep{to{transform:rotate(360deg)}}@keyframes f2sLive{0%,100%{box-shadow:0 0 0 0 rgba(217,167,85,.32)}50%{box-shadow:0 0 0 5px rgba(217,167,85,0)}}@keyframes f2sRingSpin{to{transform:rotate(360deg)}}@keyframes f2sDash{to{stroke-dashoffset:-44}}@keyframes f2sFlow{to{transform:translateX(16px);opacity:.1}}@keyframes f2sCycle{0%,100%{opacity:.75;filter:brightness(.9)}50%{opacity:1;filter:brightness(1.12)}}@keyframes f2sParticle{0%,100%{transform:translate(0,0);opacity:.25}50%{transform:translate(5px,-7px);opacity:.8}}@keyframes f2sAura{0%,100%{transform:scale(.96);opacity:.5}50%{transform:scale(1.04);opacity:1}}@keyframes f2sHolo{0%,25%{transform:translateX(-55%)}60%,100%{transform:translateX(55%)}}
+@media(max-width:700px){.f2s-t5-signature{padding:16px;border-radius:17px}.f2s-t5-orbit{height:255px;transform:scale(.9);transform-origin:top center;margin-bottom:-24px}.f2s-t5-core{width:78px;height:78px}.f2s-t5-ring{width:140px;height:140px}.f2s-t5-dayring{width:114px;height:114px}.f2s-t5-flow{font-size:6px;gap:4px}.f2s-t5-flow span{padding:5px 6px}.f2s-t5-flow i{width:6px}.f2s-t5-cycle{margin-top:8px}}
+@media(prefers-reduced-motion:reduce){.f2s-t5-signature:before,.f2s-t5-live-dot,.f2s-t5-ring:after,.f2s-t5-links line,.f2s-t5-flow i:after,.f2s-cycle-bar span,.f2s-t5-particles span,.f2s-champion-aura:before,.f2s-id-holo:after{animation:none!important}.f2s-t5-tilt{transform:none!important}}
+</style>
+
+
+<script id="f2s-signature-effects-v8-js">
+(function(){
+ const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const q=s=>document.querySelector(s), qa=s=>Array.from(document.querySelectorAll(s));
+ function ready(fn){requestAnimationFrame(()=>requestAnimationFrame(fn));}
+ ready(()=>{
+   const t5=q('.f2s-section-t5'); if(!t5) return;
+   /* Living T5 signature panel */
+   if(!q('.f2s-t5-signature')){
+     const panel=document.createElement('div'); panel.className='f2s-t5-signature'; panel.setAttribute('aria-label','Interactive T5 system overview');
+     const days=['MON','TUE','WED','THU','FRI','SAT','SUN'];
+     const nodes=[['SALAH','5 daily prayers'],['QURAN','5 verses'],['STUDY','5 focused hours'],['DHIKR','daily remembrance'],['CHARACTER','self-growth']];
+     panel.innerHTML=`<div class="f2s-t5-sig-head"><div><span class="f2s-t5-sig-kicker">T5 SYSTEM · SIGNATURE CORE</span></div><div class="f2s-t5-sig-state"><span class="f2s-t5-live-dot"></span>W40 · ACTIVE</div></div><div class="f2s-t5-orbit"><svg class="f2s-t5-links" viewBox="0 0 620 270" preserveAspectRatio="none" aria-hidden="true"><line x1="310" y1="135" x2="310" y2="30"/><line x1="310" y1="135" x2="595" y2="116"/><line x1="310" y1="135" x2="510" y2="247"/><line x1="310" y1="135" x2="110" y2="247"/><line x1="310" y1="135" x2="25" y2="116"/></svg><div class="f2s-t5-ring"></div><div class="f2s-t5-dayring">${days.map((d,i)=>`<span class="f2s-day ${i<7?'is-active':''}" style="--a:${i*51.428}deg" title="${d}"></span>`).join('')}</div><div class="f2s-t5-core"><div><b>T5</b><small>CONSISTENCY</small></div></div>${nodes.map((n,i)=>`<div class="f2s-t5-node" data-i="${i}"><span class="f2s-t5-node-dot"></span><b>${n[0]}</b><small>${n[1]}</small></div>`).join('')}<div class="f2s-t5-particles">${Array.from({length:6},()=>'<span></span>').join('')}</div></div><div class="f2s-t5-flow"><span>DAILY TASKS</span><i></i><span>SUBMISSION</span><i></i><span>SCORE</span><i></i><span>WEEKLY T5</span><i></i><span>LEADERBOARD</span></div><div class="f2s-t5-cycle"><label>WEEKLY CYCLE</label><div class="f2s-cycle-bar"><span></span></div><b>W40</b></div>`;
+     const firstCard=t5.querySelector('.f2s-card'); if(firstCard) firstCard.after(panel); else t5.prepend(panel);
+     const nodeEls=qa('.f2s-t5-node'); nodeEls.forEach((node,i)=>{node.addEventListener('mouseenter',()=>{nodeEls.forEach(n=>n.classList.remove('is-active'));node.classList.add('is-active');const lines=qa('.f2s-t5-links line');if(lines[i])lines[i].classList.add('is-hot')});node.addEventListener('mouseleave',()=>{node.classList.remove('is-active');qa('.f2s-t5-links line').forEach(l=>l.classList.remove('is-hot'));});});
+   }
+   /* 3D tilt only on the three core T5 cards */
+   if(!reduce && window.matchMedia('(pointer:fine)').matches){
+     qa('.f2s-section-t5 .f2s-card').filter(c=>/Daily Prayers|Verses of Qur|Hours of Study/.test(c.textContent)).forEach(card=>{
+       card.classList.add('f2s-t5-tilt');
+       card.addEventListener('pointermove',e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;card.style.transform=`perspective(700px) rotateX(${(-y*3).toFixed(2)}deg) rotateY(${(x*4).toFixed(2)}deg) translateY(-2px)`;});
+       card.addEventListener('pointerleave',()=>card.style.transform='');
+     });
+   }
+   /* Champion aura: locate the existing W40 champion row */
+   qa('.t5w37-champion-row').forEach(x=>x.classList.add('f2s-champion-aura'));
+   /* F2S ID material treatment */
+   const premium=q('.f2s-section-premium'); if(premium){qa('.f2s-section-premium .f2s-card').slice?.(); const cards=qa('.f2s-section-premium .f2s-card'); cards.slice(0,2).forEach(c=>c.classList.add('f2s-id-holo'));}
+   /* Turn the existing 7/7 display into a visual consistency signal where possible */
+   qa('.t5w37-score,.t5w37-board-score,.t5w37-summary-value').forEach(el=>{if(/7\/7/.test(el.textContent||'')) el.classList.add('f2s-value-pop');});
+ });
+})();
+</script>
+
+
+
+<style id="f2s-v9-cinematic-css">
+/* F2S v9 — Signature Cinematic Layer */
+:root{--f2s-gold:#D9A755;--f2s-ivory:#eee8da}
+.f2s-hero-atmosphere{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+.f2s-hero-atmosphere:before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at 50% 42%,rgba(217,167,85,.075),transparent 35%),radial-gradient(circle at 78% 18%,rgba(255,255,255,.035),transparent 24%);animation:f2sHeroBreathe 10s ease-in-out infinite}
+.f2s-hero-atmosphere:after{content:"";position:absolute;top:-20%;bottom:-20%;left:-20%;width:18%;background:linear-gradient(90deg,transparent,rgba(217,167,85,.055),transparent);transform:skewX(-14deg);animation:f2sHeroSweep 13s ease-in-out infinite}
+.f2s-cinematic-grain{position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.018;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");mix-blend-mode:soft-light}
+.f2s-t5-score-ring{position:relative;width:104px;height:104px;margin:0 auto 12px;display:grid;place-items:center}
+.f2s-t5-score-ring svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.f2s-t5-score-ring circle{fill:none;stroke-width:2.5}.f2s-t5-score-ring .track{stroke:rgba(255,255,255,.055)}.f2s-t5-score-ring .value{stroke:var(--f2s-gold);stroke-linecap:round;stroke-dasharray:295;stroke-dashoffset:295;filter:drop-shadow(0 0 4px rgba(217,167,85,.22));transition:stroke-dashoffset 1.25s cubic-bezier(.2,.7,.2,1)}
+.f2s-t5-score-ring.is-live .value{stroke-dashoffset:var(--dash)}
+.f2s-t5-score-ring-core{position:relative;z-index:2;text-align:center}.f2s-t5-score-ring-core b{display:block;color:#F0C36F;font:600 22px/1 Fraunces,serif}.f2s-t5-score-ring-core small{display:block;margin-top:5px;color:#786e5d;font:700 6px/1 "JetBrains Mono",monospace;letter-spacing:.13em}
+.f2s-t5-cycle-dots{display:flex;justify-content:center;gap:7px;margin:4px 0 15px}.f2s-t5-cycle-dots i{width:5px;height:5px;border-radius:50%;background:rgba(217,167,85,.16);border:1px solid rgba(217,167,85,.14);transition:background .35s,box-shadow .35s,transform .35s}.f2s-t5-cycle-dots i.is-on{background:var(--f2s-gold);box-shadow:0 0 9px rgba(217,167,85,.35);transform:scale(1.2)}
+.f2s-fajr-trail{position:relative;display:flex;align-items:center;gap:9px;margin:22px 0 34px;padding:8px 2px;color:#756b59;overflow:hidden}.f2s-fajr-trail:before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(217,167,85,.18),transparent)}.f2s-fajr-trail-track{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:7px;width:100%;font:700 7px/1 "JetBrains Mono",monospace;letter-spacing:.09em}.f2s-fajr-trail-step{padding:6px 7px;border:1px solid rgba(217,167,85,.09);border-radius:999px;background:rgba(8,7,5,.92);transition:color .3s,border-color .3s,box-shadow .3s}.f2s-fajr-trail-step.is-current{color:#D9A755;border-color:rgba(217,167,85,.28);box-shadow:0 0 15px rgba(217,167,85,.06)}.f2s-fajr-trail-line{width:18px;height:1px;background:linear-gradient(90deg,transparent,#D9A755,transparent);position:relative;overflow:hidden}.f2s-fajr-trail-line:after{content:"";position:absolute;left:-5px;top:-2px;width:5px;height:5px;border-radius:50%;background:#D9A755;animation:f2sTrailDot 1.6s linear infinite}
+.f2s-system-status{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:5px 7px;border:1px solid rgba(217,167,85,.12);border-radius:999px;background:rgba(217,167,85,.025);color:#8d826d;font:700 6.5px/1 "JetBrains Mono",monospace;letter-spacing:.1em}.f2s-system-status i{width:4px;height:4px;border-radius:50%;background:#D9A755;box-shadow:0 0 0 0 rgba(217,167,85,.3);animation:f2sStatusPulse 2.2s ease-out infinite}
+.f2s-t5-universe-caption{margin:0 auto 2px;text-align:center;color:#625a4d;font:700 6.5px/1 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase}
+.f2s-live-change{animation:f2sLiveChange .55s cubic-bezier(.2,.7,.2,1)}
+@keyframes f2sHeroBreathe{0%,100%{transform:scale(.98);opacity:.55}50%{transform:scale(1.03);opacity:1}}@keyframes f2sHeroSweep{0%,62%{left:-25%;opacity:0}72%{opacity:1}88%,100%{left:120%;opacity:0}}@keyframes f2sTrailDot{to{transform:translateX(23px);opacity:.05}}@keyframes f2sStatusPulse{50%{box-shadow:0 0 0 5px rgba(217,167,85,0)}}@keyframes f2sLiveChange{0%{opacity:.45;transform:translateY(3px)}65%{opacity:1;transform:translateY(-1px)}100%{transform:none}}
+@media(max-width:700px){.f2s-cinematic-grain{opacity:.012}.f2s-fajr-trail{margin:16px 0 26px}.f2s-fajr-trail-track{gap:4px;font-size:5.5px}.f2s-fajr-trail-step{padding:5px 5px}.f2s-fajr-trail-line{width:7px}.f2s-t5-score-ring{width:92px;height:92px}.f2s-t5-universe-caption{font-size:6px}}
+@media(prefers-reduced-motion:reduce){.f2s-hero-atmosphere:before,.f2s-hero-atmosphere:after,.f2s-t5-cycle-dots i,.f2s-fajr-trail-line:after,.f2s-system-status i{animation:none!important}.f2s-t5-score-ring .value{transition:none}.f2s-live-change{animation:none!important}}
+</style>
+
+
+<script id="f2s-v9-cinematic-js">
+(function(){
+ const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const q=s=>document.querySelector(s), qa=s=>Array.from(document.querySelectorAll(s));
+ const ready=fn=>requestAnimationFrame(()=>requestAnimationFrame(fn));
+ ready(()=>{
+  /* Cinematic Hero atmosphere — contained inside Hero */
+  const hero=q('.hero-cover');
+  if(hero && !hero.querySelector('.f2s-hero-atmosphere')){
+   const a=document.createElement('div'); a.className='f2s-hero-atmosphere'; hero.style.position=hero.style.position||'relative'; hero.appendChild(a);
+  }
+  if(!q('.f2s-cinematic-grain')){const g=document.createElement('div');g.className='f2s-cinematic-grain';g.setAttribute('aria-hidden','true');document.body.appendChild(g)}
+
+  const t5=q('.f2s-t5-signature');
+  if(t5){
+   /* Score ring based on the current weekly champion score */
+   if(!t5.querySelector('.f2s-t5-score-ring')){
+    let score=7; const champion=q('.t5w37-champion-row'); if(champion){const m=(champion.textContent||'').match(/(\d)\/7/);if(m)score=Math.max(0,Math.min(7,+m[1]))}
+    const pct=score/7, dash=(295*(1-pct)).toFixed(2);
+    const ring=document.createElement('div'); ring.className='f2s-t5-score-ring'; ring.style.setProperty('--dash',dash);
+    ring.innerHTML=`<svg viewBox="0 0 104 104" aria-hidden="true"><circle class="track" cx="52" cy="52" r="47"></circle><circle class="value" cx="52" cy="52" r="47"></circle></svg><div class="f2s-t5-score-ring-core"><b>${score}/7</b><small>WEEKLY T5</small></div>`;
+    const orbit=t5.querySelector('.f2s-t5-orbit'); if(orbit) orbit.parentNode.insertBefore(ring,orbit);
+    if(!reduce){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){ring.classList.add('is-live');io.disconnect()}}),{threshold:.25});io.observe(ring)}else ring.classList.add('is-live');
+   }
+   /* 7-day cinematic cycle */
+   if(!t5.querySelector('.f2s-t5-cycle-dots')){
+    const champion=q('.t5w37-champion-row'); let score=7;if(champion){const m=(champion.textContent||'').match(/(\d)\/7/);if(m)score=+m[1]}
+    const dots=document.createElement('div');dots.className='f2s-t5-cycle-dots';dots.setAttribute('aria-label',`Weekly consistency ${score} of 7 days`);dots.innerHTML=Array.from({length:7},(_,i)=>`<i class="${i<score?'is-on':''}" title="Day ${i+1}"></i>`).join('');
+    const cycle=t5.querySelector('.f2s-t5-cycle');if(cycle)cycle.parentNode.insertBefore(dots,cycle);else t5.appendChild(dots);
+   }
+   /* Living system status */
+   const head=t5.querySelector('.f2s-t5-sig-head'); if(head && !head.querySelector('.f2s-system-status')){const st=document.createElement('div');st.className='f2s-system-status';st.innerHTML='<i></i> F2S SYSTEM · W40 ACTIVE';head.appendChild(st)}
+   /* Universe caption */
+   const orbit=t5.querySelector('.f2s-t5-orbit');if(orbit && !t5.querySelector('.f2s-t5-universe-caption')){const c=document.createElement('div');c.className='f2s-t5-universe-caption';c.textContent='F2S · ONE SYSTEM · FIVE PILLARS · ONE WEEKLY CYCLE';orbit.parentNode.insertBefore(c,orbit)}
+   /* Active node choreography + line hot state */
+   const nodes=qa('.f2s-t5-node'); const lines=qa('.f2s-t5-links line'); let active=0;
+   const activate=i=>{nodes.forEach((n,j)=>n.classList.toggle('is-active',j===i));lines.forEach((l,j)=>l.classList.toggle('is-hot',j===i));active=i};
+   activate(0);
+   if(!reduce && nodes.length){setInterval(()=>activate((active+1)%nodes.length),3000)}
+   /* subtle desktop 3D on the signature panel itself, with no movement on touch */
+   if(!reduce && window.matchMedia('(pointer:fine)').matches){
+    t5.addEventListener('pointermove',e=>{const r=t5.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;t5.style.transform=`perspective(1400px) rotateX(${(-y*.65).toFixed(2)}deg) rotateY(${(x*.8).toFixed(2)}deg)`});
+    t5.addEventListener('pointerleave',()=>t5.style.transform='');
+   }
+  }
+
+  /* Fajr → Success trail between the main story/system region */
+  const anchor=q('#t5');
+  if(anchor && !q('.f2s-fajr-trail')){
+   const trail=document.createElement('div');trail.className='f2s-fajr-trail';
+   const labels=['FAJR','T5','STUDY','CONSISTENCY','SUCCESS'];
+   trail.innerHTML='<div class="f2s-fajr-trail-track">'+labels.map((x,i)=>`${i?'<span class="f2s-fajr-trail-line"></span>':''}<span class="f2s-fajr-trail-step" data-i="${i}">${x}</span>`).join('')+'</div>';
+   anchor.parentNode.insertBefore(trail,anchor);
+   const steps=qa('.f2s-fajr-trail-step');
+   const update=()=>{const mid=window.scrollY+window.innerHeight*.48;let idx=0;steps.forEach((el,i)=>{if(mid>=el.getBoundingClientRect().top+window.scrollY-30)idx=i});steps.forEach((el,i)=>el.classList.toggle('is-current',i===idx))};
+   window.addEventListener('scroll',update,{passive:true});update();
+  }
+
+  /* Smooth live-style leaderboard changes when the existing data/UI changes */
+  qa('.t5w37-board-row,.t5w37-summary-value,.t5w37-score,.t5w37-time').forEach(el=>{
+   new MutationObserver(()=>{if(reduce)return;el.classList.remove('f2s-live-change');void el.offsetWidth;el.classList.add('f2s-live-change')}).observe(el,{childList:true,subtree:true,characterData:true});
+  });
+ });
+})();
+</script>
+
+
+
+<style id="f2s-final-publish-polish">
+/* =========================================================
+   F2S FINAL PUBLISH POLISH
+   Surface / accessibility / responsive / motion safeguards
+   ========================================================= */
+:root{
+  --f2s-gold:#D9A755;--f2s-gold-hi:#F1C873;--f2s-ink:#070707;
+  --f2s-text:#EEE8DA;--f2s-muted:#A69B85;
+}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+*,*::before,*::after{box-sizing:border-box}
+img{max-width:100%;height:auto}
+button,a,[role="button"]{-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:1px solid rgba(217,167,85,.72);outline-offset:3px}
+
+/* Premium shared surface: restrained, layered, never neon. */
+.card,.home-voices-box,.t5w37-premium-board,.f2s-journey-panel,.f2s-voice-rotator,
+.f2s-editorial-quote,.f2s-member-popover,.t5w37-summary-card{
+  position:relative;overflow:hidden;
+}
+.card::before,.home-voices-box::before,.t5w37-premium-board::before,.f2s-journey-panel::before,
+.f2s-voice-rotator::before,.f2s-editorial-quote::before{
+  content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(115deg,rgba(255,255,255,.026),transparent 24%,transparent 72%,rgba(217,167,85,.018));
+  opacity:.9;
+}
+.card::after,.home-voices-box::after,.t5w37-premium-board::after,.f2s-journey-panel::after,
+.f2s-voice-rotator::after,.f2s-editorial-quote::after{
+  content:"";position:absolute;left:10%;right:10%;top:0;height:1px;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(241,200,115,.28),transparent);opacity:.65;
+}
+
+/* Section identity: quiet editorial marker, not another card. */
+.f2s-section-index{display:flex;align-items:center;gap:8px;margin:0 0 9px;color:#776d59;font:700 7.5px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase}
+.f2s-section-index span{color:var(--f2s-gold);font-family:"JetBrains Mono",monospace}
+.f2s-section-index i{display:block;width:20px;height:1px;background:rgba(217,167,85,.28)}
+.f2s-section-index b{font-weight:700}
+
+/* T5: premium but performant — no transform-heavy continuous 3D. */
+.f2s-t5-core,.t5-core,.t5-orbit,.t5-pillar{backface-visibility:hidden;transform-style:preserve-3d}
+.t5-pillar{transition:transform .28s cubic-bezier(.2,.7,.2,1),filter .28s ease,opacity .28s ease}
+@media (hover:hover) and (pointer:fine){
+  .t5-pillar:hover{transform:translateY(-3px) translateZ(8px);filter:brightness(1.08)}
+  .card:hover,.f2s-journey-panel:hover,.f2s-voice-rotator:hover,.f2s-editorial-quote:hover,
+  .t5w37-summary-card:hover{box-shadow:0 20px 52px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.035)}
+}
+
+/* Ticker: stable viewport, no layout jump, proper RTL loop. */
+.f2s-weekly-ticker-wrap{isolation:isolate;contain:layout paint}
+.f2s-weekly-ticker{min-width:0}
+.f2s-weekly-ticker-track{will-change:transform;transform:translate3d(0,0,0)}
+.f2s-weekly-ticker-item{user-select:none}
+.f2s-weekly-ticker-label{flex-basis:66px}
+@media(max-width:700px){
+  .f2s-weekly-ticker-label{flex-basis:58px;width:58px}
+  .f2s-weekly-ticker-item{padding-left:16px;padding-right:16px;font-size:9px;gap:7px}
+  .f2s-weekly-ticker-track{animation-duration:19s!important}
+}
+
+/* Light mode: preserve editorial contrast. */
+@media(prefers-color-scheme:light){
+  .f2s-weekly-ticker-wrap{border-color:rgba(120,88,38,.18);background:linear-gradient(180deg,#171512,#0d0c0a)}
+  .f2s-weekly-ticker-label{background:linear-gradient(180deg,rgba(217,167,85,.18),rgba(217,167,85,.055))}
+}
+
+/* Performance guard for low-power / reduced motion environments. */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .f2s-weekly-ticker-track{transform:none!important}
+}
+@media(max-width:700px){
+  html{scroll-padding-top:64px}
+  .card,.home-voices-box,.t5w37-premium-board,.f2s-journey-panel,.f2s-voice-rotator,.f2s-editorial-quote{border-radius:15px}
+}
+
+/* Avoid accidental horizontal overflow from decorative motion. */
+body{overflow-x:hidden}
+</style>
+<script>
+(function(){
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const q=s=>document.querySelector(s), qa=s=>Array.from(document.querySelectorAll(s));
+  function afterRender(fn){requestAnimationFrame(()=>requestAnimationFrame(fn));}
+  afterRender(()=>{
+    /* 1) Hero entrance choreography */
+    const hero=q('.hero-cover');
+    if(hero){
+      hero.classList.add('f2s-hero-parallax');
+      const header=q('.site-header');
+      [hero,header,q('.f2s-weekly-ticker'),q('.f2s-pulse-strip'),q('.home-voices-box')].filter(Boolean).forEach((el,i)=>{el.classList.add('f2s-load-reveal');setTimeout(()=>el.classList.add('f2s-loaded'),80+i*90)});
+    }
+    /* 2) Gentle hero parallax */
+    if(!reduce && hero){
+      const img=hero.querySelector('img');
+      const onScroll=()=>{const y=Math.min(window.scrollY,420); if(img) img.style.transform='scale(1.008)';};
+      window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+    }
+    /* 3) Magnetic interaction for primary CTAs */
+    if(!reduce && window.matchMedia('(pointer:fine)').matches){
+      qa('.home-voices-box button,.voice-cta button,.qna-ask-btn.primary,.qna-ask-btn.anonymous').forEach(btn=>{
+        btn.classList.add('f2s-magnetic');
+        btn.addEventListener('pointermove',e=>{const r=btn.getBoundingClientRect(),x=(e.clientX-r.left-r.width/2)/r.width,y=(e.clientY-r.top-r.height/2)/r.height;btn.style.transform=`translate(${x*4}px,${y*3}px)`;});
+        btn.addEventListener('pointerleave',()=>btn.style.transform='');
+      });
+    }
+    /* 4) Scroll reveals for major panels */
+    const revealTargets=qa('.f2s-journey-panel,.t5w37-premium-board,.f2s-voice-rotator,.voices-page .voice-story-card,.f2s-editorial-quote');
+    if(!reduce && 'IntersectionObserver' in window){
+      revealTargets.forEach(el=>el.classList.add('f2s-load-reveal'));
+      const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('f2s-loaded');io.unobserve(e.target);}}),{threshold:.12});
+      revealTargets.forEach(el=>io.observe(el));
+      const jp=q('.f2s-journey-panel'); if(jp){const jo=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){jp.classList.add('f2s-journey-live');jo.disconnect();}}),{threshold:.3});jo.observe(jp);}
+    } else revealTargets.forEach(el=>el.classList.add('f2s-loaded'));
+
+    /* 6) Smooth voice transitions if the existing rotator changes content */
+    const vr=q('.f2s-voice-rotator'); if(vr){const observer=new MutationObserver(()=>{if(reduce)return;vr.classList.remove('f2s-voice-transition');void vr.offsetWidth;vr.classList.add('f2s-voice-transition');});observer.observe(vr,{childList:true,subtree:true});}
+    /* 7) Rank-change polish: detect row text/order updates */
+    qa('.t5w37-board-row').forEach(row=>{new MutationObserver(()=>{if(reduce)return;row.classList.remove('f2s-rank-shift');void row.offsetWidth;row.classList.add('f2s-rank-shift');}).observe(row,{childList:true,subtree:true,characterData:true});});
+    /* 9) Shared editorial section markers for standalone Voices / Q&A */
+    [q('.voices-page'),q('.qna-page')].filter(Boolean).forEach((page,i)=>{
+      if(page.querySelector('.f2s-section-index')) return;
+      const h=page.querySelector('h1,h2');
+      if(!h) return;
+      const marker=document.createElement('div'); marker.className='f2s-section-index';
+      marker.innerHTML=`<span>${i===0?'13':'14'}</span><i></i><b>${i===0?'VOICES':'Q&A'}</b>`;
+      h.parentNode.insertBefore(marker,h);
+    });
+    /* 10) Tiny F2S logo/name easter egg */
+    const mark=q('.site-header img[alt="F2S Logo"]');
+    if(mark){mark.classList.add('f2s-easter-mark');mark.tabIndex=0;mark.setAttribute('aria-label','F2S');mark.addEventListener('click',()=>mark.classList.toggle('f2s-easter-open'));mark.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();mark.classList.toggle('f2s-easter-open')}});}
+  });
+})();
+</script>
+</body>
+</html>
