@@ -2863,6 +2863,63 @@ body::before{opacity:.012!important}
 }
 </style>
 
+
+<style id="f2s-final-publish-polish">
+/* F2S FINAL PUBLISH POLISH — desktop-first precision, responsive balance */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-rendering:optimizeLegibility}
+body{-webkit-font-smoothing:antialiased}
+button,a{ -webkit-tap-highlight-color:transparent }
+
+/* T5 SYSTEM centerpiece: exact desktop centering + visual hierarchy */
+@media (min-width:701px){
+  #t5 .f2s-t5-signature{max-width:100%;margin:20px 0 22px;padding:22px 24px 20px}
+  #t5 .f2s-t5-head{max-width:980px;margin:0 auto 16px}
+  #t5 .f2s-t5-orbit{width:100%;max-width:760px;height:250px;margin:0 auto;display:grid;place-items:center}
+  #t5 .f2s-t5-ring,#t5 .f2s-t5-core{left:50%;top:50%;margin:0;transform:translate(-50%,-50%)}
+  #t5 .f2s-t5-ring{animation:f2sOrbitDesktop 22s linear infinite}
+  #t5 .f2s-t5-core{transform:translate(-50%,-50%)}
+  #t5 .f2s-t5-pillar:nth-of-type(1){top:8px;left:50%;transform:translateX(-50%)}
+  #t5 .f2s-t5-pillar:nth-of-type(2){right:10%;top:50%;transform:translateY(-50%)}
+  #t5 .f2s-t5-pillar:nth-of-type(3){right:24%;bottom:8px}
+  #t5 .f2s-t5-pillar:nth-of-type(4){left:24%;bottom:8px}
+  #t5 .f2s-t5-pillar:nth-of-type(5){left:10%;top:50%;transform:translateY(-50%)}
+  #t5 .f2s-t5-flow{margin-top:10px;gap:9px;font-size:7.5px}
+  #t5 .f2s-t5-week{max-width:760px;margin:15px auto 0}
+}
+@keyframes f2sOrbitDesktop{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+/* Premium micro-interactions */
+.f2s-t5-signature{isolation:isolate}
+.f2s-t5-signature:hover{border-color:rgba(217,167,85,.22);box-shadow:inset 0 1px rgba(255,255,255,.045),0 22px 58px rgba(0,0,0,.17)}
+.f2s-t5-core{transition:box-shadow .35s ease,border-color .35s ease}
+.f2s-t5-signature:hover .f2s-t5-core{border-color:rgba(217,167,85,.58);box-shadow:0 0 0 10px rgba(217,167,85,.028),0 0 52px rgba(217,167,85,.13)}
+.f2s-t5-pillar{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+
+/* Admin status — active pulse / inactive red, consistent on all breakpoints */
+#adminpanel .admin-premium-status.active::before{animation:f2sAdminPulse 1.7s ease-in-out infinite}
+#adminpanel .admin-premium-status.inactive::before{animation:none}
+@keyframes f2sAdminPulse{0%,100%{opacity:.68;transform:scale(.86);box-shadow:0 0 0 0 rgba(120,168,140,.12),0 0 5px rgba(120,168,140,.35)}50%{opacity:1;transform:scale(1.2);box-shadow:0 0 0 4px rgba(120,168,140,.06),0 0 11px rgba(120,168,140,.8)}}
+
+/* Prevent accidental horizontal overflow from premium desktop modules */
+.f2s-t5-signature,.t5w37-premium-board{max-width:100%;overflow:hidden}
+
+@media(max-width:700px){
+  #t5 .f2s-t5-signature{padding:15px 13px 16px;border-radius:16px}
+  #t5 .f2s-t5-orbit{height:214px}
+  #t5 .f2s-t5-ring,#t5 .f2s-t5-core{left:50%;top:50%}
+  #t5 .f2s-t5-ring{transform:translate(-50%,-50%);animation:f2sOrbitMobile 22s linear infinite}
+  #t5 .f2s-t5-core{transform:translate(-50%,-50%)}
+  #t5 .f2s-t5-flow{line-height:1.35}
+}
+@keyframes f2sOrbitMobile{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+@media(prefers-reduced-motion:reduce){
+  #t5 .f2s-t5-ring{animation:none!important}
+  #adminpanel .admin-premium-status.active::before{animation:none!important}
+  .f2s-t5-signature:hover{box-shadow:inset 0 1px rgba(255,255,255,.035),0 18px 45px rgba(0,0,0,.13)}
+}
+</style>
 </head>
 <body>
 <div id="root"></div>
@@ -3604,7 +3661,7 @@ const TESTIMONIALS = [
 
 const YPT_LINKS = [
   ["F2S Premium group (YPT)", "https://link.yeolpumta.com/P3R5cGU9Z3JvdXBJbnZpdGUmaWQ9NTM2MTc2NQ=="],
-  ["F2S-A group (YPT)", "https://link.yeolpumta.com/P3R5cGU9Z3JvdXBJbnZpdGUmaWQ9NjY5MDEzMw=="],
+  ["F2S-A group (YPT)", "https://link.yeolpumta.com/P3R5cGU9Z3JvdXBJbnZpdGUmaWQ9NTQwNDA0Mw=="],
   ["F2S-B group (YPT)", "https://link.yeolpumta.com/P3R5cGU9Z3JvdXBJbnZpdGUmaWQ9NjY5MDEzMw=="],
 ];
 
@@ -3629,7 +3686,7 @@ const LINKS = [
   ["Call to Light 🕯️ — WhatsApp", "https://whatsapp.com/channel/0029VbBhvQILtOjIDGsIRL1U"],
   ["F2S sticker pack", "https://t.me/addstickers/Fajr2success"],
   ["F2S Premium group (YPT)", "https://link.yeolpumta.com/P3R5cGU9Z3JvdXBJbnZpdGUmaWQ9NTM2MTc2NQ=="],
-  ["F2S-A group (YPT)", "https://link.yeolpumta.com/P3R5cGU9Z3JvdXBJbnZpdGUmaWQ9NjY5MDEzMw=="],
+  ["F2S-A group (YPT)", "https://link.yeolpumta.com/P3R5cGU9Z3JvdXBJbnZpdGUmaWQ9NTQwNDA0Mw=="],
   ["F2S-B group (YPT)", "https://link.yeolpumta.com/P3R5cGU9Z3JvdXBJbnZpdGUmaWQ9NjY5MDEzMw=="],
 ];
 
@@ -8219,14 +8276,25 @@ body{overflow-x:hidden}
     font-size:16px !important;
   }
 }
+</style>
 
-/* FINAL PUBLISH POLISH — v1 */
-html{overflow-x:hidden}
-body{overflow-x:hidden;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
-a,button{ -webkit-tap-highlight-color:transparent }
-img,svg{max-width:100%}
-@media(max-width:700px){
-  a,button{touch-action:manipulation}
+<style id="f2s-t5-desktop-center-final">
+/* Desktop final polish: keep the T5 circle/ring mathematically centered in the weekly-cycle orbit. */
+@media (min-width:701px){
+  .f2s-t5-signature .f2s-t5-orbit{position:relative!important;display:block!important;}
+  .f2s-t5-signature .f2s-t5-ring{
+    position:absolute!important;
+    left:50%!important;
+    top:50%!important;
+    margin-left:-95px!important;
+    margin-top:-95px!important;
+    transform-origin:50% 50%!important;
+  }
+  .f2s-t5-signature .f2s-t5-core{
+    position:absolute!important;
+    left:50%!important;
+    top:50%!important;
+    transform:translate(-50%,-50%)!important;
+  }
 }
-
 </style>
