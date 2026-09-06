@@ -749,19 +749,86 @@ img[alt*="Leaderboard"]{
 }
 
 
-/* Top 5 F2S Stars — premium all-time honors card */
-
-.invite-stars-box{position:relative;overflow:hidden;margin:14px 0 18px;padding:20px;border:1px solid rgba(217,167,85,.24);border-radius:20px;background:radial-gradient(420px 180px at 92% -15%,rgba(217,167,85,.10),transparent 64%),linear-gradient(145deg,rgba(35,27,17,.97),rgba(15,11,8,.985));box-shadow:0 22px 55px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.035)}
-.invite-stars-box:after{content:"🕯️";position:absolute;right:-10px;top:-24px;font-size:110px;opacity:.035;pointer-events:none}
-.invite-stars-head{position:relative;z-index:1;text-align:center;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.055)}
-.invite-stars-kicker{color:#D9A755;font:700 9px/1.2 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase}
-.invite-stars-title{margin-top:5px;color:#F1EBDD;font:600 22px/1.12 Fraunces,Georgia,serif}
-.invite-stars-subtitle{margin-top:4px;color:#8F856F;font:500 10px/1.4 Inter,sans-serif}
-.invite-stars-columns,.invite-stars-row{display:grid;grid-template-columns:48px minmax(0,1fr) 100px;align-items:center;gap:10px}
-.invite-stars-columns{margin-top:14px;padding:0 10px;color:#756C5A;font:700 8px/1 Inter,sans-serif;letter-spacing:.10em;text-transform:uppercase}
-.invite-stars-row{min-height:54px;margin-top:7px;padding:8px 10px;border:1px solid rgba(255,255,255,.045);border-radius:13px;background:rgba(255,255,255,.014)}
-.invite-stars-rank{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:10px;border:1px solid rgba(255,255,255,.09);background:#0B0906;color:#A79D89;font:800 11px/1 "JetBrains Mono",monospace}.invite-stars-name{color:#EEE8DA;font:700 13px/1.25 Inter,sans-serif}.invite-stars-count{text-align:right;color:#F1C873;font:700 18px/1 Inter,sans-serif}.invite-stars-footer{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.04);text-align:center;color:#D9A755;font:600 10px/1.45 Inter,sans-serif;letter-spacing:.02em}
-@media (max-width:600px){.invite-stars-columns,.invite-stars-row{grid-template-columns:42px minmax(0,1fr) 78px}.invite-stars-title{font-size:20px}}
+/* F2S Community Builders — premium Islamic invitation leaderboard */
+.fcb-board{
+  position:relative;overflow:hidden;margin:14px 0 18px;padding:24px;
+  border:1px solid rgba(217,167,85,.24);border-radius:24px;
+  background:
+    radial-gradient(520px 220px at 50% -12%,rgba(217,167,85,.12),transparent 68%),
+    radial-gradient(320px 240px at 100% 100%,rgba(74,104,88,.10),transparent 72%),
+    linear-gradient(145deg,rgba(28,23,16,.985),rgba(11,10,8,.995));
+  box-shadow:0 24px 64px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.04);
+}
+.fcb-board:before{
+  content:"دَعْوَة";position:absolute;right:-8px;top:2px;
+  color:rgba(217,167,85,.045);font:500 94px/1 "Amiri","Noto Naskh Arabic",serif;
+  pointer-events:none;transform:rotate(-5deg);
+}
+.fcb-board:after{
+  content:"";position:absolute;inset:10px;border:1px solid rgba(255,255,255,.025);
+  border-radius:18px;pointer-events:none;
+}
+.fcb-head{position:relative;z-index:1;text-align:center;padding:2px 4px 10px;border-bottom:1px solid rgba(255,255,255,.06)}
+.fcb-kicker{color:#D9A755;font:800 9px/1.2 Inter,sans-serif;letter-spacing:.17em;text-transform:uppercase}
+.fcb-title{margin-top:7px;color:#F3ECDD;font:700 27px/1.03 Inter,sans-serif;letter-spacing:.055em;text-transform:uppercase}
+.fcb-title span{display:block}
+.fcb-badge{
+  position:absolute;left:4px;top:0;display:inline-flex;align-items:center;justify-content:center;margin-top:0;padding:5px 11px;
+  border:1px solid rgba(217,167,85,.28);border-radius:999px;
+  background:rgba(255,255,255,.045);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  color:#F1C873;font:800 9px/1 Inter,sans-serif;letter-spacing:.18em;
+}
+.fcb-arabic{margin-top:9px;color:rgba(241,200,115,.74);font:500 22px/1.1 "Amiri","Noto Naskh Arabic",serif}
+.fcb-arabic-sub{margin-top:3px;color:#8F856F;font:500 9px/1.3 Inter,sans-serif;letter-spacing:.03em}
+.fcb-quote{
+  position:relative;z-index:1;margin:11px auto 0;max-width:560px;text-align:center;
+  color:#C9C1B1;font:500 11px/1.65 Inter,sans-serif;
+}
+.fcb-quote strong{display:block;color:#E9E1D1;font-weight:600}
+.fcb-quote em{display:block;margin-top:3px;color:#8F856F;font-style:normal;font-size:9px}
+.fcb-divider{display:flex;align-items:center;gap:9px;margin:17px 0 13px;color:#8F856F}
+.fcb-divider:before,.fcb-divider:after{content:"";height:1px;flex:1;background:linear-gradient(90deg,transparent,rgba(217,167,85,.18))}
+.fcb-divider:after{background:linear-gradient(90deg,rgba(217,167,85,.18),transparent)}
+.fcb-divider i{font-style:normal;color:#D9A755;font-size:10px}
+.fcb-metric{
+  position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin:7px 2px 8px;padding:4px 2px;
+  border:0;background:transparent;
+}
+.fcb-metric-label{color:#8F856F;font:800 7.5px/1.2 Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase}
+.fcb-metric-value{color:#F1C873;font:800 15px/1 Inter,sans-serif}
+.fcb-columns,.fcb-row{display:grid;grid-template-columns:48px minmax(0,1fr) 90px;align-items:center;gap:10px}
+.fcb-columns{padding:0 10px;color:#756C5A;font:800 8px/1 Inter,sans-serif;letter-spacing:.10em;text-transform:uppercase}
+.fcb-row{
+  position:relative;min-height:48px;margin-top:6px;padding:6px 9px;
+  border:1px solid rgba(255,255,255,.045);border-radius:14px;
+  background:rgba(255,255,255,.014);transition:transform .25s ease,border-color .25s ease,background .25s ease;
+}
+.fcb-row:hover{transform:translateY(-1px);border-color:rgba(217,167,85,.16);background:rgba(217,167,85,.025)}
+.fcb-row.is-one{border-color:rgba(217,167,85,.19);background:linear-gradient(90deg,rgba(217,167,85,.055),rgba(255,255,255,.014))}
+.fcb-rank{
+  width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:10px;
+  border:1px solid rgba(255,255,255,.09);background:#0B0906;color:#A79D89;font:800 11px/1 "JetBrains Mono",monospace
+}
+.fcb-row.is-one .fcb-rank{border-color:rgba(217,167,85,.34);color:#F1C873}
+.fcb-name{color:#EEE8DA;font:700 13px/1.25 Inter,sans-serif}
+.fcb-role{margin-top:2px;color:#756C5A;font:500 8px/1.2 Inter,sans-serif;letter-spacing:.04em}
+.fcb-count{text-align:right;color:#F1C873;font:800 16px/1 Inter,sans-serif}
+.fcb-count small{display:block;margin-top:3px;color:#756C5A;font:700 7px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.fcb-footer{
+  margin-top:15px;padding-top:13px;border-top:1px solid rgba(255,255,255,.045);
+  text-align:center;color:#D9A755;font:600 10px/1.5 Inter,sans-serif
+}
+.fcb-footer strong{display:block;color:#EEE8DA;font-weight:600;font-size:11px}
+.fcb-footer span{display:block;margin-top:3px;color:#8F856F;font-size:8.5px}
+@media(max-width:600px){
+  .fcb-board{padding:15px 13px;border-radius:19px}
+  .fcb-title{font-size:22px;padding-left:24px}
+  .fcb-board:before{font-size:70px;right:-8px;top:4px}
+  .fcb-quote{font-size:10px;line-height:1.6}
+  .fcb-columns,.fcb-row{grid-template-columns:42px minmax(0,1fr) 70px;gap:8px}
+  .fcb-name{font-size:12px}.fcb-count{font-size:17px}
+}
 
 .top5-stars-box{
   position:relative;
@@ -1068,7 +1135,6 @@ img[alt*="Leaderboard"]{
 }
 .t5w37-board-title{
   margin-top:6px;
-  color:#F7EFDG;
   color:#F5ECDD;
   font:600 clamp(25px,4vw,38px)/1.04 Fraunces,Georgia,serif;
   letter-spacing:-.025em;
@@ -2920,6 +2986,244 @@ button,a{ -webkit-tap-highlight-color:transparent }
   .f2s-t5-signature:hover{box-shadow:inset 0 1px rgba(255,255,255,.035),0 18px 45px rgba(0,0,0,.13)}
 }
 </style>
+
+<style id="f2s-header-highlight-ticker">
+/* F2S Header Highlight Ticker — spacious premium composition */
+.f2s-header-highlight-ticker{
+  position:sticky;
+  top:63px;
+  z-index:19;
+  width:min(1400px,calc(100% - 40px));
+  margin:0 auto;
+  box-sizing:border-box;
+  padding:7px 10px;
+  border:1px solid rgba(217,167,85,.20);
+  border-top:0;
+  border-radius:0 0 16px 16px;
+  background:
+    radial-gradient(700px 80px at 50% 0%,rgba(217,167,85,.065),transparent 72%),
+    linear-gradient(180deg,rgba(15,14,11,.97),rgba(5,5,5,.985));
+  box-shadow:
+    0 12px 34px rgba(0,0,0,.28),
+    inset 0 1px 0 rgba(255,255,255,.025),
+    inset 0 -1px 0 rgba(217,167,85,.055);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.f2s-header-highlight-viewport{
+  position:relative;
+  min-height:40px;
+  overflow:hidden;
+  border-radius:11px;
+  background:rgba(255,255,255,.012);
+  border:1px solid rgba(255,255,255,.035);
+}
+.f2s-header-highlight-slide{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  min-width:0;
+  padding:0 15px;
+  opacity:0;
+  transform:translateY(6px);
+  transition:opacity .32s ease,transform .32s ease;
+  pointer-events:none;
+}
+.f2s-header-highlight-slide.is-active{
+  opacity:1;
+  transform:translateY(0);
+}
+.f2s-header-highlight-label{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  flex:0 0 190px;
+  min-width:190px;
+  color:#D9A755;
+  font:800 9px/1 Inter,sans-serif;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.f2s-header-highlight-icon{
+  color:#F1C873;
+  font-size:12px;
+  line-height:1;
+  text-shadow:0 0 10px rgba(217,167,85,.18);
+}
+.f2s-header-highlight-label.is-fcb .f2s-header-highlight-icon{
+  font-size:13px;
+  transform:translateY(-.5px);
+}
+.f2s-header-highlight-divider{
+  width:1px;
+  height:23px;
+  flex:0 0 1px;
+  background:linear-gradient(180deg,transparent,rgba(217,167,85,.40),transparent);
+}
+.f2s-header-highlight-value{
+  min-width:0;
+  flex:1 1 auto;
+  display:grid;
+  grid-template-columns:minmax(150px,1.45fr) minmax(95px,.85fr) minmax(85px,.7fr);
+  align-items:center;
+  column-gap:0;
+  color:#EEE8DA;
+  font:700 11px/1.2 Inter,sans-serif;
+  letter-spacing:.015em;
+}
+.f2s-header-highlight-value .ticker-name,
+.f2s-header-highlight-value .ticker-id,
+.f2s-header-highlight-value .ticker-metric{
+  min-width:0;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  padding:0 16px;
+}
+.f2s-header-highlight-value .ticker-name{
+  color:#F1EBDD;
+  font-weight:750;
+}
+.f2s-header-highlight-value .ticker-id{
+  color:#B9AD96;
+  border-left:1px solid rgba(217,167,85,.13);
+  border-right:1px solid rgba(217,167,85,.13);
+}
+.f2s-header-highlight-value .ticker-metric{
+  color:#EBC774;
+  font-weight:800;
+  text-align:right;
+}
+.f2s-header-highlight-dots{
+  display:flex;
+  justify-content:center;
+  gap:4px;
+  height:3px;
+  margin-top:4px;
+}
+.f2s-header-highlight-dots i{
+  display:block;
+  width:10px;
+  height:2px;
+  border-radius:999px;
+  background:rgba(217,167,85,.14);
+  transition:width .25s ease,background .25s ease;
+}
+.f2s-header-highlight-dots i.is-active{
+  width:19px;
+  background:rgba(217,167,85,.58);
+}
+
+@media(max-width:720px){
+  .f2s-header-highlight-ticker{
+    top:51px;
+    width:calc(100% - 12px);
+    padding:6px 6px 7px;
+    border-radius:0 0 13px 13px;
+  }
+  .f2s-header-highlight-viewport{
+    min-height:38px;
+    border-radius:9px;
+  }
+  .f2s-header-highlight-slide{
+    gap:9px;
+    padding:0 10px;
+  }
+  .f2s-header-highlight-label{
+    flex:0 0 112px;
+    min-width:112px;
+    font-size:7.5px;
+    letter-spacing:.085em;
+    gap:5px;
+  }
+  .f2s-header-highlight-icon{font-size:10px}
+  .f2s-header-highlight-label.is-fcb .f2s-header-highlight-icon{font-size:11px}
+  .f2s-header-highlight-divider{height:20px}
+  .f2s-header-highlight-value{
+    grid-template-columns:minmax(0,1.35fr) minmax(66px,.85fr) minmax(62px,.72fr);
+    font-size:9.5px;
+  }
+  .f2s-header-highlight-value .ticker-name,
+  .f2s-header-highlight-value .ticker-id,
+  .f2s-header-highlight-value .ticker-metric{
+    padding:0 8px;
+  }
+  .f2s-header-highlight-value .ticker-name{padding-left:4px}
+  .f2s-header-highlight-value .ticker-metric{padding-right:4px}
+  .f2s-header-highlight-dots{margin-top:3px}
+}
+@media(max-width:390px){
+  .f2s-header-highlight-slide{padding:0 7px;gap:7px}
+  .f2s-header-highlight-label{
+    flex-basis:98px;
+    min-width:98px;
+    font-size:7px;
+  }
+  .f2s-header-highlight-value{
+    grid-template-columns:minmax(0,1.25fr) minmax(57px,.82fr) minmax(54px,.7fr);
+    font-size:8.7px;
+  }
+  .f2s-header-highlight-value .ticker-name,
+  .f2s-header-highlight-value .ticker-id,
+  .f2s-header-highlight-value .ticker-metric{padding:0 6px}
+}
+@media(prefers-reduced-motion:reduce){
+  .f2s-header-highlight-slide,.f2s-header-highlight-dots i{transition:none!important}
+}
+</style>
+
+<style id="f2s-final-motion-polish">
+/* FINAL PUBLISH — smooth responsive motion + navigation polish */
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Keep the ticker continuously alive across responsive breakpoints. */
+  .t5-ticker-track, .t5-w40-track, .ticker-track,
+  [class*="ticker-track"], [class*="ticker__track"] {
+    will-change: transform;
+    transform: translate3d(0,0,0);
+    backface-visibility: hidden;
+  }
+
+  /* Prevent breakpoint transitions from visually snapping. */
+  .t5-ticker, .t5-w40-ticker, [class*="ticker"] {
+    contain: layout paint;
+  }
+
+  /* Smooth section targeting without hiding content under fixed headers. */
+  section[id], [id].section, main [id] {
+    scroll-margin-top: 96px;
+  }
+}
+
+@media (max-width: 860px) {
+  section[id], [id].section, main [id] {
+    scroll-margin-top: 82px;
+  }
+}
+
+@media (max-width: 640px) {
+  section[id], [id].section, main [id] {
+    scroll-margin-top: 72px;
+  }
+}
+
+/* Avoid browser scroll anchoring fighting animated navigation. */
+body { overflow-anchor: none; }
+
+/* Make sidebar/rail navigation feel native while remaining accessible. */
+aside, nav, [class*="sidebar"], [class*="section-rail"] {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+</style>
+
 </head>
 <body>
 <div id="root"></div>
@@ -3907,7 +4211,51 @@ function App() {
   const [voiceCategory, setVoiceCategory] = useState("All Voices");
   const [featuredVoiceIndex, setFeaturedVoiceIndex] = useState(0);
   const [selectedLeaderboardMember, setSelectedLeaderboardMember] = useState(null);
+  const [headerTickerIndex, setHeaderTickerIndex] = useState(0);
+  const [templateCopied, setTemplateCopied] = useState(false);
+
+  const SUBMISSION_TEMPLATE = `Alhamdulillah T5 done
+
+T5 Week : Week __
+T5 Period : Mon - Sun
+T5 Progress : __ / 7 Days
+F2S Invites (FCB) : Total __ person(s)
+
+F2S id : [ if available ]
+F2S Name : [ Your Name ]
+YPT User Name : __
+
+May Allah help us stay consistent.`;
+
+  const copySubmissionTemplate = async () => {
+    try {
+      await navigator.clipboard.writeText(SUBMISSION_TEMPLATE);
+      setTemplateCopied(true);
+      window.setTimeout(() => setTemplateCopied(false), 1600);
+    } catch (err) {
+      // Fallback for local-file/browser contexts where Clipboard API is unavailable.
+      const ta = document.createElement("textarea");
+      ta.value = SUBMISSION_TEMPLATE;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try { document.execCommand("copy"); } catch (_) {}
+      document.body.removeChild(ta);
+      setTemplateCopied(true);
+      window.setTimeout(() => setTemplateCopied(false), 1600);
+    }
+  };
   const FEATURED_VOICE_INDICES = [6, 7, 2];
+
+  // Header highlights: each item stays visible for exactly 3 seconds.
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setHeaderTickerIndex((i) => (i + 1) % 6);
+    }, 3000);
+    return () => window.clearInterval(timer);
+  }, []);
   const directMsgBoxRef = useRef(null);
   const voicesSectionRef = useRef(null);
   const writeSectionRef = useRef(null);
@@ -4091,11 +4439,23 @@ function App() {
       setScrollProgress(progress);
       setShowBackTop(window.scrollY > 520);
       if (page === "home") {
-        const marker = window.scrollY + Math.min(150, window.innerHeight * 0.18);
+        /* Use the rendered viewport position, not offsetTop. The content column
+           and sticky header can have different offset parents, so offsetTop can
+           make the sidebar lag behind the section actually visible on screen.
+           The activation line sits just below the visual reading zone. */
+        const header = document.querySelector(".site-header");
+        const headerH = header ? header.getBoundingClientRect().height : 0;
+        const activationLine = Math.max(120, Math.min(360, headerH + window.innerHeight * 0.22));
         let currentId = "origin";
+        let bestTop = -Infinity;
         SECTIONS.forEach((section) => {
           const el = document.getElementById(section.id);
-          if (el && el.offsetTop <= marker) currentId = section.id;
+          if (!el) return;
+          const top = el.getBoundingClientRect().top;
+          if (top <= activationLine && top > bestTop) {
+            bestTop = top;
+            currentId = section.id;
+          }
         });
         setActive(currentId);
       }
@@ -4172,11 +4532,22 @@ function App() {
     f2sNavigate("home");
     setActive(id);
     setMenuOpen(false);
-    if (wasElsewhere) {
-      setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }), 0);
-    } else {
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    }
+
+    const go = () => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const header = document.querySelector(".site-header");
+      const headerH = header ? header.getBoundingClientRect().height : 0;
+      const extra = 18;
+      const target = Math.max(0, window.scrollY + el.getBoundingClientRect().top - headerH - extra);
+      window.scrollTo({
+        top: target,
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"
+      });
+    };
+
+    if (wasElsewhere) setTimeout(go, 80);
+    else go();
   };
 
   return (
@@ -4420,6 +4791,43 @@ function App() {
         )}
       </header>
 
+      <div className="f2s-header-highlight-ticker" aria-label="F2S current star and FCB highlights">
+        <div className="f2s-header-highlight-viewport">
+          {[
+            { key: "f2s-1", icon: "★", label: "#1 F2S STAR", value: "Taifaa · F2S-36 · 12★", type: "f2s" },
+            { key: "fcb-1-a", icon: "♟", label: "#1 FCB STAR", value: "Zihad Al Islam · F2S-79 · 3 invites", type: "fcb" },
+            { key: "f2s-2", icon: "★", label: "#2 F2S STAR", value: "Nowshin · F2S-63 · 6★", type: "f2s" },
+            { key: "fcb-1-b", icon: "♟", label: "#1 FCB STAR", value: "Zihad Al Islam · F2S-79 · 3 invites", type: "fcb" },
+            { key: "f2s-3", icon: "★", label: "#3 F2S STAR", value: "Meow · F2S-70 · 4★", type: "f2s" },
+            { key: "fcb-1-c", icon: "♟", label: "#1 FCB STAR", value: "Zihad Al Islam · F2S-79 · 3 invites", type: "fcb" },
+          ].map((item, i) => (
+            <div
+              key={item.key}
+              className={`f2s-header-highlight-slide ${i === headerTickerIndex ? "is-active" : ""}`}
+              aria-hidden={i !== headerTickerIndex}
+            >
+              <span className={`f2s-header-highlight-label ${item.type === "fcb" ? "is-fcb" : ""}`}>
+                <span className="f2s-header-highlight-icon">{item.icon}</span>{item.label}
+              </span>
+              <span className="f2s-header-highlight-divider" aria-hidden="true" />
+              <span className="f2s-header-highlight-value">
+                {item.value.split(" · ").map((part, idx) => (
+                  <span
+                    key={`${item.key}-${idx}`}
+                    className={idx === 0 ? "ticker-name" : idx === 1 ? "ticker-id" : "ticker-metric"}
+                  >
+                    {part}
+                  </span>
+                ))}
+              </span>
+            </div>
+          ))}
+        </div>
+        <div className="f2s-header-highlight-dots" aria-hidden="true">
+          {[0,1,2,3,4,5].map((i) => <i key={i} className={i === headerTickerIndex ? "is-active" : ""} />)}
+        </div>
+      </div>
+
       <div className="site-shell">
         {page === "home" ? (
           <>
@@ -4431,7 +4839,7 @@ function App() {
                 </div>
                 <div className="sidebar-title">F2S · A to Z</div>
                 <div className="sidebar-subtitle">Complete reference</div>
-                <div className="f2s-section-rail"><span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span></div>
+                
                 <nav className="sidebar-nav">
                   {SECTIONS.map((s) => (
                     <button key={s.id} onClick={() => scrollTo(s.id)} className={`sidebar-link ${active === s.id ? "is-active" : ""}`}>
@@ -4702,7 +5110,7 @@ function App() {
             <Card>
               <div style={{ fontFamily: "Inter", fontWeight: 700, fontSize: 14, color: "#EDE7D8", marginBottom: 8 }} className="t5-subtitle-light-gold">FDAMI Conditions</div>
               <ul style={{ margin: 0, paddingLeft: 20, fontFamily: "Inter", fontSize: 13.5, lineHeight: 1.9, color: "#c9c5b5" }}>
-                <li>Perform <strong style={{ color: "#EDE7D8" }}>Namaz Tajbi</strong> after completing all 5 Waqt prayers. Check the F2S portal for the FDAMI Tajbi.</li>
+                <li>Perform <strong style={{ color: "#EDE7D8" }}>Namaz Tajbi</strong> after completing all 5 Waqt prayers. Check <strong style={{ color: "#EDE7D8" }}>F2S All Tasks</strong> section for FDAMI Tajbi.</li>
                 <li>Minimum <strong style={{ color: "#EDE7D8" }}>3 Waqt prayer tasks</strong> must be completed for FDAMI to be valid.</li>
               </ul>
             </Card>
@@ -4803,22 +5211,56 @@ function App() {
             </Card>
 
             <div style={{ height: 14 }} />
-            <div style={{ fontFamily: "Inter", fontSize: 13, fontWeight: 700, marginBottom: 8 }}>Weekly submission template</div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 8 }}>
+              <div style={{ fontFamily: "Inter", fontSize: 13, fontWeight: 700 }}>Weekly submission template</div>
+              <button
+                type="button"
+                onClick={copySubmissionTemplate}
+                aria-label="Copy submission template"
+                className="f2s-template-copy-btn"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 5,
+                  flexShrink: 0,
+                  border: "1px solid rgba(217,167,85,.28)",
+                  borderRadius: 8,
+                  padding: "5px 9px",
+                  background: "rgba(217,167,85,.055)",
+                  color: "#D9A755",
+                  fontFamily: "Inter",
+                  fontSize: 10,
+                  fontWeight: 800,
+                  letterSpacing: ".05em",
+                  cursor: "pointer",
+                }}
+              >
+                {templateCopied ? "✓ COPIED" : "⧉ COPY"}
+              </button>
+            </div>
             <Card>
               <pre style={{ fontFamily: "JetBrains Mono", fontSize: 12.5, color: "#c9c5b5", whiteSpace: "pre-wrap", margin: 0, lineHeight: 1.8 }}>
-{`Alhamdulillah T5 done
-
-T5 Week : Week __
-T5 Period : Mon - Sun
-T5 Progress : __ / 7 Days
-T5 Invitation (Call2Light) : __ person(s)
-
-F2S id : [ if available ]
-F2S Name : [ Your Name ]
-YPT User Name : __
-
-May Allah help us stay consistent.`}
+{SUBMISSION_TEMPLATE}
               </pre>
+
+              <div style={{
+                marginTop: 12,
+                padding: "10px 12px",
+                borderRadius: 10,
+                border: "1px solid rgba(217,167,85,.18)",
+                background: "linear-gradient(90deg, rgba(217,167,85,.07), rgba(217,167,85,.025))",
+                display: "flex",
+                alignItems: "flex-start",
+                gap: 9,
+              }}>
+                <span style={{ color: "#D9A755", fontSize: 13, lineHeight: 1.4 }}>★</span>
+                <div style={{ fontFamily: "Inter", fontSize: 11.5, color: "#C9C5B5", lineHeight: 1.55 }}>
+                  <strong style={{ color: "#EBC774" }}>F2S Invites (FCB) = Lifetime / Overall Total</strong>
+                  <br />
+                  This is your total successful F2S invites overall — <strong style={{ color: "#EDE7D8" }}>not a weekly count</strong>.
+                </div>
+              </div>
+
               <p style={{ fontFamily: "Inter", fontSize: 12, color: "#A69B85", marginTop: 10, marginBottom: 0 }}>
                 F2S Name is used for leaderboard records and ID verification, since many members change their YPT
                 username often. The T5 week number resets every Monday. Post this template directly as a message
@@ -5180,7 +5622,7 @@ May Allah help us stay consistent.`}
               <div className="leaderboards-current-wrap">
                 <div className="leaderboards-current-kicker">CURRENT LEADERBOARDS</div>
                 <div className="leaderboards-current-title">Current Leaderboards</div>
-                <div className="leaderboards-current-subtitle">F2S Star and T5 Week 39 — live current standings</div>
+                <div className="leaderboards-current-subtitle">F2S Star, FCB and T5 Week 39 — live current standings</div>
                 <div className="leaderboards-current-grid">
               <div className="top5-stars-box">
                 <div className="top5-stars-head">
@@ -5219,17 +5661,48 @@ May Allah help us stay consistent.`}
                 </div>
               </div>
 
-              <div className="invite-stars-box">
-                <div className="invite-stars-head">
-                  <div className="invite-stars-kicker">T5 INVITATION STARS</div>
-                  <div className="invite-stars-title">Call to Light</div>
-                  
+              <div className="fcb-board">
+                <div className="fcb-head">
+                  <div className="fcb-kicker">T5 SYSTEM · INVITE &amp; GROW</div>
+                  <div className="fcb-title"><span>F2S COMMUNITY</span><span>BUILDERS</span></div>
+                  <div className="fcb-badge">FCB</div>
+                  <div className="fcb-arabic">دَعْوَة</div>
+                  <div className="fcb-arabic-sub">Da'wah · Invitation</div>
+                  <div className="fcb-quote">
+                    <strong>“Whoever guides to good will have a reward similar to its doer.”</strong>
+                    <em>— Sahih Muslim</em>
+                  </div>
                 </div>
-                <div className="invite-stars-columns"><div>Rank</div><div>Member</div><div>🕯️ Invitations</div></div>
-                <div className="invite-stars-row"><div className="invite-stars-rank">1</div><div className="invite-stars-name">Zihad Al Islam</div><div className="invite-stars-count">3</div></div>
-                <div className="invite-stars-row"><div className="invite-stars-rank">2</div><div className="invite-stars-name">Mehejaben Islam</div><div className="invite-stars-count">1</div></div>
-                <div className="invite-stars-row"><div className="invite-stars-rank">3</div><div className="invite-stars-name">Taifa</div><div className="invite-stars-count">1</div></div>
-                <div className="invite-stars-footer">Invite More. Inspire More. Light More.</div>
+
+                <div className="fcb-divider"><i>✦</i></div>
+
+                <div className="fcb-metric fcb-metric-top">
+                  <div className="fcb-metric-label">F2S Invites · Total</div>
+                  <div className="fcb-metric-value">5</div>
+                </div>
+
+                <div className="fcb-columns"><div>Rank</div><div>Community Builder</div><div>Invites</div></div>
+
+                <div className="fcb-row is-one">
+                  <div className="fcb-rank">1</div>
+                  <div><div className="fcb-name">Zihad Al Islam</div><div className="fcb-role">F2S COMMUNITY BUILDER</div></div>
+                  <div className="fcb-count">3<small>invites</small></div>
+                </div>
+                <div className="fcb-row">
+                  <div className="fcb-rank">2</div>
+                  <div><div className="fcb-name">Mehejaben Islam</div><div className="fcb-role">F2S COMMUNITY BUILDER</div></div>
+                  <div className="fcb-count">1<small>invite</small></div>
+                </div>
+                <div className="fcb-row">
+                  <div className="fcb-rank">3</div>
+                  <div><div className="fcb-name">Taifa</div><div className="fcb-role">F2S COMMUNITY BUILDER</div></div>
+                  <div className="fcb-count">1<small>invite</small></div>
+                </div>
+
+                <div className="fcb-footer">
+                  <strong>Be the reason someone finds a better path.</strong>
+                  <span>Invite with sincerity · Connect with purpose · Grow F2S</span>
+                </div>
               </div>
 
               <div className="t5w37-premium-board">
@@ -8254,6 +8727,193 @@ body{overflow-x:hidden}
 })();
 </script>
 
+
+<style id="f2s-sidebar-pinned-ticker-clear">
+/* Desktop: sidebar stays pinned below the header + highlight ticker. */
+@media (min-width: 861px){
+  .desktop-sidebar{
+    position:sticky!important;
+    top:124px!important;
+    align-self:start!important;
+    max-height:calc(100vh - 136px)!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    z-index:10!important;
+    scroll-margin-top:124px!important;
+  }
+
+  /* The cover must remain fully inside the pinned sidebar. */
+  .desktop-sidebar .desktop-cover{
+    position:relative!important;
+    z-index:1!important;
+  }
+
+  /* Section number rail intentionally removed. */
+  .desktop-sidebar .f2s-section-rail{
+    display:none!important;
+  }
+}
+
+@media (min-width:1400px){
+  .desktop-sidebar{
+    top:124px!important;
+    max-height:calc(100vh - 136px)!important;
+  }
+}
+</style>
+
+
+<style id="f2s-template-copy-polish">
+.f2s-template-copy-btn{transition:transform .16s ease,background .16s ease,border-color .16s ease,box-shadow .16s ease}
+.f2s-template-copy-btn:hover{transform:translateY(-1px);background:rgba(217,167,85,.10)!important;border-color:rgba(217,167,85,.45)!important;box-shadow:0 5px 16px rgba(0,0,0,.16)}
+.f2s-template-copy-btn:active{transform:translateY(0) scale(.98)}
+.f2s-template-copy-btn:focus-visible{outline:1px solid rgba(217,167,85,.65);outline-offset:2px}
+@media(max-width:520px){
+  .f2s-template-copy-btn{padding:5px 8px!important;font-size:9px!important}
+}
+</style>
+
+
+<script id="f2s-final-navigation-polish">
+(function () {
+  'use strict';
+
+  const prefersReduced = () =>
+    window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function getHeaderOffset() {
+    const candidates = [
+      'header',
+      '.site-header',
+      '.main-header',
+      '.top-header',
+      '[class*="header"]'
+    ];
+    let maxH = 0;
+    for (const sel of candidates) {
+      document.querySelectorAll(sel).forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top <= 8 && r.height > 0 && r.height < 180) maxH = Math.max(maxH, r.height);
+      });
+    }
+    return Math.min(maxH + 14, 120);
+  }
+
+  function smoothTo(target) {
+    if (!target) return false;
+    const rect = target.getBoundingClientRect();
+    const y = Math.max(0, window.scrollY + rect.top - getHeaderOffset());
+    window.scrollTo({ top: y, behavior: prefersReduced() ? 'auto' : 'smooth' });
+    return true;
+  }
+
+  function resolveTarget(raw) {
+    if (!raw) return null;
+    let id = raw;
+    try { id = decodeURIComponent(id); } catch (_) {}
+    if (id.charAt(0) === '#') id = id.slice(1);
+    const byId = document.getElementById(id);
+    if (byId) return byId;
+
+    const clean = id.replace(/^section[-_]?/i, '');
+    const candidates = [
+      '[data-section="' + clean + '"]',
+      '[data-target="' + id + '"]',
+      '[data-target="#' + id + '"]'
+    ];
+    for (const sel of candidates) {
+      const el = document.querySelector(sel);
+      if (el) return el;
+    }
+    return null;
+  }
+
+  document.addEventListener('click', function (e) {
+    const link = e.target.closest && e.target.closest('a[href^="#"], [data-scroll-to]');
+    if (!link) return;
+
+    const raw = link.getAttribute('data-scroll-to') || link.getAttribute('href');
+    if (!raw || raw === '#') return;
+
+    const target = resolveTarget(raw);
+    if (!target) return;
+
+    e.preventDefault();
+    smoothTo(target);
+
+    /* Keep the URL in sync without triggering a second browser jump. */
+    if (raw.charAt(0) === '#') {
+      try {
+        history.pushState(null, '', raw);
+      } catch (_) {}
+    }
+  }, true);
+
+  /* Preserve smooth behavior for hash navigation triggered elsewhere. */
+  window.addEventListener('hashchange', function () {
+    const target = resolveTarget(location.hash);
+    if (target) {
+      requestAnimationFrame(() => smoothTo(target));
+    }
+  });
+
+  /* Re-measure animated/responsive layouts after breakpoint changes. */
+  let resizeTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      document.documentElement.classList.add('f2s-motion-ready');
+      requestAnimationFrame(() => document.documentElement.classList.remove('f2s-motion-ready'));
+    }, 120);
+  }, { passive: true });
+
+  /* Keep the visible sidebar item aligned with the active section. */
+  function syncActiveNav() {
+    const sections = Array.from(document.querySelectorAll('main section[id], section[id]'));
+    if (!sections.length) return;
+
+    const marker = getHeaderOffset() + 30;
+    let active = sections[0];
+
+    for (const sec of sections) {
+      if (sec.getBoundingClientRect().top <= marker) active = sec;
+      else break;
+    }
+
+    const id = active && active.id;
+    if (!id) return;
+
+    document.querySelectorAll(
+      'aside a[href^="#"], nav a[href^="#"], [class*="sidebar"] a[href^="#"], [class*="section-rail"] a[href^="#"]'
+    ).forEach(a => {
+      const href = a.getAttribute('href');
+      const on = href === '#' + id;
+      a.classList.toggle('active', on);
+      a.setAttribute('aria-current', on ? 'page' : 'false');
+    });
+
+    const current = document.querySelector(
+      'aside a[href="#' + CSS.escape(id) + '"], nav a[href="#' + CSS.escape(id) + '"], [class*="sidebar"] a[href="#' + CSS.escape(id) + '"], [class*="section-rail"] a[href="#' + CSS.escape(id) + '"]'
+    );
+    if (current && current.scrollIntoView) {
+      current.scrollIntoView({ behavior: prefersReduced() ? 'auto' : 'smooth', block: 'nearest', inline: 'nearest' });
+    }
+  }
+
+  let ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      ticking = false;
+      syncActiveNav();
+    });
+  }, { passive: true });
+
+  window.addEventListener('load', syncActiveNav);
+})();
+</script>
+
 </body>
 </html>
 
@@ -8297,4 +8957,351 @@ body{overflow-x:hidden}
     transform:translate(-50%,-50%)!important;
   }
 }
+</style>
+
+<!-- F2S FINAL PUBLISH PATCH — responsive motion + sidebar navigation -->
+<style id="f2s-final-section-sync-polish">
+  html{scroll-behavior:smooth;scroll-padding-top:110px}
+  section[id]{scroll-margin-top:110px}
+  @media(max-width:860px){
+    html{scroll-padding-top:82px}
+    section[id]{scroll-margin-top:82px}
+  }
+  @media(max-width:720px){
+    html{scroll-padding-top:74px}
+    section[id]{scroll-margin-top:74px}
+  }
+</style>
+
+<style id="f2s-final-publish-motion-nav">
+  /* Keep motion alive when switching Desktop ↔ Tablet ↔ Mobile.
+     Tablet is the missing middle state in the earlier motion engines. */
+  @media (min-width:701px) and (max-width:860px){
+    .f2s-weekly-ticker-wrap{overflow:hidden!important}
+    .f2s-weekly-ticker-track{
+      display:flex!important;
+      flex-direction:row!important;
+      flex-wrap:nowrap!important;
+      width:max-content!important;
+      min-width:max-content!important;
+      max-width:none!important;
+      animation:f2sTickerRTL 20s linear infinite!important;
+      animation-play-state:running!important;
+      will-change:transform!important;
+      transform:translate3d(0,0,0);
+    }
+    .f2s-weekly-ticker-set{display:flex!important;flex:0 0 auto!important;width:max-content!important}
+    .f2s-weekly-ticker-item{display:flex!important;flex:0 0 auto!important}
+    .f2s-weekly-ticker-live-dot{animation:f2sTickerPulse 1.7s ease-in-out infinite!important}
+  }
+
+  /* Tablet T5 keeps the same premium motion language as desktop. */
+  @media (min-width:701px) and (max-width:860px){
+    .f2s-t5-signature .f2s-t5-ring{
+      animation:f2sUploadRing 14s linear infinite!important;
+      animation-play-state:running!important;
+    }
+    .f2s-t5-signature .f2s-t5-ring:after{
+      animation:f2sT5PremiumRotateReverse 10s linear infinite!important;
+      animation-play-state:running!important;
+    }
+    .f2s-t5-signature .f2s-t5-core{
+      animation:f2sT5CoreGlow 3.8s ease-in-out infinite!important;
+      animation-play-state:running!important;
+    }
+    .f2s-t5-signature .f2s-t5-core:before{
+      animation:f2sT5CoreRing 3.8s ease-in-out infinite!important;
+      animation-play-state:running!important;
+    }
+    .f2s-t5-signature .f2s-t5-particle{
+      animation:f2sT5Particle 3.2s ease-in-out infinite!important;
+      animation-play-state:running!important;
+    }
+    .f2s-t5-signature .f2s-t5-pillar:after{
+      animation:f2sT5PillarSweep 5s ease-in-out infinite!important;
+      animation-play-state:running!important;
+    }
+    .f2s-t5-signature .f2s-t5-day i{
+      animation:f2sT5DayFill 5.2s ease-in-out infinite!important;
+      animation-play-state:running!important;
+    }
+  }
+
+  /* Navigation targets clear the fixed header/ticker area. */
+  html{scroll-padding-top:124px}
+  @media(max-width:860px){html{scroll-padding-top:78px}}
+  @media(max-width:720px){html{scroll-padding-top:76px}}
+
+  /* Sidebar is a navigation rail, not a competing scroll container. */
+  @media(min-width:861px){
+    .desktop-sidebar{
+      overscroll-behavior:contain;
+      scroll-behavior:smooth!important;
+    }
+    .sidebar-nav{scroll-margin-top:124px}
+    .sidebar-link{scroll-margin-top:124px}
+  }
+  .mobile-nav-panel{
+    overscroll-behavior:contain;
+    scroll-behavior:smooth!important;
+  }
+</style>
+
+<script id="f2s-final-publish-motion-nav-js">
+(function(){
+  'use strict';
+
+  var tickerRaf=0, tickerLast=0, tickerX=0, tickerWidth=0, tickerTrack=null, tickerRunning=false;
+  var tickerSpeed=38;
+
+  function reducedMotion(){
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  function isTickerJSViewport(){
+    return window.matchMedia('(min-width:601px)').matches;
+  }
+
+  function setupResponsiveTicker(){
+    if(reducedMotion() || !isTickerJSViewport()){
+      tickerRunning=false;
+      if(tickerRaf) cancelAnimationFrame(tickerRaf);
+      tickerRaf=0;
+      return;
+    }
+
+    var track=document.querySelector('.f2s-weekly-ticker-track');
+    if(!track) return;
+
+    var sets=track.querySelectorAll('.f2s-weekly-ticker-set');
+    if(sets.length<2) return;
+
+    tickerTrack=track;
+    var measured=sets[0].getBoundingClientRect().width;
+    if(!(measured>0) || !isFinite(measured)) return;
+
+    tickerWidth=measured;
+    tickerSpeed=Math.max(30,Math.min(52,tickerWidth/26));
+
+    /* JS owns the transform so resizing never leaves the track frozen. */
+    track.style.setProperty('animation','none','important');
+    track.style.setProperty('transition','none','important');
+    track.style.setProperty('will-change','transform','important');
+    tickerX=((tickerX%tickerWidth)+tickerWidth)%tickerWidth;
+    if(tickerX>0) tickerX-=tickerWidth;
+
+    tickerRunning=true;
+    tickerLast=performance.now();
+    if(tickerRaf) cancelAnimationFrame(tickerRaf);
+    tickerRaf=requestAnimationFrame(tickerFrame);
+  }
+
+  function tickerFrame(now){
+    if(!tickerRunning || !tickerTrack) return;
+    var dt=Math.min(0.05,Math.max(0,(now-tickerLast)/1000));
+    tickerLast=now;
+    tickerX-=tickerSpeed*dt;
+    if(tickerX<=-tickerWidth) tickerX+=tickerWidth;
+    tickerTrack.style.setProperty(
+      'transform','translate3d('+tickerX.toFixed(3)+'px,0,0)','important'
+    );
+    tickerRaf=requestAnimationFrame(tickerFrame);
+  }
+
+  function bootTicker(){
+    setupResponsiveTicker();
+    setTimeout(setupResponsiveTicker,180);
+    setTimeout(setupResponsiveTicker,600);
+    setTimeout(setupResponsiveTicker,1200);
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',bootTicker);
+  }else{
+    bootTicker();
+  }
+  window.addEventListener('load',bootTicker,{once:true});
+  window.addEventListener('resize',function(){
+    /* Re-measure on every breakpoint crossing. */
+    setupResponsiveTicker();
+  },{passive:true});
+
+  var root=document.getElementById('root')||document.body;
+  var mo=new MutationObserver(function(){
+    var current=document.querySelector('.f2s-weekly-ticker-track');
+    if(current && current!==tickerTrack){
+      tickerTrack=null;
+      tickerRunning=false;
+      setTimeout(setupResponsiveTicker,60);
+    }
+  });
+  mo.observe(root,{childList:true,subtree:true});
+
+  /* ---------- Sidebar ↔ main-page navigation repair ---------- */
+  function targetOffset(el){
+    if(!el) return 0;
+    var header=document.querySelector('.site-header');
+    var headerH=header ? header.getBoundingClientRect().height : 0;
+    var extra=window.innerWidth>=861 ? 18 : 10;
+    return Math.max(0,window.scrollY + el.getBoundingClientRect().top - headerH - extra);
+  }
+
+  function syncSidebarToActive(){
+    var active=document.querySelector('.desktop-sidebar .sidebar-link.is-active');
+    if(!active) return;
+    var rail=active.closest('.desktop-sidebar');
+    if(!rail) return;
+    var a=active.getBoundingClientRect();
+    var r=rail.getBoundingClientRect();
+    if(a.top < r.top+10 || a.bottom > r.bottom-10){
+      active.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+  }
+
+  function repairSectionNavigation(){
+    if(typeof window.__f2sSectionNavRepaired==='boolean' && window.__f2sSectionNavRepaired) return;
+    window.__f2sSectionNavRepaired=true;
+
+    /* Replace only the local navigation behavior; page/history logic remains untouched. */
+    window.__f2sPremiumScrollTo=function(id){
+      var el=document.getElementById(id);
+      if(!el) return;
+
+      var currentHash=location.hash;
+      var target=targetOffset(el);
+
+      /* Use the existing app navigation when available, without relying on
+         scrollIntoView's treatment of fixed headers. */
+      try{
+        if(typeof window.scrollTo==='function'){
+          window.scrollTo({top:target,behavior:reducedMotion()?'auto':'smooth'});
+        }
+      }catch(e){
+        window.scrollTo(0,target);
+      }
+
+      document.querySelectorAll('.sidebar-link.is-active').forEach(function(x){
+        x.classList.remove('is-active');
+      });
+      document.querySelectorAll('.sidebar-link').forEach(function(x){
+        var txt=x.getAttribute('data-section-id');
+        if(txt===id) x.classList.add('is-active');
+      });
+
+      setTimeout(syncSidebarToActive,220);
+    };
+  }
+
+  /* Mark links with their target id so the fallback can sync precisely. */
+  function tagSidebarLinks(){
+    document.querySelectorAll('.sidebar-link').forEach(function(btn){
+      if(btn.dataset.sectionId) return;
+      var onclick=btn.getAttribute('onclick');
+      if(onclick) return;
+      /* React-rendered buttons expose their target only through the handler,
+         so infer it from the matching visible section order. */
+    });
+  }
+
+  /* More reliable: intercept clicks on F2S sidebar/mobile section buttons and
+     use the actual React handler first, then correct the final offset. */
+  document.addEventListener('click',function(e){
+    var btn=e.target.closest && e.target.closest('.sidebar-link, .mobile-nav-panel button');
+    if(!btn) return;
+
+    var label=(btn.textContent||'').trim().toLowerCase();
+
+    /* Match the rendered navigation label to the canonical section list.
+       This avoids relying on DOM index (desktop + mobile navs coexist). */
+    var sectionMap={
+      'origin story':'origin',
+      'the t5 system':'t5',
+      'f2s id & premium':'premium',
+      'submission rules':'submit',
+      'all tasks':'tasks',
+      'leaderboards':'boards',
+      'warnings & enforcement':'enforcement',
+      'day-offs & status':'dayoff',
+      'leadership & admin panel':'adminpanel',
+      'moderator program':'moderators',
+      'copyright policy':'copyright',
+      'data archive':'archive',
+      'f2s moments':'moments',
+      'f2s id directory':'directory',
+      'community links':'links'
+    };
+    var id=sectionMap[label]||null;
+
+    /* Fallback to matching the section heading text. */
+    if(!id){
+      var allIds=Object.keys(sectionMap).map(function(k){return sectionMap[k];});
+      for(var i=0;i<allIds.length;i++){
+        var el=document.getElementById(allIds[i]);
+        var h=el&&el.querySelector('h1,h2,h3');
+        if(h && h.textContent.trim().toLowerCase()===label){id=allIds[i];break;}
+      }
+    }
+
+    if(false && id){
+      setTimeout(function(){
+        var el=document.getElementById(id);
+        if(el){
+          var top=targetOffset(el);
+          window.scrollTo({top:top,behavior:reducedMotion()?'auto':'smooth'});
+          setTimeout(syncSidebarToActive,260);
+        }
+      },30);
+    }
+  },true);
+
+  repairSectionNavigation();
+  tagSidebarLinks();
+})();
+</script>
+
+
+<!-- F2S FINAL PUBLISH — LAST PREMIUM CLEANUP -->
+<style id="f2s-final-publish-last-cleanup">
+  /* Keep the compact W40 ticker complete on every viewport. */
+  @media (max-width:600px){
+    .f2s-weekly-ticker-track{
+      display:flex!important;
+      flex-direction:row!important;
+      flex-wrap:nowrap!important;
+      width:max-content!important;
+      min-width:max-content!important;
+      max-width:none!important;
+    }
+    .f2s-weekly-ticker-set{
+      display:flex!important;
+      flex:0 0 auto!important;
+      width:max-content!important;
+    }
+    .f2s-weekly-ticker-item{
+      display:flex!important;
+      flex:0 0 auto!important;
+    }
+    .f2s-weekly-ticker-item:not(:first-child){display:flex!important}
+  }
+
+  /* Respect accessibility: motion is opt-in only when the user allows it. */
+  @media (max-width:600px) and (prefers-reduced-motion:no-preference){
+    .f2s-weekly-ticker-track{
+      animation:f2sTickerRTL 18s linear infinite!important;
+      animation-play-state:running!important;
+      will-change:transform;
+    }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .f2s-weekly-ticker-track{
+      animation:none!important;
+      transform:none!important;
+    }
+    .f2s-weekly-ticker-live-dot{animation:none!important}
+  }
+
+  /* Final rendering hygiene. */
+  html{-webkit-text-size-adjust:100%;}
+  body{overflow-x:hidden;}
+  button,input,select,textarea{font:inherit;}
 </style>
