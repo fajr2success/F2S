@@ -3224,6 +3224,37 @@ aside, nav, [class*="sidebar"], [class*="section-rail"] {
 }
 </style>
 
+<style id="f2s-sidebar-final-polish">
+/* Final sidebar polish: calmer active state + reliable navigation feedback. */
+.desktop-sidebar{
+  overscroll-behavior:contain;
+  scroll-behavior:smooth;
+}
+.sidebar-nav{scroll-margin-top:96px}
+.sidebar-link{
+  position:relative;
+  isolation:isolate;
+}
+.sidebar-link::before{z-index:-1}
+.sidebar-link.is-active{
+  background:linear-gradient(90deg,rgba(217,167,85,.075),rgba(217,167,85,.018)) !important;
+  border-color:rgba(217,167,85,.075) !important;
+  box-shadow:inset 2px 0 0 rgba(217,167,85,.72) !important;
+  color:#D9A755 !important;
+}
+.sidebar-link.is-active::before{opacity:.42 !important}
+.sidebar-link:hover{
+  transform:translateX(1px);
+}
+@media(max-width:860px){
+  .mobile-nav-panel{
+    overscroll-behavior:contain;
+  }
+  .mobile-nav-panel button{
+    -webkit-tap-highlight-color:transparent;
+  }
+}
+</style>
 </head>
 <body>
 <div id="root"></div>
@@ -3276,10 +3307,10 @@ const IMG_F2S_MOMENT_NOTICE_DETAIL = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQA
 const SECTIONS = [
   { id: "origin", label: "Origin Story" },
   { id: "t5", label: "The T5 System" },
+  { id: "premium", label: "F2S ID & Premium" },
   { id: "submit", label: "Submission Rules" },
   { id: "tasks", label: "All Tasks" },
   { id: "boards", label: "Leaderboards" },
-  { id: "premium", label: "F2S ID & Premium" },
   { id: "enforcement", label: "Warnings & Enforcement" },
   { id: "dayoff", label: "Day-offs & Status" },
   { id: "adminpanel", label: "Leadership & Admin Panel" },
@@ -4457,7 +4488,7 @@ May Allah help us stay consistent.`;
             currentId = section.id;
           }
         });
-        setActive(currentId);
+        if (!window.__f2sNavLock) setActive(currentId);
       }
     };
     updateScrollUI();
@@ -4529,25 +4560,54 @@ May Allah help us stay consistent.`;
 
   const scrollTo = (id) => {
     const wasElsewhere = page !== "home";
-    f2sNavigate("home");
+    if (wasElsewhere) f2sNavigate("home");
     setActive(id);
     setMenuOpen(false);
 
     const go = () => {
       const el = document.getElementById(id);
       if (!el) return;
+
       const header = document.querySelector(".site-header");
       const headerH = header ? header.getBoundingClientRect().height : 0;
-      const extra = 18;
-      const target = Math.max(0, window.scrollY + el.getBoundingClientRect().top - headerH - extra);
-      window.scrollTo({
-        top: target,
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"
-      });
+      const topGap = window.innerWidth <= 720 ? 12 : 18;
+      const target = Math.max(
+        0,
+        window.scrollY + el.getBoundingClientRect().top - headerH - topGap
+      );
+
+      window.__f2sNavTarget = { id, top: target };
+      window.__f2sNavLock = true;
+
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: target, behavior: reduce ? "auto" : "smooth" });
+
+      if (reduce) {
+        window.__f2sNavLock = false;
+        setActive(id);
+        return;
+      }
+
+      // Keep the clicked item selected while the smooth scroll is settling.
+      // This prevents the scroll listener from briefly highlighting an
+      // adjacent section on the way to the requested target.
+      let frames = 0;
+      const settle = () => {
+        const nav = window.__f2sNavTarget;
+        if (!nav || nav.id !== id) return;
+        const distance = Math.abs(window.scrollY - nav.top);
+        if (distance <= 3 || frames++ > 90) {
+          window.__f2sNavLock = false;
+          setActive(id);
+          return;
+        }
+        requestAnimationFrame(settle);
+      };
+      requestAnimationFrame(settle);
     };
 
-    if (wasElsewhere) setTimeout(go, 80);
-    else go();
+    if (wasElsewhere) setTimeout(go, 90);
+    else requestAnimationFrame(go);
   };
 
   return (
