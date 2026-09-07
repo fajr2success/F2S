@@ -1085,7 +1085,7 @@ img[alt*="Leaderboard"]{
 
 
 /* =========================================================
-   T5 Week 38 — Premium Black & Gold Native Leaderboard
+   T5 Week 41 — Premium Black & Gold Native Leaderboard
    ========================================================= */
 .t5w37-premium-board{
   position:relative;
@@ -1109,7 +1109,7 @@ img[alt*="Leaderboard"]{
   opacity:.75;
 }
 .t5w37-premium-board::after{
-  content:"38";
+  content:"41";
   position:absolute;
   right:-10px;
   top:-32px;
@@ -2623,6 +2623,65 @@ body::before{opacity:.012!important}
 }
 </style>
 
+
+<style id="f2s-week41-7of7-overlap-stars">
+/* Week 41: every 7/7 T5 member gets the same overlapping star card.
+   Applies to desktop + mobile; 6/7 and 4/7 remain star-free. */
+.t5w37-board-row.rank-one,
+.t5w37-board-row.rank-two,
+.t5w37-board-row.rank-three{
+  position:relative !important;
+  overflow:visible !important;
+  z-index:5 !important;
+}
+.t5w37-board-row.rank-one .t5w37-star-cell,
+.t5w37-board-row.rank-two .t5w37-star-cell,
+.t5w37-board-row.rank-three .t5w37-star-cell{
+  position:absolute !important;
+  right:-22px !important;
+  top:50% !important;
+  transform:translateY(-50%) !important;
+  z-index:20 !important;
+  width:44px !important;
+  min-height:44px !important;
+  padding:0 3px !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:0 !important;
+  flex-direction:row !important;
+  border:1px solid rgba(217,167,85,.34) !important;
+  border-radius:10px !important;
+  background:linear-gradient(145deg,rgba(217,167,85,.15),rgba(217,167,85,.035)) !important;
+  box-shadow:0 7px 18px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.035) !important;
+}
+.t5w37-board-row.rank-one .t5w37-star-cell .t5w37-star-count,
+.t5w37-board-row.rank-two .t5w37-star-cell .t5w37-star-count,
+.t5w37-board-row.rank-three .t5w37-star-cell .t5w37-star-count{
+  display:none !important;
+}
+.t5w37-board-row.rank-one .t5w37-star-cell .t5w37-star,
+.t5w37-board-row.rank-two .t5w37-star-cell .t5w37-star,
+.t5w37-board-row.rank-three .t5w37-star-cell .t5w37-star{
+  display:block !important;
+  color:#F5C95F !important;
+  font-size:17px !important;
+  font-weight:900 !important;
+  line-height:1 !important;
+  text-shadow:0 0 5px rgba(245,201,95,.18) !important;
+}
+@media(max-width:520px){
+  .t5w37-board-row.rank-one .t5w37-star-cell,
+  .t5w37-board-row.rank-two .t5w37-star-cell,
+  .t5w37-board-row.rank-three .t5w37-star-cell{
+    right:-20px !important;
+    width:44px !important;
+    min-height:38px !important;
+  }
+}
+</style>
+
 <style id="f2s-mobile-top1-overlap-star">
 /* Top 1: exactly the same star-card box as the other rows,
    but positioned outside the row's right edge so it overlaps the border. */
@@ -3505,12 +3564,14 @@ const STAR_HOLDERS_ALL = [
   ["20", "lone_wolf", "F2S-75", 1],
   ["21", "Anisha", "F2S-82", 1],
   ["22", "Labib", "F2S-87", 1],
-  ["23", "Jubayer Abdullah", "F2S-96", 2],
-  ["24", "Mehejaben Islam", "F2S-97", 3],
+  ["25", "Ahin", "F2S-914", 1],
+  ["23", "Jubayer Abdullah", "F2S-966", 3],
+  ["24", "Mehejaben Islam", "F2S-977", 3],
 ];
 
-// Current Week 41 Top 5 weekly T5 leaderboard.
-// Update this array each week; the leaderboard rows stay in sync.
+// Website displays only the current Top 5; the complete Week 1–40 data is retained above for future weekly updates.
+// Single source of truth for the current weekly T5 leaderboard.
+// Update this array each week; the Hero ticker and the leaderboard rows stay in sync.
 const WEEKLY_T5_TOP3 = [
   { rank: 1, name: "Nowshin", id: "F2S-63", score: "7/7", time: "93:35:24", star: true },
   { rank: 2, name: "Taifa", id: "F2S-36", score: "7/7", time: "88:23:29", star: true },
@@ -4967,7 +5028,7 @@ May Allah help us stay consistent.`;
                 <div className="f2s-weekly-ticker-track">
                   {[0, 1].map((copy) => (
                     <div className="f2s-weekly-ticker-set" key={copy} aria-hidden={copy === 1}>
-                      {WEEKLY_T5_TOP3.filter((member) => member.rank <= 3 || member.score === "7/7").map((member) => (
+                      {WEEKLY_T5_TOP3.filter(member => member.rank <= 3 || member.score === "7/7").map((member) => (
                         <div className={`f2s-weekly-ticker-item rank-${member.rank}`} key={`${copy}-${member.id}`}>
                           <span className="f2s-weekly-ticker-rank">#{member.rank}</span>
                           <span className="f2s-weekly-ticker-name">{member.name}</span>
@@ -5775,7 +5836,7 @@ May Allah help us stay consistent.`;
                 </div>
                 <div className="top5-record-note">
                   <span className="top5-record-icon">✦</span>
-                  <span><strong>Current record holder</strong> · Taifaa <em>F2S-36</em> · 12 Stars</span>
+                  <span><strong>Current record holder</strong> · Taifa <em>F2S-36</em> · 13 Stars</span>
                 </div>
               </div>
 
@@ -5833,7 +5894,7 @@ May Allah help us stay consistent.`;
                   <div className="t5w37-week-badge">WEEK<br/>41</div>
                 </div>
                 <div className="t5w37-champion-simple">
-                  <div><span>W41 CHAMPION</span> <strong>NOWSHIN</strong></div>
+                  <div><span>W41 CHAMPION</span> <strong>Nowshin</strong></div>
                   <div>Total F2S <b>7/7</b> Star <strong>7★</strong></div>
                 </div>
                 <div className="t5w37-board-columns">
@@ -5844,19 +5905,19 @@ May Allah help us stay consistent.`;
                   const stars = allStar ? allStar[3] : 0;
                   const achievement = member.score === "7/7" ? "PERFECT WEEK" : member.rank === 1 ? "STUDY CHAMPION" : member.score === "6/7" ? "STRONG CONSISTENCY" : "T5 CONSISTENCY";
                   return (
-                    <div className={`t5w37-board-row ${member.rank === 1 ? "rank-one" : member.rank === 2 ? "rank-two" : member.rank === 3 ? "rank-three" : ""}`} key={member.id}>
+                    <div className={`t5w37-board-row ${member.rank === 1 ? "rank-one" : member.rank === 2 ? "rank-two" : "rank-three"}`} key={member.id}>
                       <button type="button" className="t5w37-member-hit" tabIndex="-1">
                         <div className="t5w37-rank">{member.rank}</div><div className="t5w37-identity"><div className="t5w37-name"><span className="t5w37-name-full">{member.name}</span><span className="t5w37-name-short">{member.name.split(" ")[0]}</span></div><span className="f2s-achievement-badge">{achievement}</span></div>
                         <div className="t5w37-id">{member.id}</div><div className={`t5w37-score ${member.rank === 1 ? "" : "partial"}`}>{member.score}</div><div className="t5w37-time">{member.time}</div>
-                        <div className="t5w37-star-cell">{member.star ? <><span className="t5w37-star-count">1</span><span className="t5w37-star">★</span></> : <span className="t5w37-no-star">—</span>}</div>
+                        <div className="t5w37-star-cell">{member.score === "7/7" ? <><span className="t5w37-star-count">1</span><span className="t5w37-star">★</span></> : <span className="t5w37-no-star">—</span>}</div>
                       </button>
                     </div>
                   );
                 })}
                 <div className="t5w37-summary">
-                  <div className="t5w37-summary-card"><div className="t5w37-summary-label">Perfect Scores</div><div className="t5w37-summary-value">3 / 3 Members</div></div>
+                  <div className="t5w37-summary-card"><div className="t5w37-summary-label">Perfect Scores</div><div className="t5w37-summary-value">3 / 5 Members</div></div>
                   <div className="t5w37-summary-card"><div className="t5w37-summary-label">Week 41 Stars</div><div className="t5w37-summary-value">3 <span className="t5w37-star">★</span> Earned</div></div>
-                  <div className="t5w37-summary-card"><div className="t5w37-summary-label">Top Study Time</div><div className="t5w37-summary-value">93:35:24</div></div>
+                  <div className="t5w37-summary-card"><div className="t5w37-summary-label">Top Study Time</div><div className="t5w37-summary-value">793:35:24</div></div>
                 </div>
                 <div className="t5w37-board-footer"><span><span className="t5w37-star">★</span> Star awarded for 7/7 T5</span><span>·</span><span>#FajrToSuccess</span><span>·</span><span>Week 41</span></div>
               </div>
@@ -9046,7 +9107,7 @@ body{overflow-x:hidden}
     color:#F5C95F !important;
     font-size:17px !important;
     font-weight:900 !important;
-    text-shadow:0 0 7px rgba(245,201,95,.38) !important;
+    text-shadow:0 0 5px rgba(245,201,95,.16) !important;
   }
 }
 @media(max-width:520px){
@@ -9423,134 +9484,3 @@ body{overflow-x:hidden}
   body{overflow-x:hidden;}
   button,input,select,textarea{font:inherit;}
 </style>
-
-
-<style id="f2s-week41-top3-star-overlap-final">
-/* Week 41 — all 7/7 members get the same overlapping star card treatment as Nowshin. */
-@media (min-width:761px){
-  .t5w37-board-row.rank-one,
-  .t5w37-board-row.rank-two,
-  .t5w37-board-row.rank-three{
-    position:relative !important;
-    overflow:visible !important;
-  }
-
-  .t5w37-board-row.rank-one{z-index:7 !important;}
-  .t5w37-board-row.rank-two{z-index:6 !important;}
-  .t5w37-board-row.rank-three{z-index:5 !important;}
-
-  .t5w37-board-row.rank-one .t5w37-star-cell,
-  .t5w37-board-row.rank-two .t5w37-star-cell,
-  .t5w37-board-row.rank-three .t5w37-star-cell{
-    position:absolute !important;
-    right:-22px !important;
-    top:50% !important;
-    transform:translateY(-50%) !important;
-    z-index:20 !important;
-    width:44px !important;
-    min-height:44px !important;
-    height:44px !important;
-    padding:0 3px !important;
-    box-sizing:border-box !important;
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    gap:0 !important;
-    flex-direction:row !important;
-    border:1px solid rgba(217,167,85,.34) !important;
-    border-radius:10px !important;
-    background:linear-gradient(145deg,rgba(8,9,11,.92),rgba(18,19,22,.86)) !important;
-    box-shadow:0 6px 18px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.045) !important;
-  }
-
-  .t5w37-board-row.rank-one .t5w37-star-cell .t5w37-star-count,
-  .t5w37-board-row.rank-two .t5w37-star-cell .t5w37-star-count,
-  .t5w37-board-row.rank-three .t5w37-star-cell .t5w37-star-count{
-    display:none !important;
-  }
-
-  .t5w37-board-row.rank-one .t5w37-star-cell .t5w37-star,
-  .t5w37-board-row.rank-two .t5w37-star-cell .t5w37-star,
-  .t5w37-board-row.rank-three .t5w37-star-cell .t5w37-star{
-    display:block !important;
-    color:#F5C95F !important;
-    font-size:17px !important;
-    font-weight:900 !important;
-    line-height:1 !important;
-    text-shadow:0 0 7px rgba(245,201,95,.38) !important;
-  }
-}
-
-@media (max-width:760px){
-  .t5w37-board-row.rank-one,
-  .t5w37-board-row.rank-two,
-  .t5w37-board-row.rank-three{
-    position:relative !important;
-    overflow:visible !important;
-  }
-
-  .t5w37-board-row.rank-one{z-index:7 !important;}
-  .t5w37-board-row.rank-two{z-index:6 !important;}
-  .t5w37-board-row.rank-three{z-index:5 !important;}
-
-  .t5w37-board-row.rank-one .t5w37-star-cell,
-  .t5w37-board-row.rank-two .t5w37-star-cell,
-  .t5w37-board-row.rank-three .t5w37-star-cell{
-    position:absolute !important;
-    right:-22px !important;
-    top:50% !important;
-    transform:translateY(-50%) !important;
-    z-index:20 !important;
-    width:44px !important;
-    min-height:44px !important;
-    height:44px !important;
-    padding:0 3px !important;
-    box-sizing:border-box !important;
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    gap:0 !important;
-    flex-direction:row !important;
-    border:1px solid rgba(210,176,107,.34) !important;
-    border-radius:10px !important;
-    background:linear-gradient(145deg,rgba(8,9,11,.92),rgba(18,19,22,.86)) !important;
-    box-shadow:0 6px 18px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.045) !important;
-  }
-
-  .t5w37-board-row.rank-one .t5w37-star-cell .t5w37-star-count,
-  .t5w37-board-row.rank-two .t5w37-star-cell .t5w37-star-count,
-  .t5w37-board-row.rank-three .t5w37-star-cell .t5w37-star-count{
-    display:none !important;
-  }
-
-  .t5w37-board-row.rank-one .t5w37-star-cell .t5w37-star,
-  .t5w37-board-row.rank-two .t5w37-star-cell .t5w37-star,
-  .t5w37-board-row.rank-three .t5w37-star-cell .t5w37-star{
-    display:block !important;
-    color:#F5C95F !important;
-    font-size:17px !important;
-    font-weight:900 !important;
-    line-height:1 !important;
-    text-shadow:0 0 7px rgba(245,201,95,.38) !important;
-  }
-}
-
-@media (max-width:520px){
-  .t5w37-board-row.rank-one .t5w37-star-cell,
-  .t5w37-board-row.rank-two .t5w37-star-cell,
-  .t5w37-board-row.rank-three .t5w37-star-cell{
-    right:-20px !important;
-    width:44px !important;
-    min-height:38px !important;
-    height:38px !important;
-    border-radius:10px !important;
-  }
-
-  .t5w37-board-row.rank-one .t5w37-star-cell .t5w37-star,
-  .t5w37-board-row.rank-two .t5w37-star-cell .t5w37-star,
-  .t5w37-board-row.rank-three .t5w37-star-cell .t5w37-star{
-    font-size:16px !important;
-  }
-}
-</style>
-
