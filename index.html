@@ -5844,7 +5844,7 @@ May Allah help us stay consistent.`;
                   const stars = allStar ? allStar[3] : 0;
                   const achievement = member.score === "7/7" ? "PERFECT WEEK" : member.rank === 1 ? "STUDY CHAMPION" : member.score === "6/7" ? "STRONG CONSISTENCY" : "T5 CONSISTENCY";
                   return (
-                    <div className={`t5w37-board-row ${member.rank === 1 ? "rank-one" : member.rank === 2 ? "rank-two" : member.rank === 3 ? "rank-three" : ""} ${member.score === "7/7" ? "weekly-perfect" : ""}`} key={member.id}>
+                    <div className={`t5w37-board-row ${member.rank === 1 ? "rank-one" : member.rank === 2 ? "rank-two" : member.rank === 3 ? "rank-three" : ""}`} key={member.id}>
                       <button type="button" className="t5w37-member-hit" tabIndex="-1">
                         <div className="t5w37-rank">{member.rank}</div><div className="t5w37-identity"><div className="t5w37-name"><span className="t5w37-name-full">{member.name}</span><span className="t5w37-name-short">{member.name.split(" ")[0]}</span></div><span className="f2s-achievement-badge">{achievement}</span></div>
                         <div className="t5w37-id">{member.id}</div><div className={`t5w37-score ${member.rank === 1 ? "" : "partial"}`}>{member.score}</div><div className="t5w37-time">{member.time}</div>
@@ -9425,70 +9425,132 @@ body{overflow-x:hidden}
 </style>
 
 
-<style id="f2s-week41-perfect-stars-overlap-v1">
-/* Week 41: every 7/7 member gets the same overlapping star card treatment as #1. */
-.t5w37-board-row.weekly-perfect{
-  position:relative !important;
-  overflow:visible !important;
-  z-index:5 !important;
-}
-.t5w37-board-row.weekly-perfect .t5w37-star-cell{
-  position:absolute !important;
-  right:-29px !important;
-  top:50% !important;
-  transform:translateY(-50%) !important;
-  z-index:20 !important;
-  width:58px !important;
-  min-height:54px !important;
-  padding:0 3px !important;
-  box-sizing:border-box !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  gap:0 !important;
-  border:1px solid rgba(217,167,85,.34) !important;
-  border-radius:12px !important;
-  background:linear-gradient(145deg,rgba(217,167,85,.10),rgba(217,167,85,.025)) !important;
-  box-shadow:0 8px 22px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.025) !important;
-}
-.t5w37-board-row.weekly-perfect .t5w37-star-cell .t5w37-star-count{
-  display:none !important;
-}
-.t5w37-board-row.weekly-perfect .t5w37-star-cell .t5w37-star{
-  display:block !important;
-  color:#F1C873 !important;
-  font-size:22px !important;
-  line-height:1 !important;
-  font-weight:900 !important;
-  text-shadow:0 0 16px rgba(217,167,85,.18) !important;
-}
+<style id="f2s-week41-top3-star-overlap-final">
+/* Week 41 — all 7/7 members get the same overlapping star card treatment as Nowshin. */
+@media (min-width:761px){
+  .t5w37-board-row.rank-one,
+  .t5w37-board-row.rank-two,
+  .t5w37-board-row.rank-three{
+    position:relative !important;
+    overflow:visible !important;
+  }
 
-@media(max-width:760px){
-  .t5w37-board-row.weekly-perfect .t5w37-star-cell{
+  .t5w37-board-row.rank-one{z-index:7 !important;}
+  .t5w37-board-row.rank-two{z-index:6 !important;}
+  .t5w37-board-row.rank-three{z-index:5 !important;}
+
+  .t5w37-board-row.rank-one .t5w37-star-cell,
+  .t5w37-board-row.rank-two .t5w37-star-cell,
+  .t5w37-board-row.rank-three .t5w37-star-cell{
+    position:absolute !important;
     right:-22px !important;
+    top:50% !important;
+    transform:translateY(-50%) !important;
+    z-index:20 !important;
     width:44px !important;
     min-height:44px !important;
+    height:44px !important;
+    padding:0 3px !important;
+    box-sizing:border-box !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:0 !important;
+    flex-direction:row !important;
+    border:1px solid rgba(217,167,85,.34) !important;
     border-radius:10px !important;
     background:linear-gradient(145deg,rgba(8,9,11,.92),rgba(18,19,22,.86)) !important;
-    border-color:rgba(210,176,107,.34) !important;
-    box-shadow:0 6px 18px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.045) !important;
+    box-shadow:0 6px 18px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.045) !important;
   }
-  .t5w37-board-row.weekly-perfect .t5w37-star-cell .t5w37-star{
+
+  .t5w37-board-row.rank-one .t5w37-star-cell .t5w37-star-count,
+  .t5w37-board-row.rank-two .t5w37-star-cell .t5w37-star-count,
+  .t5w37-board-row.rank-three .t5w37-star-cell .t5w37-star-count{
+    display:none !important;
+  }
+
+  .t5w37-board-row.rank-one .t5w37-star-cell .t5w37-star,
+  .t5w37-board-row.rank-two .t5w37-star-cell .t5w37-star,
+  .t5w37-board-row.rank-three .t5w37-star-cell .t5w37-star{
+    display:block !important;
     color:#F5C95F !important;
     font-size:17px !important;
     font-weight:900 !important;
+    line-height:1 !important;
     text-shadow:0 0 7px rgba(245,201,95,.38) !important;
   }
 }
-@media(max-width:520px){
-  .t5w37-board-row.weekly-perfect .t5w37-star-cell{
+
+@media (max-width:760px){
+  .t5w37-board-row.rank-one,
+  .t5w37-board-row.rank-two,
+  .t5w37-board-row.rank-three{
+    position:relative !important;
+    overflow:visible !important;
+  }
+
+  .t5w37-board-row.rank-one{z-index:7 !important;}
+  .t5w37-board-row.rank-two{z-index:6 !important;}
+  .t5w37-board-row.rank-three{z-index:5 !important;}
+
+  .t5w37-board-row.rank-one .t5w37-star-cell,
+  .t5w37-board-row.rank-two .t5w37-star-cell,
+  .t5w37-board-row.rank-three .t5w37-star-cell{
+    position:absolute !important;
+    right:-22px !important;
+    top:50% !important;
+    transform:translateY(-50%) !important;
+    z-index:20 !important;
+    width:44px !important;
+    min-height:44px !important;
+    height:44px !important;
+    padding:0 3px !important;
+    box-sizing:border-box !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:0 !important;
+    flex-direction:row !important;
+    border:1px solid rgba(210,176,107,.34) !important;
+    border-radius:10px !important;
+    background:linear-gradient(145deg,rgba(8,9,11,.92),rgba(18,19,22,.86)) !important;
+    box-shadow:0 6px 18px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.045) !important;
+  }
+
+  .t5w37-board-row.rank-one .t5w37-star-cell .t5w37-star-count,
+  .t5w37-board-row.rank-two .t5w37-star-cell .t5w37-star-count,
+  .t5w37-board-row.rank-three .t5w37-star-cell .t5w37-star-count{
+    display:none !important;
+  }
+
+  .t5w37-board-row.rank-one .t5w37-star-cell .t5w37-star,
+  .t5w37-board-row.rank-two .t5w37-star-cell .t5w37-star,
+  .t5w37-board-row.rank-three .t5w37-star-cell .t5w37-star{
+    display:block !important;
+    color:#F5C95F !important;
+    font-size:17px !important;
+    font-weight:900 !important;
+    line-height:1 !important;
+    text-shadow:0 0 7px rgba(245,201,95,.38) !important;
+  }
+}
+
+@media (max-width:520px){
+  .t5w37-board-row.rank-one .t5w37-star-cell,
+  .t5w37-board-row.rank-two .t5w37-star-cell,
+  .t5w37-board-row.rank-three .t5w37-star-cell{
     right:-20px !important;
     width:44px !important;
     min-height:38px !important;
+    height:38px !important;
     border-radius:10px !important;
   }
-  .t5w37-board-row.weekly-perfect .t5w37-star-cell .t5w37-star{
+
+  .t5w37-board-row.rank-one .t5w37-star-cell .t5w37-star,
+  .t5w37-board-row.rank-two .t5w37-star-cell .t5w37-star,
+  .t5w37-board-row.rank-three .t5w37-star-cell .t5w37-star{
     font-size:16px !important;
   }
 }
 </style>
+
