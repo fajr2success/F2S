@@ -10719,6 +10719,68 @@ body{overflow-x:hidden}
 })();
 </script>
 
+
+<style id="f2s-apk-install-link">
+  .f2s-apk-install{
+    position:fixed; right:18px; bottom:18px; z-index:99999;
+    display:inline-flex; align-items:center; gap:10px;
+    min-height:48px; padding:0 18px;
+    border:1px solid rgba(255,255,255,.11);
+    border-radius:14px;
+    background:rgba(27,21,14,.92);
+    color:#EEE8DA!important;
+    text-decoration:none!important;
+    font:700 12px/1 Inter,sans-serif;
+    letter-spacing:.015em;
+    box-shadow:0 10px 30px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.035);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    transition:transform .2s ease,background .2s ease,border-color .2s ease,box-shadow .2s ease;
+  }
+  .f2s-apk-install:hover{
+    transform:translateY(-2px);
+    background:rgba(34,27,18,.97);
+    border-color:rgba(255,255,255,.17);
+    box-shadow:0 14px 34px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.045);
+  }
+  .f2s-apk-install:active{transform:translateY(0)}
+  .f2s-apk-install .f2s-apk-icon{
+    width:28px;height:28px;
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:9px;
+    background:rgba(255,255,255,.045);
+    color:#D8D0C1;
+    font-size:14px;line-height:1;
+  }
+  .f2s-apk-install .f2s-apk-label{
+    display:flex;flex-direction:column;gap:3px;
+  }
+  .f2s-apk-install .f2s-apk-title{color:#EEE8DA;font-size:12px}
+  .f2s-apk-install .f2s-apk-sub{
+    color:#8F856F;font-size:8px;font-weight:600;
+    letter-spacing:.08em;text-transform:uppercase;
+  }
+  .f2s-apk-install .f2s-apk-arrow{
+    margin-left:2px;color:#9F9788;font-size:15px;
+    transition:transform .2s ease;
+  }
+  .f2s-apk-install:hover .f2s-apk-arrow{transform:translateX(2px)}
+  @media(max-width:700px){
+    .f2s-apk-install{right:12px;bottom:12px;min-height:46px;padding:0 14px;border-radius:13px}
+    .f2s-apk-install .f2s-apk-title{font-size:11px}
+    .f2s-apk-install .f2s-apk-sub{font-size:7px}
+  }
+</style>
+<a class="f2s-apk-install" href="./Fajr2success.apk" download="Fajr2success.apk" aria-label="Install F2S Android app">
+  <span class="f2s-apk-icon">↧</span>
+  <span class="f2s-apk-label">
+    <span class="f2s-apk-title">Install F2S App</span>
+    <span class="f2s-apk-sub">Android • APK</span>
+  </span>
+  <span class="f2s-apk-arrow">›</span>
+</a>
+
 </body></html>
 
 <style id="f2s-admin-v45-final-polish">
