@@ -10772,14 +10772,63 @@ body{overflow-x:hidden}
     .f2s-apk-install .f2s-apk-sub{font-size:7px}
   }
 </style>
-<a class="f2s-apk-install" href="./Fajr2success.apk" download="Fajr2success.apk" aria-label="Install F2S Android app">
-  <span class="f2s-apk-icon">↧</span>
+<a class="f2s-apk-install" id="f2sApkInstallBtn" href="./Fajr2success.apk" download="Fajr2success.apk" aria-label="Download F2S Android app">
+  <span class="f2s-apk-icon" id="f2sApkIcon">↧</span>
   <span class="f2s-apk-label">
-    <span class="f2s-apk-title">Install F2S App</span>
-    <span class="f2s-apk-sub">Android • APK</span>
+    <span class="f2s-apk-title" id="f2sApkTitle">Install F2S App</span>
+    <span class="f2s-apk-sub" id="f2sApkSub">Android • APK</span>
   </span>
-  <span class="f2s-apk-arrow">›</span>
+  <span class="f2s-apk-arrow" id="f2sApkArrow">›</span>
 </a>
+
+<style>
+/* F2S APK download feedback */
+.f2s-apk-install.f2s-apk-started{
+  border-color:rgba(255,255,255,.24)!important;
+  background:rgba(255,255,255,.07)!important;
+}
+.f2s-apk-install.f2s-apk-started .f2s-apk-icon{
+  font-size:15px;
+}
+.f2s-apk-install.f2s-apk-started .f2s-apk-arrow{
+  transform:none!important;
+}
+</style>
+
+<script>
+(function(){
+  const btn=document.getElementById('f2sApkInstallBtn');
+  if(!btn) return;
+  const icon=document.getElementById('f2sApkIcon');
+  const title=document.getElementById('f2sApkTitle');
+  const sub=document.getElementById('f2sApkSub');
+  const arrow=document.getElementById('f2sApkArrow');
+
+  function setDownloadStarted(){
+    btn.classList.add('f2s-apk-started');
+    icon.textContent='✓';
+    title.textContent='APK Download Started';
+    sub.textContent='Check Downloads to install';
+    arrow.textContent='›';
+    btn.setAttribute('aria-label','APK download started — open Downloads to install');
+    try{localStorage.setItem('f2s_apk_download_started','1');}catch(e){}
+  }
+
+  btn.addEventListener('click',function(){
+    setDownloadStarted();
+    // Give the browser a moment to start the file download before showing the install guidance.
+    setTimeout(function(){
+      sub.textContent='Downloaded? Open Downloads → Install';
+    },1400);
+  });
+
+  try{
+    if(localStorage.getItem('f2s_apk_download_started')==='1'){
+      setDownloadStarted();
+    }
+  }catch(e){}
+})();
+</script>
 
 </body></html>
 
