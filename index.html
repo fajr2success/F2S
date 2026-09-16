@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta name="f2s-live-audit" content="T5 + Star + FCB fully live; Supabase source of truth; refreshed every 30s; RPC-only public reads">
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>F2S Complete Reference</title>
@@ -1085,7 +1086,7 @@ img[alt*="Leaderboard"]{
 
 
 /* =========================================================
-   T5 Week 41 — Premium Black & Gold Native Leaderboard
+   T5 Week 38 — Premium Black & Gold Native Leaderboard
    ========================================================= */
 .t5w37-premium-board{
   position:relative;
@@ -1109,7 +1110,7 @@ img[alt*="Leaderboard"]{
   opacity:.75;
 }
 .t5w37-premium-board::after{
-  content:"41";
+  content:"38";
   position:absolute;
   right:-10px;
   top:-32px;
@@ -1959,6 +1960,19 @@ img[alt*="Leaderboard"]{
 @media(prefers-reduced-motion:reduce){.f2s-weekly-ticker-track,.f2s-weekly-ticker-live-dot{animation:none!important;transform:none!important}}
 
 
+
+/* V34 — Reusable F2S-ID Directory Management */
+.f2s-id-directory-management{margin-top:18px}
+.f2s-id-management-toolbar{display:flex;gap:10px;margin:14px 0}
+#f2sIdDirectorySearch{width:100%;max-width:420px;padding:11px 13px;border-radius:12px;border:1px solid rgba(148,163,184,.28);background:rgba(15,23,42,.35);color:inherit}
+.f2s-id-directory-management .f2s-table-wrap{overflow:auto}
+.f2s-id-directory-management .f2s-admin-table{width:100%;border-collapse:collapse;min-width:720px}
+.f2s-id-directory-management .f2s-admin-table th,.f2s-id-directory-management .f2s-admin-table td{padding:11px 10px;border-bottom:1px solid rgba(148,163,184,.16);text-align:left}
+.f2s-id-management-actions{display:flex;gap:7px;flex-wrap:wrap}
+.f2s-id-action{border:1px solid rgba(148,163,184,.28);border-radius:9px;padding:7px 10px;background:transparent;color:inherit;cursor:pointer}
+.f2s-id-action.remove{border-color:rgba(239,68,68,.45)}
+.f2s-id-edit-input{width:100%;box-sizing:border-box;padding:8px;border-radius:8px;border:1px solid rgba(148,163,184,.3);background:rgba(15,23,42,.4);color:inherit}
+
 </style>
 
 <style id="f2s-feature-guide-premium">
@@ -2620,65 +2634,6 @@ body::before{opacity:.012!important}
 
 @media (prefers-reduced-motion:reduce){
   .t5w37-board-row:hover{transform:none!important}
-}
-</style>
-
-
-<style id="f2s-week41-7of7-overlap-stars">
-/* Week 41: every 7/7 T5 member gets the same overlapping star card.
-   Applies to desktop + mobile; 6/7 and 4/7 remain star-free. */
-.t5w37-board-row.rank-one,
-.t5w37-board-row.rank-two,
-.t5w37-board-row.rank-three{
-  position:relative !important;
-  overflow:visible !important;
-  z-index:5 !important;
-}
-.t5w37-board-row.rank-one .t5w37-star-cell,
-.t5w37-board-row.rank-two .t5w37-star-cell,
-.t5w37-board-row.rank-three .t5w37-star-cell{
-  position:absolute !important;
-  right:-22px !important;
-  top:50% !important;
-  transform:translateY(-50%) !important;
-  z-index:20 !important;
-  width:44px !important;
-  min-height:44px !important;
-  padding:0 3px !important;
-  box-sizing:border-box !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  gap:0 !important;
-  flex-direction:row !important;
-  border:1px solid rgba(217,167,85,.34) !important;
-  border-radius:10px !important;
-  background:linear-gradient(145deg,rgba(217,167,85,.15),rgba(217,167,85,.035)) !important;
-  box-shadow:0 7px 18px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.035) !important;
-}
-.t5w37-board-row.rank-one .t5w37-star-cell .t5w37-star-count,
-.t5w37-board-row.rank-two .t5w37-star-cell .t5w37-star-count,
-.t5w37-board-row.rank-three .t5w37-star-cell .t5w37-star-count{
-  display:none !important;
-}
-.t5w37-board-row.rank-one .t5w37-star-cell .t5w37-star,
-.t5w37-board-row.rank-two .t5w37-star-cell .t5w37-star,
-.t5w37-board-row.rank-three .t5w37-star-cell .t5w37-star{
-  display:block !important;
-  color:#F5C95F !important;
-  font-size:17px !important;
-  font-weight:900 !important;
-  line-height:1 !important;
-  text-shadow:0 0 5px rgba(245,201,95,.18) !important;
-}
-@media(max-width:520px){
-  .t5w37-board-row.rank-one .t5w37-star-cell,
-  .t5w37-board-row.rank-two .t5w37-star-cell,
-  .t5w37-board-row.rank-three .t5w37-star-cell{
-    right:-20px !important;
-    width:44px !important;
-    min-height:38px !important;
-  }
 }
 </style>
 
@@ -3345,6 +3300,215 @@ aside, nav, [class*="sidebar"], [class*="section-rail"] {
   }
 }
 </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style id="f2s-paste-t5-premium">
+.f2s-paste-card{margin:12px 0 14px;padding:16px;border:1px solid rgba(217,167,85,.24);border-radius:18px;background:linear-gradient(145deg,rgba(217,167,85,.055),rgba(255,255,255,.018));box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
+.f2s-paste-title{font-weight:800;font-size:16px;color:#E7C477;margin-bottom:7px}.f2s-paste-card textarea{width:100%;min-height:150px;resize:vertical;box-sizing:border-box;border-radius:14px;border:1px solid rgba(217,167,85,.22);background:#0c111b;color:#f1eee7;padding:13px;font:500 13px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;outline:none}.f2s-paste-card textarea:focus{border-color:rgba(217,167,85,.7);box-shadow:0 0 0 3px rgba(217,167,85,.08)}
+</style>
+<style id="f2s-admin-menu-v8-css">
+.mobile-nav-panel [aria-label="F2S Admin Center"]{box-shadow:inset 0 0 18px rgba(217,167,85,.035)}
+</style>
+<style id="f2s-admin-v8-flow-css">
+#f2sSubmitAndProcess{grid-column:1/-1}
+</style>
+
+<style id="f2s-admin-v10-premium">
+#f2sAdminConsole.f2s-admin-v10{
+  max-width:1180px;margin:24px auto;padding:0 16px;
+}
+.f2s-admin-v10 .v10-shell{
+  background:linear-gradient(145deg,rgba(18,22,32,.98),rgba(10,13,19,.98));
+  border:1px solid rgba(217,167,85,.28);border-radius:24px;
+  box-shadow:0 24px 70px rgba(0,0,0,.38);overflow:hidden;
+}
+.f2s-admin-v10 .v10-head{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:22px 24px;border-bottom:1px solid rgba(255,255,255,.07);
+}
+.f2s-admin-v10 .v10-title{font-size:20px;font-weight:800;letter-spacing:.2px;color:#f0d08b}
+.f2s-admin-v10 .v10-sub{font-size:12px;opacity:.58;margin-top:4px}
+.f2s-admin-v10 .v10-badge{
+  padding:7px 10px;border-radius:999px;font-size:11px;font-weight:700;
+  color:#e8c77d;background:rgba(217,167,85,.09);border:1px solid rgba(217,167,85,.2)
+}
+.f2s-admin-v10 .v10-nav{
+  display:flex;gap:8px;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.06);
+  overflow:auto;
+}
+.f2s-admin-v10 .v10-tab{
+  border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);
+  color:#bdb8aa;padding:9px 13px;border-radius:11px;cursor:pointer;white-space:nowrap;
+}
+.f2s-admin-v10 .v10-tab.active{color:#f0d08b;border-color:rgba(217,167,85,.35);background:rgba(217,167,85,.09)}
+.f2s-admin-v10 .v10-panel{padding:20px 24px}
+.f2s-admin-v10 .v10-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.f2s-admin-v10 .v10-card{
+  border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:15px;
+  background:rgba(255,255,255,.025)
+}
+.f2s-admin-v10 .v10-card-label{font-size:11px;opacity:.5;text-transform:uppercase;letter-spacing:.8px}
+.f2s-admin-v10 .v10-card-value{font-size:23px;font-weight:800;color:#eee;margin-top:6px}
+.f2s-admin-v10 .v10-section-title{font-weight:750;font-size:15px;margin-bottom:10px;color:#e9e3d5}
+.f2s-admin-v10 textarea.v10-input,.f2s-admin-v10 input.v10-input{
+  width:100%;box-sizing:border-box;background:#0d1119;color:#eee;
+  border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:12px;
+  outline:none;
+}
+.f2s-admin-v10 textarea.v10-input{min-height:150px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+.f2s-admin-v10 .v10-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:11px}
+.f2s-admin-v10 .v10-btn{
+  border:1px solid rgba(217,167,85,.3);background:rgba(217,167,85,.08);
+  color:#ebc978;border-radius:11px;padding:10px 14px;font-weight:750;cursor:pointer
+}
+.f2s-admin-v10 .v10-btn.primary{background:linear-gradient(135deg,#d9a755,#b77d2e);color:#17120b;border:none}
+.f2s-admin-v10 .v10-btn.danger{color:#f0aaa4;border-color:rgba(240,120,110,.25);background:rgba(240,120,110,.06)}
+.f2s-admin-v10 .v10-preview{
+  margin-top:14px;border:1px solid rgba(217,167,85,.2);border-radius:15px;overflow:auto;
+}
+.f2s-admin-v10 table{width:100%;border-collapse:collapse;min-width:650px}
+.f2s-admin-v10 th,.f2s-admin-v10 td{padding:10px 12px;text-align:left;border-bottom:1px solid rgba(255,255,255,.06);font-size:12px}
+.f2s-admin-v10 th{font-size:10px;text-transform:uppercase;letter-spacing:.7px;opacity:.55}
+.f2s-admin-v10 .v10-status{margin-top:12px;padding:11px 13px;border-radius:12px;background:rgba(255,255,255,.035);font-size:12px}
+@media(max-width:760px){
+ .f2s-admin-v10 .v10-grid{grid-template-columns:1fr}
+ .f2s-admin-v10 .v10-head{align-items:flex-start;flex-direction:column}
+ .f2s-admin-v10 .v10-panel{padding:16px}
+}
+</style>
+
+
+<style id="f2s-admin-v11-shell">
+#f2sAdminConsole.f2s-admin-v11{
+  position:relative;
+  max-width:1180px;
+  margin:18px auto;
+  padding:0 14px;
+}
+.f2s-admin-v11 .v11-topbar{
+  position:sticky;top:0;z-index:20;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:14px 18px;
+  background:rgba(10,13,19,.94);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(217,167,85,.22);
+  border-radius:18px;
+  box-shadow:0 12px 35px rgba(0,0,0,.28);
+  margin-bottom:12px;
+}
+.f2s-admin-v11 .v11-brand{display:flex;align-items:center;gap:11px;min-width:0}
+.f2s-admin-v11 .v11-mark{
+  width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+  color:#f1cf87;background:linear-gradient(145deg,rgba(217,167,85,.22),rgba(217,167,85,.06));
+  border:1px solid rgba(217,167,85,.28);font-size:18px;
+}
+.f2s-admin-v11 .v11-brand-title{font-weight:850;color:#f0d08b;font-size:15px}
+.f2s-admin-v11 .v11-brand-sub{font-size:10px;opacity:.52;margin-top:2px}
+.f2s-admin-v11 .v11-head-actions{display:flex;gap:7px}
+.f2s-admin-v11 .v11-icon-btn{
+  width:38px;height:38px;border-radius:11px;border:1px solid rgba(255,255,255,.09);
+  background:rgba(255,255,255,.035);color:#ddd;cursor:pointer;font-size:17px;
+}
+.f2s-admin-v11 .v11-icon-btn:hover{border-color:rgba(217,167,85,.38);color:#f0cf88}
+.f2s-admin-v11 .v11-close{color:#e8aaa4}
+.f2s-admin-v11 .v11-close:hover{border-color:rgba(220,100,90,.4);color:#ffd0ca}
+.f2s-admin-v11 .v11-context{
+  display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap
+}
+.f2s-admin-v11 .v11-crumb{
+  padding:7px 10px;border-radius:9px;background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.06);font-size:11px;color:#bdb7a8
+}
+.f2s-admin-v11 .v11-crumb.current{color:#e8c87e;border-color:rgba(217,167,85,.2)}
+@media(max-width:620px){
+  #f2sAdminConsole.f2s-admin-v11{padding:0 9px}
+  .f2s-admin-v11 .v11-topbar{padding:11px 12px}
+  .f2s-admin-v11 .v11-brand-sub{display:none}
+  .f2s-admin-v11 .v11-icon-btn{width:36px;height:36px}
+}
+</style>
+
+<style id="f2s-admin-v12-audit-css">
+.f2s-admin-v12-audit{margin-top:14px}
+.v12-audit-card{border:1px solid rgba(255,255,255,.07);border-radius:16px;background:rgba(255,255,255,.025);padding:15px}
+.v12-audit-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.v12-audit-title{font-weight:800;color:#eee}
+.v12-audit-sub{font-size:11px;opacity:.52;margin-top:3px}
+.v12-audit-list{display:grid;gap:7px}
+.v12-audit-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 11px;border-radius:11px;background:rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.05)}
+.v12-audit-main{min-width:0}
+.v12-audit-action{font-size:12px;font-weight:700;color:#ddd}
+.v12-audit-meta{font-size:10px;opacity:.48;margin-top:3px}
+.v12-audit-badge{font-size:9px;font-weight:800;letter-spacing:.5px;color:#e6c579;border:1px solid rgba(217,167,85,.2);padding:5px 7px;border-radius:999px;white-space:nowrap}
+</style>
+
+<style id="f2s-admin-v13-clean-premium">
+/* V13: single visible Admin Center title */
+#f2sAdminConsole .v10-title{display:none !important}
+#f2sAdminConsole .v11-topbar .v10-title{display:block !important}
+
+/* Hide duplicate legacy headings/branding inside the old console body */
+#f2sAdminConsole > h1,
+#f2sAdminConsole > h2,
+#f2sAdminConsole > h3,
+#f2sAdminConsole .admin-console-title,
+#f2sAdminConsole .admin-title,
+#f2sAdminConsole .f2s-admin-title,
+#f2sAdminConsole .f2s-admin-header:not(.v11-topbar),
+#f2sAdminConsole .v10-head:not(.v11-topbar){
+  display:none !important;
+}
+
+/* Make the authenticated admin workspace feel like one unified control center */
+#f2sAdminConsole.f2s-admin-v11{
+  background:transparent !important;
+}
+#f2sAdminConsole.f2s-admin-v11 .v11-topbar{
+  margin-bottom:10px;
+}
+#f2sAdminConsole.f2s-admin-v11 .v11-topbar .v11-brand-title{
+  font-size:17px;
+  letter-spacing:.15px;
+}
+#f2sAdminConsole.f2s-admin-v11 .v11-topbar .v11-brand-sub{
+  font-size:10px;
+}
+#f2sAdminConsole.f2s-admin-v11 .v11-context{
+  margin:0 2px 10px;
+}
+#f2sAdminConsole.f2s-admin-v11 .v11-context .v11-crumb.current{
+  font-weight:700;
+}
+
+/* Keep the full feature workspace hidden until admin authentication succeeds. */
+#f2sAdminConsole:not(.f2s-admin-visible){
+  display:none !important;
+}
+#f2sAdminConsole.f2s-admin-visible{
+  display:block !important;
+}
+
+/* Premium feature cards / tabs */
+#f2sAdminConsole .v10-nav{
+  scrollbar-width:thin;
+}
+#f2sAdminConsole .v10-tab{
+  transition:transform .18s ease, border-color .18s ease, background .18s ease;
+}
+#f2sAdminConsole .v10-tab:hover{
+  transform:translateY(-1px);
+}
+</style>
+
+
+<style id="f2s-id-directory-v36-style">
+.f2s-id-directory-management{margin-top:18px;border:1px solid rgba(217,167,85,.22);border-radius:20px;background:linear-gradient(145deg,rgba(217,167,85,.07),rgba(255,255,255,.02));padding:16px}
+.f2s-id-directory-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.f2s-id-directory-head h3{margin:0;font-size:17px;color:#f0cd88}.f2s-id-directory-head p{margin:5px 0 0;color:#8f97a5;font-size:11px;line-height:1.5}
+.f2s-id-directory-tools{display:flex;gap:8px;flex-wrap:wrap}.f2s-id-directory-tools input{width:min(360px,100%);padding:10px 12px;border-radius:11px;border:1px solid rgba(255,255,255,.1);background:#141b26;color:#fff}
+.f2s-id-directory-tools button,.f2s-id-action{padding:9px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.11);background:#19212d;color:#fff;font-weight:800;cursor:pointer}.f2s-id-action.remove{border-color:rgba(255,100,120,.25);background:#27171e;color:#ffc7ce}.f2s-id-action.save{background:linear-gradient(135deg,#a9762e,#d9a755);color:#17110a}
+.f2s-id-directory-table{overflow:auto;border:1px solid rgba(255,255,255,.07);border-radius:14px}.f2s-id-directory-table table{width:100%;border-collapse:collapse;min-width:760px}.f2s-id-directory-table th,.f2s-id-directory-table td{padding:10px;border-bottom:1px solid rgba(255,255,255,.06);text-align:left;font-size:12px}.f2s-id-directory-table th{font-size:10px;text-transform:uppercase;color:#7f8794;background:#0e141e}.f2s-id-edit-input{width:100%;padding:8px 9px;border-radius:9px;border:1px solid rgba(255,255,255,.1);background:#141b26;color:#fff}.f2s-id-management-actions{display:flex;gap:7px;flex-wrap:wrap}.f2s-id-status-active{color:#bcefcf}.f2s-id-status-removed{color:#f0cd88}.f2s-id-empty{padding:14px;color:#8f97a5;font-size:12px}
+@media(max-width:560px){.f2s-id-directory-tools{display:grid;grid-template-columns:1fr}.f2s-id-directory-tools input{width:100%}}
+</style>
 </head>
 <body>
 <div id="root"></div>
@@ -3543,7 +3707,7 @@ const WEEK10_LEADERBOARD = [
 
 const STAR_HOLDERS_ALL = [
   ["1", "Taifa", "F2S-36", 13],
-  ["2", "Nowshin", "F2S-63", 7],
+  ["2", "Nowshin", "F2S-63", 8],
   ["3", "Meow", "F2S-70", 4],
   ["4", "Munia", "F2S-80", 4],
   ["5", "DrTom", "F2S-54", 3],
@@ -3564,20 +3728,18 @@ const STAR_HOLDERS_ALL = [
   ["20", "lone_wolf", "F2S-75", 1],
   ["21", "Anisha", "F2S-82", 1],
   ["22", "Labib", "F2S-87", 1],
-  ["25", "Ahin", "F2S-914", 1],
-  ["23", "Jubayer Abdullah", "F2S-966", 3],
-  ["24", "Mehejaben Islam", "F2S-977", 3],
+  ["23", "Jubayer Abdullah", "F2S-96", 2],
+  ["24", "Mehejaben Islam", "F2S-97", 3],
+  ["25", "Afiya", "F2S-95", 1],
 ];
 
-// Website displays only the current Top 5; the complete Week 1–40 data is retained above for future weekly updates.
-// Single source of truth for the current weekly T5 leaderboard.
-// Update this array each week; the Hero ticker and the leaderboard rows stay in sync.
+// Current Week 42 Top 5 weekly T5 leaderboard.
+// Update this array each week; the leaderboard rows stay in sync.
 const WEEKLY_T5_TOP3 = [
-  { rank: 1, name: "Nowshin", id: "F2S-63", score: "7/7", time: "93:35:24", star: true },
-  { rank: 2, name: "Taifa", id: "F2S-36", score: "7/7", time: "88:23:29", star: true },
-  { rank: 3, name: "Mehejaben Islam", id: "F2S-97", score: "7/7", time: "84:56:45", star: true },
-  { rank: 4, name: "JUBAYER ABDULLAH", id: "F2S-96", score: "6/7", time: "73:53:19", star: false },
-  { rank: 5, name: "Ahin", id: "F2S-91", score: "4/7", time: "52:10:46", star: false },
+  { rank: 1, name: "Nowshin", id: "F2S-63", score: "7/7", time: "89:41:06", star: true },
+  { rank: 2, name: "Afiya", id: "F2S-95", score: "7/7", time: "44:53:51", star: true },
+  { rank: 3, name: "JUBAYER ABDULLAH", id: "F2S-96", score: "5/7", time: "69:01:55", star: false },
+  { rank: 4, name: "Ahin", id: "F2S-91", score: "4/7", time: "45:10:31", star: false },
 ];
 
 const STAR_HOLDERS = STAR_HOLDERS_ALL
@@ -4262,7 +4424,49 @@ function Table({ head, rows }) {
 function App() {
   const [active, setActive] = useState("origin");
   const [dirQuery, setDirQuery] = useState("");
+  const [liveDirectory, setLiveDirectory] = useState(ID_DIRECTORY);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // F2S-ID Directory is Supabase-driven. Keep the original list as a safe
+  // visual fallback, then replace it with the current active directory.
+  useEffect(() => {
+    let cancelled = false;
+    let retryTimer = null;
+
+    const loadDirectory = async () => {
+      try {
+        if (!window.f2sSupabase) {
+          retryTimer = window.setTimeout(loadDirectory, 300);
+          return;
+        }
+        const { data, error } = await window.f2sSupabase.rpc("get_f2s_directory_public");
+        if (cancelled || error) return;
+        if (Array.isArray(data)) {
+          const rows = data
+            .filter(r => String(r.status || "active").toLowerCase() === "active")
+            .map(r => [String(r.f2s_id || ""), String(r.name || "")])
+            .filter(r => r[0] && r[1]);
+          setLiveDirectory(rows);
+        }
+      } catch (e) {
+        console.warn("[F2S] Directory load skipped:", e);
+      }
+    };
+
+    const refresh = () => loadDirectory();
+    loadDirectory();
+    window.addEventListener("f2s:identity-updated", refresh);
+    window.addEventListener("f2s:refresh-live", refresh);
+    const timer = window.setInterval(loadDirectory, 30000);
+
+    return () => {
+      cancelled = true;
+      if (retryTimer) window.clearTimeout(retryTimer);
+      window.clearInterval(timer);
+      window.removeEventListener("f2s:identity-updated", refresh);
+      window.removeEventListener("f2s:refresh-live", refresh);
+    };
+  }, []);
   const [page, setPage] = useState("home");
   const f2sNavigate = (nextPage) => {
     const current = window.__f2sCurrentPage || page;
@@ -4337,6 +4541,18 @@ function App() {
   const [selectedLeaderboardMember, setSelectedLeaderboardMember] = useState(null);
   const [headerTickerIndex, setHeaderTickerIndex] = useState(0);
   const [templateCopied, setTemplateCopied] = useState(false);
+  const [liveWeeklyRows, setLiveWeeklyRows] = useState([]);
+  const [liveWeekNumber, setLiveWeekNumber] = useState(42);
+  const [liveStarRows, setLiveStarRows] = useState(STAR_HOLDERS_ALL.map(([rank,name,id,stars]) => ({
+    rank: Number(rank), name, f2s_id: id, total_stars: Number(stars)
+  })));
+
+  const [liveFCBRows, setLiveFCBRows] = useState([
+    { rank: 1, f2s_id: "F2S-79", name: "Zihad Al Islam", total_invites: 3 },
+    { rank: 2, f2s_id: "F2S-97", name: "Mehejaben Islam", total_invites: 1 },
+    { rank: 3, f2s_id: "F2S-36", name: "Taifa", total_invites: 1 },
+  ]);
+
 
   const SUBMISSION_TEMPLATE = `Alhamdulillah T5 done
 
@@ -4372,11 +4588,110 @@ May Allah help us stay consistent.`;
     }
   };
   const FEATURED_VOICE_INDICES = [6, 7, 2];
+  useEffect(() => {
+    let cancelled = false;
+    let retryTimer = null;
+
+    const loadLiveData = async () => {
+      try {
+        if (!window.f2sSupabase) {
+          retryTimer = window.setTimeout(loadLiveData, 250);
+          return;
+        }
+
+        // The latest published week is the single public source for the
+        // current T5 board/ticker. Never keep the previous week's rows when
+        // a newer week has been published.
+        const metaRes = await window.f2sSupabase.rpc("get_current_week_meta");
+        const currentWeek = (!metaRes.error && metaRes.data && metaRes.data.length)
+          ? Number(metaRes.data[0].week_number)
+          : 42;
+
+        const [weeklyRes, starsRes, fcbRes] = await Promise.all([
+          window.f2sSupabase.rpc("get_weekly_leaderboard", { p_week_number: currentWeek }),
+          window.f2sSupabase.rpc("get_star_leaderboard"),
+          window.f2sSupabase.rpc("get_fcb_leaderboard")
+        ]);
+
+        if (cancelled) return;
+
+        setLiveWeekNumber(currentWeek);
+        window.F2S_CURRENT_WEEK = currentWeek;
+
+        // IMPORTANT: always replace the array, including when the new week
+        // has no rows. This prevents Week 42 data from leaking into Week 43.
+        if (!weeklyRes.error && Array.isArray(weeklyRes.data)) {
+          setLiveWeeklyRows(weeklyRes.data.map((r, i) => ({
+            rank: Number(r.rank) || i + 1,
+            name: r.name || "",
+            id: r.f2s_id || "",
+            score: `${Number(r.completed_days || 0)}/7`,
+            time: r.study_time || "00:00:00",
+            star: !!r.star_earned || Number(r.completed_days || 0) === 7
+          })));
+        } else {
+          setLiveWeeklyRows([]);
+        }
+
+        // F2S Star is ALL-TIME and must never depend on the selected/current week.
+        // Always replace the live Star array when the RPC succeeds, even if empty,
+        // and keep the canonical static snapshot only as a network/RPC fallback.
+        if (!starsRes.error && Array.isArray(starsRes.data)) {
+          setLiveStarRows(starsRes.data.map((r, i) => ({
+            rank: Number(r.rank) || i + 1,
+            name: r.name || "",
+            f2s_id: r.f2s_id || "",
+            total_stars: Number(r.total_stars || 0)
+          })));
+        } else {
+          setLiveStarRows(STAR_HOLDERS_ALL.map(([rank,name,id,stars]) => ({
+            rank: Number(rank), name, f2s_id: id, total_stars: Number(stars)
+          })));
+        }
+
+        if (!fcbRes.error && Array.isArray(fcbRes.data) && fcbRes.data.length) {
+          setLiveFCBRows(fcbRes.data.map((r, i) => ({
+            rank: Number(r.rank) || i + 1,
+            f2s_id: r.f2s_id,
+            name: r.name,
+            total_invites: Number(r.total_invites || 0)
+          })));
+        }
+      } catch (e) {
+        console.warn("[F2S] Live leaderboard load skipped:", e);
+      }
+    };
+
+    loadLiveData();
+
+    // Keep the React UI synchronized with the Supabase bridge.
+    const onLiveUpdate = () => loadLiveData();
+    window.addEventListener("f2s:three-tickers-updated", onLiveUpdate);
+    window.addEventListener("f2s:live-t5-updated", onLiveUpdate);
+    window.addEventListener("f2s:live-stars-updated", onLiveUpdate);
+    window.addEventListener("f2s:fcb-top1-updated", onLiveUpdate);
+    window.addEventListener("f2s:fcb-invites-updated", onLiveUpdate);
+    window.addEventListener("f2s:identity-updated", onLiveUpdate);
+    const refreshTimer = window.setInterval(loadLiveData, 30000);
+
+    return () => {
+      cancelled = true;
+      if (retryTimer) window.clearTimeout(retryTimer);
+      window.clearInterval(refreshTimer);
+      window.removeEventListener("f2s:three-tickers-updated", onLiveUpdate);
+      window.removeEventListener("f2s:live-t5-updated", onLiveUpdate);
+      window.removeEventListener("f2s:live-stars-updated", onLiveUpdate);
+      window.removeEventListener("f2s:fcb-top1-updated", onLiveUpdate);
+      window.removeEventListener("f2s:fcb-invites-updated", onLiveUpdate);
+      window.removeEventListener("f2s:identity-updated", onLiveUpdate);
+    };
+  }, []);
+
 
   // Header highlights: each item stays visible for exactly 3 seconds.
   useEffect(() => {
     const timer = window.setInterval(() => {
-      setHeaderTickerIndex((i) => (i + 1) % 6);
+      setHeaderTickerIndex((i) => (i + 1) % 4);
     }, 3000);
     return () => window.clearInterval(timer);
   }, []);
@@ -4630,10 +4945,10 @@ May Allah help us stay consistent.`;
   }, []);
 
   const filteredDirectory = useMemo(() => {
-    if (!dirQuery.trim()) return ID_DIRECTORY;
+    if (!dirQuery.trim()) return liveDirectory;
     const q = dirQuery.toLowerCase();
-    return ID_DIRECTORY.filter(([id, name]) => id.toLowerCase().includes(q) || name.toLowerCase().includes(q));
-  }, [dirQuery]);
+    return liveDirectory.filter(([id, name]) => id.toLowerCase().includes(q) || name.toLowerCase().includes(q));
+  }, [dirQuery, liveDirectory]);
 
   const goToVoicesSection = () => {
     f2sNavigate("voices");
@@ -4940,20 +5255,51 @@ May Allah help us stay consistent.`;
                 <span>{s.label}</span>
               </button>
             ))}
+            <div style={{height:1,background:"rgba(217,167,85,0.16)",margin:"6px 4px"}} />
+            <button
+              aria-label="F2S Admin Center"
+              onClick={() => {
+                setMenuOpen(false);
+                if (typeof window.openF2SAdminCenter === "function") window.openF2SAdminCenter();
+              }}
+              style={{
+                display:"flex",alignItems:"center",gap:10,width:"100%",textAlign:"left",
+                fontFamily:"Inter",fontSize:13.5,fontWeight:700,padding:"11px 12px",
+                borderRadius:8,border:"1px solid rgba(217,167,85,0.24)",
+                background:"linear-gradient(135deg,rgba(217,167,85,0.12),rgba(217,167,85,0.04))",
+                color:"#E6BD70",cursor:"pointer"
+              }}
+            >
+              <span style={{fontSize:16}}>🔐</span>
+              <span>F2S Admin Center</span>
+            </button>
           </div>
         )}
       </header>
 
       <div className="f2s-header-highlight-ticker" aria-label="F2S current star and FCB highlights">
         <div className="f2s-header-highlight-viewport">
-          {[
-            { key: "f2s-1", icon: "★", label: "#1 F2S STAR", value: "Taifa · F2S-36 · 13★", type: "f2s" },
-            { key: "fcb-1-a", icon: "♟", label: "#1 FCB STAR", value: "Zihad Al Islam · F2S-79 · 3 invites", type: "fcb" },
-            { key: "f2s-2", icon: "★", label: "#2 F2S STAR", value: "Nowshin · F2S-63 · 7★", type: "f2s" },
-            { key: "fcb-1-b", icon: "♟", label: "#1 FCB STAR", value: "Zihad Al Islam · F2S-79 · 3 invites", type: "fcb" },
-            { key: "f2s-3", icon: "★", label: "#3 F2S STAR", value: "Meow · F2S-70 · 4★", type: "f2s" },
-            { key: "fcb-1-c", icon: "♟", label: "#1 FCB STAR", value: "Zihad Al Islam · F2S-79 · 3 invites", type: "fcb" },
-          ].map((item, i) => (
+          {(() => {
+            const stars = liveStarRows.slice(0, 3);
+            const fcb = liveFCBRows[0];
+            const tickerItems = [];
+            stars.forEach((r, i) => tickerItems.push({
+              key: `f2s-${i + 1}`,
+              icon: "★",
+              label: `#${i + 1} F2S STAR`,
+              value: `${r.name} · ${r.f2s_id} · ${r.total_stars}★`,
+              type: "f2s"
+            }));
+            if (fcb) {
+              tickerItems.push({
+                key: "fcb-1",
+                icon: "♟",
+                label: "#1 FCB STAR",
+                value: `${fcb.name} · ${fcb.f2s_id} · ${fcb.total_invites} invites`,
+                type: "fcb"
+              });
+            }
+            return tickerItems.map((item, i) => (
             <div
               key={item.key}
               className={`f2s-header-highlight-slide ${i === headerTickerIndex ? "is-active" : ""}`}
@@ -4974,10 +5320,13 @@ May Allah help us stay consistent.`;
                 ))}
               </span>
             </div>
-          ))}
+          ));
+          })()}
         </div>
         <div className="f2s-header-highlight-dots" aria-hidden="true">
-          {[0,1,2,3,4,5].map((i) => <i key={i} className={i === headerTickerIndex ? "is-active" : ""} />)}
+          {Array.from({ length: Math.max(1, Math.min(4, liveStarRows.slice(0, 3).length + (liveFCBRows[0] ? 1 : 0))) }, (_, i) =>
+            <i key={i} className={i === headerTickerIndex ? "is-active" : ""} />
+          )}
         </div>
       </div>
 
@@ -5001,6 +5350,24 @@ May Allah help us stay consistent.`;
                     </button>
                   ))}
                 </nav>
+                <button
+                  type="button"
+                  className="sidebar-admin-control"
+                  aria-label="Open F2S Admin Center"
+                  onClick={() => {
+                    if (typeof window.openF2SAdminCenter === "function") {
+                      window.openF2SAdminCenter();
+                    } else {
+                      setTimeout(() => window.openF2SAdminCenter && window.openF2SAdminCenter(), 300);
+                    }
+                  }}
+                >
+                  <span className="sidebar-admin-icon">✦</span>
+                  <span className="sidebar-admin-copy">
+                    <b>F2S Control</b>
+                    <small>Admin Center</small>
+                  </span>
+                </button>
               </aside>
               <main className="content-column">
           <div style={{ marginBottom: 48 }}>
@@ -5021,14 +5388,14 @@ May Allah help us stay consistent.`;
             <div className="f2s-weekly-ticker-wrap" aria-label="Weekly T5 leaderboard highlights">
               <div className="f2s-weekly-ticker-label">
                 <span className="f2s-weekly-ticker-label-main">T5</span>
-                <span className="f2s-weekly-ticker-label-week">W41</span>
+                <span className="f2s-weekly-ticker-label-week">W{liveWeekNumber}</span>
                 <span className="f2s-weekly-ticker-label-live"><i className="f2s-weekly-ticker-live-dot" /> LIVE</span>
               </div>
               <div className="f2s-weekly-ticker" aria-hidden="false">
                 <div className="f2s-weekly-ticker-track">
                   {[0, 1].map((copy) => (
                     <div className="f2s-weekly-ticker-set" key={copy} aria-hidden={copy === 1}>
-                      {WEEKLY_T5_TOP3.filter(member => member.rank <= 3 || member.score === "7/7").map((member) => (
+                      {liveWeeklyRows.filter((member) => member.rank <= 3 || member.score === "7/7").map((member) => (
                         <div className={`f2s-weekly-ticker-item rank-${member.rank}`} key={`${copy}-${member.id}`}>
                           <span className="f2s-weekly-ticker-rank">#{member.rank}</span>
                           <span className="f2s-weekly-ticker-name">{member.name}</span>
@@ -5039,11 +5406,11 @@ May Allah help us stay consistent.`;
                           <span className="f2s-weekly-ticker-sep">•</span>
                           <span className="f2s-weekly-ticker-time">{member.time}</span>
                           <span className="f2s-weekly-ticker-total-star-desktop">
-                            • {((STAR_HOLDERS_ALL.find(x => x[2] === member.id) || ["","","",0])[3])}★
+                            • {((liveStarRows.find(x => x.f2s_id === member.id) || {total_stars: 0}).total_stars)}★
                           </span>
                           {member.rank === 1 && (
                             <span className="f2s-weekly-ticker-total-star">
-                              <span className="ticker-star-dot">•</span> {((STAR_HOLDERS_ALL.find(x => x[2] === member.id) || ["","","",0])[3])}★
+                              <span className="ticker-star-dot">•</span> {((liveStarRows.find(x => x.f2s_id === member.id) || {total_stars: 0}).total_stars)}★
                             </span>
                           )}
                         </div>
@@ -5801,7 +6168,7 @@ May Allah help us stay consistent.`;
               <div className="leaderboards-current-wrap">
                 <div className="leaderboards-current-kicker">CURRENT LEADERBOARDS</div>
                 <div className="leaderboards-current-title">Current Leaderboards</div>
-                <div className="leaderboards-current-subtitle">F2S Star, FCB and T5 Week 41 — live current standings</div>
+                <div className="leaderboards-current-subtitle">F2S Star (All-Time), FCB and T5 Week {liveWeekNumber} — live standings</div>
                 <div className="leaderboards-current-grid">
               <div className="top5-stars-box">
                 <div className="top5-stars-head">
@@ -5810,13 +6177,18 @@ May Allah help us stay consistent.`;
                     <div>
                       <div className="top5-stars-kicker">F2S ALL-TIME HONORS</div>
                       <div className="top5-stars-title">F2S Stars Leaderboard</div>
-                      <div className="top5-stars-subtitle">Week 1 to Week 41 · Top 5 all-time Star leaderboard</div>
+                      <div className="top5-stars-subtitle">Week 1 to Week {liveWeekNumber} · Top 5 all-time Star leaderboard</div>
                     </div>
                   </div>
                   <div className="top5-stars-badge">TOP 5</div>
                 </div>
                 <div className="top5-stars-list">
-                  {STAR_HOLDERS.map(([rank, name, id, stars], i) => (
+                  {liveStarRows.slice(0, 5).map((member, i) => {
+                    const rank = String(i + 1);
+                    const name = member.name;
+                    const id = member.f2s_id;
+                    const stars = `${member.total_stars}⭐`;
+                    return (
                     <div key={id} className={`top5-star-row ${i === 0 ? "is-champion" : ""} ${i === 1 ? "is-second" : ""} ${i === 2 ? "is-third" : ""}`}>
                       <div className="top5-rank-badge">{rank}</div>
                       <div className="top5-member">
@@ -5827,7 +6199,8 @@ May Allah help us stay consistent.`;
                         <span>{stars.replace("⭐","")}</span><b>★</b>
                       </div>
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
                 <div className="top5-stars-footer">
                   <span>Top 5 all-time Star holders</span>
@@ -5836,7 +6209,7 @@ May Allah help us stay consistent.`;
                 </div>
                 <div className="top5-record-note">
                   <span className="top5-record-icon">✦</span>
-                  <span><strong>Current record holder</strong> · Taifa <em>F2S-36</em> · 13 Stars</span>
+                  <span><strong>Current record holder</strong> · {liveStarRows.length ? liveStarRows[0].name : "—"} <em>{liveStarRows.length ? liveStarRows[0].f2s_id : ""}</em> · {liveStarRows.length ? liveStarRows[0].total_stars : 0} Stars</span>
                 </div>
               </div>
 
@@ -5857,26 +6230,24 @@ May Allah help us stay consistent.`;
 
                 <div className="fcb-metric fcb-metric-top">
                   <div className="fcb-metric-label">F2S Invites · Total</div>
-                  <div className="fcb-metric-value">5</div>
+                  <div className="fcb-metric-value">{liveFCBRows.reduce((sum, m) => sum + Number(m.total_invites || 0), 0)}</div>
                 </div>
 
                 <div className="fcb-columns"><div>Rank</div><div>Community Builder</div><div>Invites</div></div>
 
-                <div className="fcb-row is-one">
-                  <div className="fcb-rank">1</div>
-                  <div><div className="fcb-name">Zihad Al Islam</div><div className="fcb-role">F2S COMMUNITY BUILDER</div></div>
-                  <div className="fcb-count">3<small>invites</small></div>
-                </div>
-                <div className="fcb-row">
-                  <div className="fcb-rank">2</div>
-                  <div><div className="fcb-name">Mehejaben Islam</div><div className="fcb-role">F2S COMMUNITY BUILDER</div></div>
-                  <div className="fcb-count">1<small>invite</small></div>
-                </div>
-                <div className="fcb-row">
-                  <div className="fcb-rank">3</div>
-                  <div><div className="fcb-name">Taifa</div><div className="fcb-role">F2S COMMUNITY BUILDER</div></div>
-                  <div className="fcb-count">1<small>invite</small></div>
-                </div>
+                {liveFCBRows.map((member, index) => (
+                  <div className={`fcb-row ${index === 0 ? "is-one" : ""}`} key={member.f2s_id}>
+                    <div className="fcb-rank">{index + 1}</div>
+                    <div>
+                      <div className="fcb-name">{member.name}</div>
+                      <div className="fcb-role">F2S COMMUNITY BUILDER · {member.f2s_id}</div>
+                    </div>
+                    <div className="fcb-count">
+                      {Number(member.total_invites || 0)}
+                      <small>{Number(member.total_invites || 0) === 1 ? "invite" : "invites"}</small>
+                    </div>
+                  </div>
+                ))}
 
                 <div className="fcb-footer">
                   <strong>Be the reason someone finds a better path.</strong>
@@ -5888,38 +6259,38 @@ May Allah help us stay consistent.`;
                 <div className="t5w37-board-header">
                   <div>
                     <div className="t5w37-board-kicker">T5 WEEKLY HONORS · F2S</div>
-                    <div className="t5w37-board-title">T5 Week 41 <span className="t5w37-board-title-small">Leaderboard</span></div>
-                    <div className="t5w37-board-subtitle">31.08.26 – 06.09.26 · Consistency, study time &amp; stars</div>
+                    <div className="t5w37-board-title">T5 Week {liveWeekNumber} <span className="t5w37-board-title-small">Leaderboard</span></div>
+                    <div className="t5w37-board-subtitle">Current Week {liveWeekNumber} · Consistency, study time &amp; stars</div>
                   </div>
-                  <div className="t5w37-week-badge">WEEK<br/>41</div>
+                  <div className="t5w37-week-badge">WEEK<br/>{liveWeekNumber}</div>
                 </div>
                 <div className="t5w37-champion-simple">
-                  <div><span>W41 CHAMPION</span> <strong>Nowshin</strong></div>
-                  <div>Total F2S <b>7/7</b> Star <strong>7★</strong></div>
+                  <div><span>W{liveWeekNumber} CHAMPION</span> <strong>{liveWeeklyRows.length ? liveWeeklyRows[0].name : "—"}</strong></div>
+                  <div>Total F2S <b>{liveWeeklyRows.length ? liveWeeklyRows[0].score : "—"}</b> Star <strong>{liveWeeklyRows.length ? (() => { const champion = liveWeeklyRows[0]; const starRow = liveStarRows.find(x => String(x.f2s_id || "").toUpperCase() === String(champion.id || "").toUpperCase()); return starRow ? `${Number(starRow.total_stars || 0)}★` : "—"; })() : "—"}</strong></div>
                 </div>
                 <div className="t5w37-board-columns">
                   <div>#</div><div>Name</div><div>F2S ID</div><div>T5</div><div>Study Time</div><div aria-hidden="true"></div>
                 </div>
-                {WEEKLY_T5_TOP3.map((member) => {
-                  const allStar = STAR_HOLDERS_ALL.find(x => x[2] === member.id);
+                {liveWeeklyRows.map((member) => {
+                  const allStar = liveStarRows.find(x => String(x.f2s_id || "").toUpperCase() === String(member.id || "").toUpperCase());
                   const stars = allStar ? allStar[3] : 0;
                   const achievement = member.score === "7/7" ? "PERFECT WEEK" : member.rank === 1 ? "STUDY CHAMPION" : member.score === "6/7" ? "STRONG CONSISTENCY" : "T5 CONSISTENCY";
                   return (
-                    <div className={`t5w37-board-row ${member.rank === 1 ? "rank-one" : member.rank === 2 ? "rank-two" : "rank-three"}`} key={member.id}>
+                    <div className={`t5w37-board-row ${member.rank === 1 ? "rank-one" : member.rank === 2 ? "rank-two" : member.rank === 3 ? "rank-three" : ""} ${member.score === "7/7" ? "weekly-perfect" : ""}`} key={member.id}>
                       <button type="button" className="t5w37-member-hit" tabIndex="-1">
                         <div className="t5w37-rank">{member.rank}</div><div className="t5w37-identity"><div className="t5w37-name"><span className="t5w37-name-full">{member.name}</span><span className="t5w37-name-short">{member.name.split(" ")[0]}</span></div><span className="f2s-achievement-badge">{achievement}</span></div>
                         <div className="t5w37-id">{member.id}</div><div className={`t5w37-score ${member.rank === 1 ? "" : "partial"}`}>{member.score}</div><div className="t5w37-time">{member.time}</div>
-                        <div className="t5w37-star-cell">{member.score === "7/7" ? <><span className="t5w37-star-count">1</span><span className="t5w37-star">★</span></> : <span className="t5w37-no-star">—</span>}</div>
+                        <div className="t5w37-star-cell">{member.star ? <><span className="t5w37-star-count">1</span><span className="t5w37-star">★</span></> : <span className="t5w37-no-star">—</span>}</div>
                       </button>
                     </div>
                   );
                 })}
                 <div className="t5w37-summary">
-                  <div className="t5w37-summary-card"><div className="t5w37-summary-label">Perfect Scores</div><div className="t5w37-summary-value">3 / 5 Members</div></div>
-                  <div className="t5w37-summary-card"><div className="t5w37-summary-label">Week 41 Stars</div><div className="t5w37-summary-value">3 <span className="t5w37-star">★</span> Earned</div></div>
-                  <div className="t5w37-summary-card"><div className="t5w37-summary-label">Top Study Time</div><div className="t5w37-summary-value">793:35:24</div></div>
+                  <div className="t5w37-summary-card"><div className="t5w37-summary-label">Perfect Scores</div><div className="t5w37-summary-value">{liveWeeklyRows.length} Members</div></div>
+                  <div className="t5w37-summary-card"><div className="t5w37-summary-label">Week {liveWeekNumber} Stars</div><div className="t5w37-summary-value">{liveWeeklyRows.filter(m => m.star || m.score === "7/7").length} <span className="t5w37-star">★</span> Earned</div></div>
+                  <div className="t5w37-summary-card"><div className="t5w37-summary-label">Top Study Time</div><div className="t5w37-summary-value">{liveWeeklyRows.length ? liveWeeklyRows[0].time : "00:00:00"}</div></div>
                 </div>
-                <div className="t5w37-board-footer"><span><span className="t5w37-star">★</span> Star awarded for 7/7 T5</span><span>·</span><span>#FajrToSuccess</span><span>·</span><span>Week 41</span></div>
+                <div className="t5w37-board-footer"><span><span className="t5w37-star">★</span> Star awarded for 7/7 T5</span><span>·</span><span>#FajrToSuccess</span><span>·</span><span>Week {liveWeekNumber}</span></div>
               </div>
                 </div>
               </div>
@@ -6539,7 +6910,7 @@ F2S Ramadan Express is preparing to depart 🚂
                 </p>
               </Card>            </div>
           </Section>
-          <Section id="directory" title="F2S ID Directory" kicker="Week 1 – Week 37">
+          <Section id="directory" title="F2S ID Directory" kicker="Live • Supabase Directory">
             <input
               value={dirQuery}
               onChange={(e) => setDirQuery(e.target.value)}
@@ -6576,7 +6947,7 @@ F2S Ramadan Express is preparing to depart 🚂
               </table>
             </div>
             <p style={{ fontFamily: "Inter", fontSize: 12, color: "#8a8064", marginTop: 8 }}>
-              {filteredDirectory.length} of {ID_DIRECTORY.length} IDs shown. Names with a "/" indicate a member who
+              {filteredDirectory.length} of {liveDirectory.length} IDs shown. Names with a "/" indicate a member who
               has gone by more than one display name.
             </p>
           </Section>
@@ -9093,394 +9464,2068 @@ body{overflow-x:hidden}
 })();
 </script>
 
-</body>
-</html>
 
-<style id="f2s-mobile-top1-star-visibility">
-@media(max-width:760px){
-  .t5w37-board-row.rank-one .t5w37-star-cell{
-    background:linear-gradient(145deg,rgba(8,9,11,.92),rgba(18,19,22,.86)) !important;
-    border-color:rgba(210,176,107,.34) !important;
-    box-shadow:0 6px 18px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.045) !important;
-  }
-  .t5w37-board-row.rank-one .t5w37-star-cell .t5w37-star{
-    color:#F5C95F !important;
-    font-size:17px !important;
-    font-weight:900 !important;
-    text-shadow:0 0 5px rgba(245,201,95,.16) !important;
-  }
-}
-@media(max-width:520px){
-  .t5w37-board-row.rank-one .t5w37-star-cell .t5w37-star{
-    font-size:16px !important;
-  }
-}
-</style>
+<script>
+/* F2S LIVE DATA BRIDGE
+   Canonical UI remains unchanged.
+   Source of truth:
+   - weekly_t5: weekly leaderboard
+   - stars: all-time Star totals
+   - weekly_star_awards: immutable weekly Star history
+*/
+(function () {
+  const SUPABASE_URL = "https://cqbxtjfwitbnwlnwxnrw.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_-3anwrTbvZhUU8sgxM3SUQ_Y0ZjA1lC";
+  if (!window.supabase || !SUPABASE_PUBLISHABLE_KEY) return;
 
-<style id="f2s-t5-desktop-center-final">
-/* Desktop final polish: keep the T5 circle/ring mathematically centered in the weekly-cycle orbit. */
-@media (min-width:701px){
-  .f2s-t5-signature .f2s-t5-orbit{position:relative!important;display:block!important;}
-  .f2s-t5-signature .f2s-t5-ring{
-    position:absolute!important;
-    left:50%!important;
-    top:50%!important;
-    margin-left:-95px!important;
-    margin-top:-95px!important;
-    transform-origin:50% 50%!important;
-  }
-  .f2s-t5-signature .f2s-t5-core{
-    position:absolute!important;
-    left:50%!important;
-    top:50%!important;
-    transform:translate(-50%,-50%)!important;
-  }
-}
-</style>
+  const client = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+  window.f2sSupabase = client;
 
-<!-- F2S FINAL PUBLISH PATCH — responsive motion + sidebar navigation -->
-<style id="f2s-final-section-sync-polish">
-  html{scroll-behavior:smooth;scroll-padding-top:110px}
-  section[id]{scroll-margin-top:110px}
-  @media(max-width:860px){
-    html{scroll-padding-top:82px}
-    section[id]{scroll-margin-top:82px}
-  }
-  @media(max-width:720px){
-    html{scroll-padding-top:74px}
-    section[id]{scroll-margin-top:74px}
-  }
-</style>
-
-<style id="f2s-final-publish-motion-nav">
-  /* Keep motion alive when switching Desktop ↔ Tablet ↔ Mobile.
-     Tablet is the missing middle state in the earlier motion engines. */
-  @media (min-width:701px) and (max-width:860px){
-    .f2s-weekly-ticker-wrap{overflow:hidden!important}
-    .f2s-weekly-ticker-track{
-      display:flex!important;
-      flex-direction:row!important;
-      flex-wrap:nowrap!important;
-      width:max-content!important;
-      min-width:max-content!important;
-      max-width:none!important;
-      animation:f2sTickerRTL 20s linear infinite!important;
-      animation-play-state:running!important;
-      will-change:transform!important;
-      transform:translate3d(0,0,0);
-    }
-    .f2s-weekly-ticker-set{display:flex!important;flex:0 0 auto!important;width:max-content!important}
-    .f2s-weekly-ticker-item{display:flex!important;flex:0 0 auto!important}
-    .f2s-weekly-ticker-live-dot{animation:f2sTickerPulse 1.7s ease-in-out infinite!important}
+  async function getWeeklyT5(weekNumber) {
+    const { data, error } = await client.rpc("get_weekly_leaderboard", {
+      p_week_number: Number(weekNumber)
+    });
+    if (error) throw error;
+    return Array.isArray(data) ? data : [];
   }
 
-  /* Tablet T5 keeps the same premium motion language as desktop. */
-  @media (min-width:701px) and (max-width:860px){
-    .f2s-t5-signature .f2s-t5-ring{
-      animation:f2sUploadRing 14s linear infinite!important;
-      animation-play-state:running!important;
-    }
-    .f2s-t5-signature .f2s-t5-ring:after{
-      animation:f2sT5PremiumRotateReverse 10s linear infinite!important;
-      animation-play-state:running!important;
-    }
-    .f2s-t5-signature .f2s-t5-core{
-      animation:f2sT5CoreGlow 3.8s ease-in-out infinite!important;
-      animation-play-state:running!important;
-    }
-    .f2s-t5-signature .f2s-t5-core:before{
-      animation:f2sT5CoreRing 3.8s ease-in-out infinite!important;
-      animation-play-state:running!important;
-    }
-    .f2s-t5-signature .f2s-t5-particle{
-      animation:f2sT5Particle 3.2s ease-in-out infinite!important;
-      animation-play-state:running!important;
-    }
-    .f2s-t5-signature .f2s-t5-pillar:after{
-      animation:f2sT5PillarSweep 5s ease-in-out infinite!important;
-      animation-play-state:running!important;
-    }
-    .f2s-t5-signature .f2s-t5-day i{
-      animation:f2sT5DayFill 5.2s ease-in-out infinite!important;
-      animation-play-state:running!important;
-    }
+  async function getStars() {
+    const { data, error } = await client.rpc("get_star_leaderboard");
+    if (error) throw error;
+    return Array.isArray(data) ? data : [];
   }
 
-  /* Navigation targets clear the fixed header/ticker area. */
-  html{scroll-padding-top:124px}
-  @media(max-width:860px){html{scroll-padding-top:78px}}
-  @media(max-width:720px){html{scroll-padding-top:76px}}
-
-  /* Sidebar is a navigation rail, not a competing scroll container. */
-  @media(min-width:861px){
-    .desktop-sidebar{
-      overscroll-behavior:contain;
-      scroll-behavior:smooth!important;
-    }
-    .sidebar-nav{scroll-margin-top:124px}
-    .sidebar-link{scroll-margin-top:124px}
-  }
-  .mobile-nav-panel{
-    overscroll-behavior:contain;
-    scroll-behavior:smooth!important;
-  }
-</style>
-
-<script id="f2s-final-publish-motion-nav-js">
-(function(){
-  'use strict';
-
-  var tickerRaf=0, tickerLast=0, tickerX=0, tickerWidth=0, tickerTrack=null, tickerRunning=false;
-  var tickerSpeed=38;
-
-  function reducedMotion(){
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  }
-
-  function isTickerJSViewport(){
-    return window.matchMedia('(min-width:601px)').matches;
-  }
-
-  function setupResponsiveTicker(){
-    if(reducedMotion() || !isTickerJSViewport()){
-      tickerRunning=false;
-      if(tickerRaf) cancelAnimationFrame(tickerRaf);
-      tickerRaf=0;
-      return;
-    }
-
-    var track=document.querySelector('.f2s-weekly-ticker-track');
-    if(!track) return;
-
-    var sets=track.querySelectorAll('.f2s-weekly-ticker-set');
-    if(sets.length<2) return;
-
-    tickerTrack=track;
-    var measured=sets[0].getBoundingClientRect().width;
-    if(!(measured>0) || !isFinite(measured)) return;
-
-    tickerWidth=measured;
-    tickerSpeed=Math.max(30,Math.min(52,tickerWidth/26));
-
-    /* JS owns the transform so resizing never leaves the track frozen. */
-    track.style.setProperty('animation','none','important');
-    track.style.setProperty('transition','none','important');
-    track.style.setProperty('will-change','transform','important');
-    tickerX=((tickerX%tickerWidth)+tickerWidth)%tickerWidth;
-    if(tickerX>0) tickerX-=tickerWidth;
-
-    tickerRunning=true;
-    tickerLast=performance.now();
-    if(tickerRaf) cancelAnimationFrame(tickerRaf);
-    tickerRaf=requestAnimationFrame(tickerFrame);
-  }
-
-  function tickerFrame(now){
-    if(!tickerRunning || !tickerTrack) return;
-    var dt=Math.min(0.05,Math.max(0,(now-tickerLast)/1000));
-    tickerLast=now;
-    tickerX-=tickerSpeed*dt;
-    if(tickerX<=-tickerWidth) tickerX+=tickerWidth;
-    tickerTrack.style.setProperty(
-      'transform','translate3d('+tickerX.toFixed(3)+'px,0,0)','important'
-    );
-    tickerRaf=requestAnimationFrame(tickerFrame);
-  }
-
-  function bootTicker(){
-    setupResponsiveTicker();
-    setTimeout(setupResponsiveTicker,180);
-    setTimeout(setupResponsiveTicker,600);
-    setTimeout(setupResponsiveTicker,1200);
-  }
-
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',bootTicker);
-  }else{
-    bootTicker();
-  }
-  window.addEventListener('load',bootTicker,{once:true});
-  window.addEventListener('resize',function(){
-    /* Re-measure on every breakpoint crossing. */
-    setupResponsiveTicker();
-  },{passive:true});
-
-  var root=document.getElementById('root')||document.body;
-  var mo=new MutationObserver(function(){
-    var current=document.querySelector('.f2s-weekly-ticker-track');
-    if(current && current!==tickerTrack){
-      tickerTrack=null;
-      tickerRunning=false;
-      setTimeout(setupResponsiveTicker,60);
-    }
-  });
-  mo.observe(root,{childList:true,subtree:true});
-
-  /* ---------- Sidebar ↔ main-page navigation repair ---------- */
-  function targetOffset(el){
-    if(!el) return 0;
-    var header=document.querySelector('.site-header');
-    var headerH=header ? header.getBoundingClientRect().height : 0;
-    var extra=window.innerWidth>=861 ? 18 : 10;
-    return Math.max(0,window.scrollY + el.getBoundingClientRect().top - headerH - extra);
-  }
-
-  function syncSidebarToActive(){
-    var active=document.querySelector('.desktop-sidebar .sidebar-link.is-active');
-    if(!active) return;
-    var rail=active.closest('.desktop-sidebar');
-    if(!rail) return;
-    var a=active.getBoundingClientRect();
-    var r=rail.getBoundingClientRect();
-    if(a.top < r.top+10 || a.bottom > r.bottom-10){
-      active.scrollIntoView({behavior:'smooth',block:'nearest'});
-    }
-  }
-
-  function repairSectionNavigation(){
-    if(typeof window.__f2sSectionNavRepaired==='boolean' && window.__f2sSectionNavRepaired) return;
-    window.__f2sSectionNavRepaired=true;
-
-    /* Replace only the local navigation behavior; page/history logic remains untouched. */
-    window.__f2sPremiumScrollTo=function(id){
-      var el=document.getElementById(id);
-      if(!el) return;
-
-      var currentHash=location.hash;
-      var target=targetOffset(el);
-
-      /* Use the existing app navigation when available, without relying on
-         scrollIntoView's treatment of fixed headers. */
-      try{
-        if(typeof window.scrollTo==='function'){
-          window.scrollTo({top:target,behavior:reducedMotion()?'auto':'smooth'});
-        }
-      }catch(e){
-        window.scrollTo(0,target);
-      }
-
-      document.querySelectorAll('.sidebar-link.is-active').forEach(function(x){
-        x.classList.remove('is-active');
-      });
-      document.querySelectorAll('.sidebar-link').forEach(function(x){
-        var txt=x.getAttribute('data-section-id');
-        if(txt===id) x.classList.add('is-active');
-      });
-
-      setTimeout(syncSidebarToActive,220);
-    };
-  }
-
-  /* Mark links with their target id so the fallback can sync precisely. */
-  function tagSidebarLinks(){
-    document.querySelectorAll('.sidebar-link').forEach(function(btn){
-      if(btn.dataset.sectionId) return;
-      var onclick=btn.getAttribute('onclick');
-      if(onclick) return;
-      /* React-rendered buttons expose their target only through the handler,
-         so infer it from the matching visible section order. */
+  function getTickerRows(rows) {
+    const ranked = Array.isArray(rows) ? rows : [];
+    return ranked.filter(row => {
+      const rank = Number(row.rank);
+      const days = Number(row.completed_days ?? String(row.score || "0/7").split("/")[0]);
+      return rank <= 3 || days === 7;
     });
   }
 
-  /* More reliable: intercept clicks on F2S sidebar/mobile section buttons and
-     use the actual React handler first, then correct the final offset. */
-  document.addEventListener('click',function(e){
-    var btn=e.target.closest && e.target.closest('.sidebar-link, .mobile-nav-panel button');
-    if(!btn) return;
+  window.F2S_LIVE = {
+    getWeeklyT5,
+    getStars,
+    getTickerRows
+  };
 
-    var label=(btn.textContent||'').trim().toLowerCase();
-
-    /* Match the rendered navigation label to the canonical section list.
-       This avoids relying on DOM index (desktop + mobile navs coexist). */
-    var sectionMap={
-      'origin story':'origin',
-      'the t5 system':'t5',
-      'f2s id & premium':'premium',
-      'submission rules':'submit',
-      'all tasks':'tasks',
-      'leaderboards':'boards',
-      'warnings & enforcement':'enforcement',
-      'day-offs & status':'dayoff',
-      'leadership & admin panel':'adminpanel',
-      'moderator program':'moderators',
-      'copyright policy':'copyright',
-      'data archive':'archive',
-      'f2s moments':'moments',
-      'f2s id directory':'directory',
-      'community links':'links'
-    };
-    var id=sectionMap[label]||null;
-
-    /* Fallback to matching the section heading text. */
-    if(!id){
-      var allIds=Object.keys(sectionMap).map(function(k){return sectionMap[k];});
-      for(var i=0;i<allIds.length;i++){
-        var el=document.getElementById(allIds[i]);
-        var h=el&&el.querySelector('h1,h2,h3');
-        if(h && h.textContent.trim().toLowerCase()===label){id=allIds[i];break;}
-      }
-    }
-
-    if(false && id){
-      setTimeout(function(){
-        var el=document.getElementById(id);
-        if(el){
-          var top=targetOffset(el);
-          window.scrollTo({top:top,behavior:reducedMotion()?'auto':'smooth'});
-          setTimeout(syncSidebarToActive,260);
-        }
-      },30);
-    }
-  },true);
-
-  repairSectionNavigation();
-  tagSidebarLinks();
+  // Expose a safe diagnostic without displaying a UI badge.
+  window.testF2SLiveData = async function (weekNumber) {
+    const week = await getWeeklyT5(weekNumber);
+    const stars = await getStars();
+    console.log("[F2S] live T5:", week);
+    console.log("[F2S] live Stars:", stars);
+    return { week, stars };
+  };
 })();
 </script>
 
 
-<!-- F2S FINAL PUBLISH — LAST PREMIUM CLEANUP -->
-<style id="f2s-final-publish-last-cleanup">
-  /* Keep the compact W40 ticker complete on every viewport. */
-  @media (max-width:600px){
-    .f2s-weekly-ticker-track{
-      display:flex!important;
-      flex-direction:row!important;
-      flex-wrap:nowrap!important;
-      width:max-content!important;
-      min-width:max-content!important;
-      max-width:none!important;
-    }
-    .f2s-weekly-ticker-set{
-      display:flex!important;
-      flex:0 0 auto!important;
-      width:max-content!important;
-    }
-    .f2s-weekly-ticker-item{
-      display:flex!important;
-      flex:0 0 auto!important;
-    }
-    .f2s-weekly-ticker-item:not(:first-child){display:flex!important}
+<script>
+/* F2S LIVE RENDERER
+   Rehydrates existing T5/Star leaderboard text from Supabase.
+   No layout/CSS redesign is performed.
+*/
+(function () {
+  function esc(s) {
+    return String(s ?? "").replace(/[&<>"']/g, c => ({
+      "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+    }[c]));
   }
 
-  /* Respect accessibility: motion is opt-in only when the user allows it. */
-  @media (max-width:600px) and (prefers-reduced-motion:no-preference){
-    .f2s-weekly-ticker-track{
-      animation:f2sTickerRTL 18s linear infinite!important;
-      animation-play-state:running!important;
-      will-change:transform;
+  function findTextElement(patterns) {
+    const els = Array.from(document.querySelectorAll("body *"))
+      .filter(el => el.children.length === 0 && el.textContent.trim());
+    for (const p of patterns) {
+      const el = els.find(x => p.test(x.textContent.trim()));
+      if (el) return el;
     }
-  }
-  @media (prefers-reduced-motion:reduce){
-    .f2s-weekly-ticker-track{
-      animation:none!important;
-      transform:none!important;
-    }
-    .f2s-weekly-ticker-live-dot{animation:none!important}
+    return null;
   }
 
-  /* Final rendering hygiene. */
-  html{-webkit-text-size-adjust:100%;}
-  body{overflow-x:hidden;}
-  button,input,select,textarea{font:inherit;}
+  function formatTime(seconds) {
+    const n = Math.max(0, Number(seconds) || 0);
+    const h = Math.floor(n / 3600);
+    const m = Math.floor((n % 3600) / 60);
+    const s = Math.floor(n % 60);
+    return [h, m, s].map(v => String(v).padStart(2, "0")).join(":");
+  }
+
+  function setText(el, text) {
+    if (el) el.textContent = text;
+  }
+
+  async function renderLiveStarTop5() {
+    if (!window.F2S_LIVE) return;
+    try {
+      const rows = await window.F2S_LIVE.getStars();
+      const top5 = rows.slice(0, 5);
+      window.F2S_LIVE_STAR_TOP5 = top5;
+
+      // Preserve existing UI by updating text nodes/cards that visibly contain
+      // the known historical Star names/IDs. If a template cannot be located,
+      // the data is still exposed on window for the page's existing components.
+      const names = ["Taifa", "Nowshin", "Meow", "Munia", "DrTom"];
+      top5.forEach((r, i) => {
+        const name = String(r.name || "");
+        const id = String(r.f2s_id || "");
+        const stars = Number(r.total_stars || 0);
+
+        const nameEl = findTextElement([
+          new RegExp("^" + name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "$", "i"),
+          new RegExp("^" + id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "$", "i")
+        ]);
+        if (nameEl && names.includes(name)) setText(nameEl, name);
+
+        // Expose a predictable row object for React/legacy code.
+        window.F2S_LIVE_STAR_TOP5[i] = {
+          rank: i + 1,
+          f2s_id: id,
+          name,
+          total_stars: stars
+        };
+      });
+
+      window.dispatchEvent(new CustomEvent("f2s:live-stars-updated", {
+        detail: { all: rows, top5 }
+      }));
+    } catch (e) {
+      console.warn("[F2S] Live Star render skipped:", e);
+    }
+  }
+
+  async function renderLiveT5(weekNumber) {
+    if (!window.F2S_LIVE) return;
+    try {
+      const rows = await window.F2S_LIVE.getWeeklyT5(weekNumber);
+      const ticker = window.F2S_LIVE.getTickerRows(rows);
+      window.F2S_LIVE_T5 = rows;
+      window.F2S_LIVE_TICKER = ticker;
+
+      window.dispatchEvent(new CustomEvent("f2s:live-t5-updated", {
+        detail: { weekNumber, rows, ticker }
+      }));
+    } catch (e) {
+      console.warn("[F2S] Live T5 render skipped:", e);
+    }
+  }
+
+  window.renderF2SLive = async function (weekNumber) {
+    await Promise.all([
+      renderLiveStarTop5(),
+      renderLiveT5(weekNumber)
+    ]);
+    return {
+      stars: window.F2S_LIVE_STAR_TOP5 || [],
+      t5: window.F2S_LIVE_T5 || [],
+      ticker: window.F2S_LIVE_TICKER || []
+    };
+  };
+
+  function boot() {
+    // Current canonical reference week.
+    window.renderF2SLive(window.F2S_CURRENT_WEEK || 42);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
+  } else {
+    boot();
+  }
+})();
+</script>
+
+
+<script>
+/* F2S FCB STAR TICKER
+   Data source: Supabase `fcb_stars`
+   Display rule: Top 1 only.
+*/
+(function () {
+  async function getFCBStarTop1() {
+    if (!window.f2sSupabase) return [];
+    // Prefer a dedicated RPC when available.
+    const rpc = await window.f2sSupabase.rpc("get_fcb_star_leaderboard");
+    if (!rpc.error && Array.isArray(rpc.data)) {
+      return rpc.data.slice(0, 1);
+    }
+
+    console.warn("[F2S] FCB Star RPC unavailable; no direct table fallback used.");
+    return [];
+  }
+
+  window.F2S_LIVE_FCB = {
+    getTop1: getFCBStarTop1
+  };
+
+  window.renderF2SFCBTicker = async function () {
+    try {
+      const top1 = await getFCBStarTop1();
+      window.F2S_LIVE_FCB_TOP1 = top1;
+      window.dispatchEvent(new CustomEvent("f2s:fcb-star-ticker-updated", {
+        detail: { top1 }
+      }));
+      console.log("[F2S] live FCB Star Top 1:", top1);
+      return top1;
+    } catch (e) {
+      console.warn("[F2S] FCB Star ticker skipped:", e);
+      return [];
+    }
+  };
+
+  function bootFCB() {
+    window.renderF2SFCBTicker();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootFCB, { once: true });
+  } else {
+    bootFCB();
+  }
+})();
+</script>
+
+
+<script>
+/* F2S FCB STAR — INVITE-BASED DATA MODEL
+   Existing source defines FCB Star by invites, not accumulated stars.
+   The current canonical FCB #1 is Zihad Al Islam / F2S-79 / 3 invites.
+*/
+(function () {
+  if (!window.f2sSupabase) return;
+
+  window.F2S_FCB_SOURCE = {
+    metric: "invites",
+    currentTop1: {
+      f2s_id: "F2S-79",
+      name: "Zihad Al Islam",
+      total_invites: 3
+    }
+  };
+
+  window.getF2SFCBTop1Invites = async function () {
+    // Prefer the invite-specific RPC when it exists.
+    const rpc = await window.f2sSupabase.rpc("get_fcb_leaderboard");
+    if (!rpc.error && Array.isArray(rpc.data)) {
+      return rpc.data.slice(0, 1);
+    }
+
+    console.warn("[F2S] FCB invite RPC unavailable; no direct table fallback used.");
+    return [];
+  };
+
+  window.renderF2SFCBInviteTicker = async function () {
+    const top1 = await window.getF2SFCBTop1Invites();
+    window.F2S_LIVE_FCB_TOP1 = top1;
+    window.dispatchEvent(new CustomEvent("f2s:fcb-invites-updated", {
+      detail: { top1 }
+    }));
+    return top1;
+  };
+})();
+</script>
+
+
+<script>
+/* F2S FCB LEADERBOARD — FINAL INVITE METRIC */
+(function () {
+  if (!window.f2sSupabase) return;
+
+  window.getF2SFCBLeaderboard = async function () {
+    const { data, error } = await window.f2sSupabase.rpc("get_fcb_leaderboard");
+    if (error) {
+      console.warn("[F2S] FCB leaderboard RPC unavailable:", error.message);
+      return [];
+    }
+    return Array.isArray(data) ? data : [];
+  };
+
+  window.renderF2SFCBTop1 = async function () {
+    const rows = await window.getF2SFCBLeaderboard();
+    const top1 = rows.slice(0, 1);
+    window.F2S_LIVE_FCB_TOP1 = top1;
+    window.dispatchEvent(new CustomEvent("f2s:fcb-top1-updated", {
+      detail: { all: rows, top1 }
+    }));
+    console.log("[F2S] FCB Top 1:", top1);
+    return top1;
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => window.renderF2SFCBTop1(), { once: true });
+  } else {
+    window.renderF2SFCBTop1();
+  }
+})();
+</script>
+
+
+<script>
+/* F2S — THREE LIVE TICKERS
+   T5: Top 3 + any additional 7/7
+   ⭐ Star: All-time Top 3
+   🏆 FCB Star: Top 1 by invites
+*/
+(function () {
+  const root = window.f2sSupabase;
+  if (!root) return;
+
+  async function loadT5(week) {
+    const { data, error } = await root.rpc("get_weekly_leaderboard", {
+      p_week_number: Number(week)
+    });
+    if (error) throw error;
+    const rows = Array.isArray(data) ? data : [];
+    return {
+      all: rows,
+      ticker: rows.filter(r => {
+        const rank = Number(r.rank);
+        const days = Number(r.completed_days ?? String(r.score || "0/7").split("/")[0]);
+        return rank <= 3 || days === 7;
+      })
+    };
+  }
+
+  async function loadStars() {
+    const { data, error } = await root.rpc("get_star_leaderboard");
+    if (error) throw error;
+    return Array.isArray(data) ? data : [];
+  }
+
+  async function loadFCB() {
+    const { data, error } = await root.rpc("get_fcb_leaderboard");
+    if (!error && Array.isArray(data)) return data;
+    return [];;
+  }
+
+  function textForT5(r) {
+    return `${r.name || ""} · ${r.f2s_id || ""} · ${r.completed_days ?? ""}/7 · ${r.study_time || ""}`;
+  }
+  function textForStar(r) {
+    return `${r.name || ""} · ${r.f2s_id || ""} · ${Number(r.total_stars || 0)} ⭐`;
+  }
+  function textForFCB(r) {
+    return `${r.name || ""} · ${r.f2s_id || ""} · ${Number(r.total_invites || 0)} Invites`;
+  }
+
+  async function refresh(week) {
+    try {
+      window.__f2sCurrentWeek = Number(week) || 42;
+      const [t5, stars, fcb] = await Promise.all([
+        loadT5(week),
+        loadStars(),
+        loadFCB()
+      ]);
+
+      const payload = {
+        week,
+        t5: t5.ticker,
+        t5All: t5.all,
+        star: stars.slice(0, 3),
+        starAll: stars,
+        fcb: fcb.slice(0, 1),
+        fcbAll: fcb
+      };
+
+      window.F2S_LIVE_TICKERS = payload;
+
+      // Data is exposed through both properties and an event so existing
+      // React/legacy ticker components can consume it without a layout rewrite.
+      window.F2S_T5_TICKER = t5.ticker;
+      window.F2S_STAR_TICKER = stars.slice(0, 3);
+      window.F2S_FCB_TICKER = fcb.slice(0, 1);
+
+      window.dispatchEvent(new CustomEvent("f2s:three-tickers-updated", {
+        detail: payload
+      }));
+      window.dispatchEvent(new CustomEvent("f2s:identity-rendered", {
+        detail: payload
+      }));
+
+      console.log("[F2S] T5 ticker:", t5.ticker.map(textForT5));
+      console.log("[F2S] Star ticker:", stars.slice(0, 3).map(textForStar));
+      console.log("[F2S] FCB ticker:", fcb.slice(0, 1).map(textForFCB));
+
+      return payload;
+    } catch (e) {
+      console.warn("[F2S] Three-ticker refresh failed:", e);
+      return null;
+    }
+  }
+
+  window.refreshF2STickers = refresh;
+  window.F2S_TICKER_RULES = {
+    t5: "Top 3 + additional 7/7",
+    star: "All-time Top 3",
+    fcb: "Top 1 by invites"
+  };
+
+  function boot() { refresh(42); }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
+  } else {
+    boot();
+  }
+})();
+</script>
+
+
+
+<style id="f2s-admin-clean-v21">
+#f2sAdminConsole{position:fixed;inset:0;z-index:2147483000;display:none;background:rgba(4,7,12,.86);backdrop-filter:blur(16px);overflow:auto;font-family:Inter,system-ui,sans-serif;color:#f7f3ea}
+#f2sAdminConsole.f2s-admin-visible{display:block}
+#f2sAdminConsole *{box-sizing:border-box}
+.f2s-a21-shell{width:min(1180px,calc(100% - 24px));min-height:calc(100vh - 24px);margin:12px auto;background:linear-gradient(145deg,#111722,#090d14 65%,#171108);border:1px solid rgba(217,167,85,.28);border-radius:28px;box-shadow:0 30px 100px rgba(0,0,0,.65);overflow:hidden}
+.f2s-a21-top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 22px;border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:0;z-index:5;background:rgba(12,16,24,.94);backdrop-filter:blur(18px)}
+.f2s-a21-brand{display:flex;align-items:center;gap:12px}.f2s-a21-mark{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#9f702d,#e0b96f);color:#161006;font-size:20px;font-weight:900}.f2s-a21-title{font:800 21px Georgia,serif}.f2s-a21-sub{font-size:10px;color:#8e96a4;text-transform:uppercase;letter-spacing:.12em;margin-top:3px}.f2s-a21-top-actions{display:flex;gap:8px}.f2s-a21-icon{width:40px;height:40px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:#151b25;color:#fff;font-size:18px;cursor:pointer}
+.f2s-a21-body{padding:22px}.f2s-a21-status{padding:12px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.025);color:#cbd0d9;margin-bottom:16px}.f2s-a21-status.ok{border-color:rgba(100,220,150,.3);color:#bcefcf}.f2s-a21-status.err{border-color:rgba(255,100,100,.3);color:#ffc7c7}
+.f2s-a21-step{display:flex;align-items:center;gap:8px;margin-bottom:12px;color:#8f97a5;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.09em}.f2s-a21-step span{width:26px;height:26px;border-radius:9px;display:grid;place-items:center;background:#171e29;border:1px solid rgba(255,255,255,.09)}.f2s-a21-step.active{color:#f0cd88}.f2s-a21-step.active span{background:rgba(217,167,85,.12);border-color:rgba(217,167,85,.42);color:#f0cd88}
+.f2s-a21-login{max-width:500px;margin:50px auto;padding:30px;border-radius:24px;border:1px solid rgba(217,167,85,.22);background:linear-gradient(145deg,rgba(217,167,85,.08),rgba(255,255,255,.025));box-shadow:0 20px 60px rgba(0,0,0,.28)}.f2s-a21-login h2{margin:0 0 8px;font:800 28px Georgia,serif}.f2s-a21-login p{color:#929aa8;font-size:13px;line-height:1.6;margin:0 0 22px}
+.f2s-a21-input,.f2s-a21-textarea{width:100%;padding:13px 14px;border-radius:13px;border:1px solid rgba(255,255,255,.11);background:#151c28;color:#fff;outline:none;font:inherit;margin-bottom:9px}.f2s-a21-textarea{min-height:150px;resize:vertical;font:12px/1.55 ui-monospace,SFMono-Regular,monospace}.f2s-a21-input:focus,.f2s-a21-textarea:focus{border-color:rgba(217,167,85,.65);box-shadow:0 0 0 3px rgba(217,167,85,.07)}
+.f2s-a21-btn{border:1px solid rgba(255,255,255,.11);background:#19212d;color:#fff;padding:11px 14px;border-radius:13px;font-weight:800;cursor:pointer}.f2s-a21-btn:hover{filter:brightness(1.08)}.f2s-a21-btn.primary{background:linear-gradient(135deg,#a9762e,#d9a755);color:#17110a;border-color:#e0b96f}.f2s-a21-btn.danger{background:#2b1820;border-color:rgba(255,100,120,.25)}.f2s-a21-actions{display:flex;flex-wrap:wrap;gap:9px}.f2s-a21-actions .f2s-a21-btn{flex:1;min-width:130px}
+.f2s-a21-week{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:end;padding:18px;border:1px solid rgba(255,255,255,.08);border-radius:20px;background:rgba(255,255,255,.025);margin-bottom:16px}.f2s-a21-week h2{margin:0 0 5px;font:800 24px Georgia,serif}.f2s-a21-muted{color:#8f97a5;font-size:12px}.f2s-a21-week-controls{display:flex;gap:8px}.f2s-a21-week-controls .f2s-a21-input{width:130px;margin:0}
+.f2s-a21-options{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:16px}.f2s-a21-option{min-height:126px;text-align:left;padding:17px;border-radius:19px;border:1px solid rgba(255,255,255,.08);background:#121925;color:#fff;cursor:pointer;transition:.2s}.f2s-a21-option:hover,.f2s-a21-option.active{border-color:rgba(217,167,85,.5);background:linear-gradient(145deg,rgba(217,167,85,.11),rgba(255,255,255,.025));transform:translateY(-1px)}.f2s-a21-option .ico{font-size:21px;margin-bottom:12px}.f2s-a21-option b{display:block;font-size:14px;color:#f0d18b}.f2s-a21-option span{display:block;font-size:11px;line-height:1.5;color:#9098a6;margin-top:5px}.f2s-a21-option em{display:block;font-size:10px;color:#6f7784;font-style:normal;margin-top:12px}
+.f2s-a21-panel{border:1px solid rgba(255,255,255,.08);border-radius:22px;background:rgba(255,255,255,.025);padding:18px;margin-bottom:16px}.f2s-a21-panel h3{margin:0 0 6px;font-size:17px}.f2s-a21-panel .help{font-size:11px;color:#8f97a5;line-height:1.55;margin-bottom:14px}.f2s-a21-upload{display:grid;grid-template-columns:1fr auto;gap:9px;align-items:center}.f2s-a21-file{padding:12px;border:1px dashed rgba(217,167,85,.3);border-radius:14px;background:rgba(217,167,85,.035);color:#aeb5c0;width:100%}
+.f2s-a21-tablewrap{overflow:auto;border:1px solid rgba(255,255,255,.07);border-radius:16px;margin-top:14px}.f2s-a21-table{width:100%;border-collapse:collapse;min-width:760px}.f2s-a21-table th{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#7f8794;background:#0e141e}.f2s-a21-table th,.f2s-a21-table td{padding:9px;border-bottom:1px solid rgba(255,255,255,.06);text-align:left}.f2s-a21-table td{font-size:12px;color:#d7dbe2}.f2s-a21-table input{width:100%;padding:8px 9px;border-radius:9px;border:1px solid rgba(255,255,255,.08);background:#141b26;color:#fff;outline:none}.f2s-a21-remove{padding:7px 9px;border-radius:9px;border:1px solid rgba(255,100,120,.22);background:#27171e;color:#ffc7ce;cursor:pointer}
+.f2s-a21-final{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0 18px}.f2s-a21-stat{padding:15px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:#111824}.f2s-a21-stat b{display:block;font-size:22px;color:#f0cd88}.f2s-a21-stat span{font-size:9px;color:#858d9a;text-transform:uppercase;letter-spacing:.08em}.f2s-a21-review{display:grid;grid-template-columns:1fr 1fr;gap:12px}.f2s-a21-reviewbox{padding:15px;border-radius:17px;border:1px solid rgba(255,255,255,.08);background:#0f151f}.f2s-a21-reviewbox h4{margin:0 0 10px;color:#f0cd88}.f2s-a21-list{font:11px/1.65 ui-monospace,SFMono-Regular,monospace;color:#c8ced8;white-space:pre-wrap;max-height:280px;overflow:auto}.f2s-a21-publish{position:sticky;bottom:0;padding:14px 0 0;background:linear-gradient(180deg,transparent,#090d14 25%)}
+@media(max-width:820px){.f2s-a21-options{grid-template-columns:1fr 1fr}.f2s-a21-review{grid-template-columns:1fr}.f2s-a21-week{grid-template-columns:1fr}.f2s-a21-week-controls{width:100%}.f2s-a21-week-controls .f2s-a21-input{flex:1;width:auto}}
+@media(max-width:560px){.f2s-a21-shell{width:100%;min-height:100vh;margin:0;border-radius:0}.f2s-a21-top{padding:13px 14px}.f2s-a21-body{padding:14px}.f2s-a21-options{grid-template-columns:1fr 1fr;gap:8px}.f2s-a21-option{min-height:115px;padding:13px}.f2s-a21-login{margin:28px 0;padding:22px}.f2s-a21-title{font-size:18px}.f2s-a21-sub{display:none}.f2s-a21-actions{display:grid;grid-template-columns:1fr 1fr}.f2s-a21-actions .f2s-a21-btn{min-width:0}.f2s-a21-upload{grid-template-columns:1fr}.f2s-a21-final{grid-template-columns:1fr 1fr}}
+</style>
+
+
+<style id="f2s-admin-v42-premium-ui">
+/* V42 — Premium / compact Admin Control Center */
+#f2sAdminConsole .f2s-a21-shell{
+  max-width:1120px!important;
+  border:1px solid rgba(217,167,85,.14)!important;
+  box-shadow:0 28px 90px rgba(0,0,0,.46), inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+#f2sAdminConsole .f2s-a21-top{
+  min-height:68px!important;
+  padding:12px 18px!important;
+  background:linear-gradient(180deg,rgba(25,23,19,.98),rgba(13,15,19,.98))!important;
+  border-bottom:1px solid rgba(217,167,85,.12)!important;
+}
+#f2sAdminConsole .f2s-a21-mark{
+  width:38px!important;height:38px!important;border-radius:12px!important;
+  display:grid!important;place-items:center!important;
+  background:linear-gradient(145deg,rgba(217,167,85,.18),rgba(217,167,85,.045))!important;
+  border:1px solid rgba(217,167,85,.24)!important;
+  box-shadow:0 0 22px rgba(217,167,85,.07)!important;
+}
+#f2sAdminConsole .f2s-a21-title{font-size:17px!important;letter-spacing:.01em!important}
+#f2sAdminConsole .f2s-a21-sub{font-size:8px!important;letter-spacing:.12em!important;text-transform:uppercase!important;color:#817862!important}
+#f2sAdminConsole .f2s-a21-body{padding:18px!important}
+#f2sAdminConsole .f2s-a21-status{
+  margin-bottom:12px!important;padding:8px 11px!important;border-radius:10px!important;
+  font-size:9px!important;letter-spacing:.02em!important;
+}
+#f2sAdminConsole .f2s-a21-step{
+  margin:13px 0 8px!important;font-size:8px!important;letter-spacing:.12em!important;
+  text-transform:uppercase!important;color:#8f876f!important;
+}
+#f2sAdminConsole .f2s-a21-step span{
+  width:20px!important;height:20px!important;display:inline-grid!important;place-items:center!important;
+  border-radius:7px!important;background:rgba(217,167,85,.08)!important;
+  border:1px solid rgba(217,167,85,.18)!important;color:#d9a755!important;
+}
+#f2sAdminConsole .f2s-a21-week{
+  padding:14px!important;border-radius:15px!important;
+  border:1px solid rgba(255,255,255,.065)!important;
+  background:linear-gradient(135deg,rgba(18,23,31,.92),rgba(12,16,23,.92))!important;
+}
+#f2sAdminConsole .f2s-a21-week h2{font-size:18px!important;margin:0 0 3px!important}
+#f2sAdminConsole .f2s-a21-options{gap:8px!important;margin:8px 0 10px!important}
+#f2sAdminConsole .f2s-a21-option{
+  min-height:98px!important;padding:11px!important;border-radius:13px!important;
+  background:linear-gradient(145deg,rgba(19,25,35,.95),rgba(12,17,24,.95))!important;
+  border-color:rgba(255,255,255,.06)!important;
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease!important;
+}
+#f2sAdminConsole .f2s-a21-option:hover{
+  transform:translateY(-1px);border-color:rgba(217,167,85,.2)!important;
+  box-shadow:0 10px 24px rgba(0,0,0,.18)!important;
+}
+#f2sAdminConsole .f2s-a21-option .ico{font-size:17px!important;margin-bottom:7px!important}
+#f2sAdminConsole .f2s-a21-option b{font-size:10px!important}
+#f2sAdminConsole .f2s-a21-option span{font-size:8px!important;line-height:1.4!important}
+#f2sAdminConsole .f2s-a21-option em{font-size:7px!important;margin-top:7px!important}
+
+#f2sAdminConsole #f2sIdDirectoryManagement{
+  margin-top:12px!important;padding:11px!important;border-radius:14px!important;
+  border:1px solid rgba(217,167,85,.10)!important;
+  background:linear-gradient(145deg,rgba(17,20,25,.9),rgba(10,13,18,.9))!important;
+}
+#f2sAdminConsole .f2s-id-directory-head{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin-bottom:7px!important;
+}
+#f2sAdminConsole .f2s-id-directory-head h3{
+  margin:0!important;font-size:11px!important;color:#e7d7b8!important;
+  letter-spacing:.02em!important;
+}
+#f2sAdminConsole .f2s-id-directory-head p{
+  margin:3px 0 0!important;font-size:7px!important;line-height:1.35!important;color:#756e61!important;
+}
+#f2sAdminConsole .f2s-id-available-badge{
+  display:inline-flex!important;align-items:center!important;padding:3px 6px!important;
+  border-radius:999px!important;font-size:7px!important;background:rgba(217,167,85,.08)!important;
+  border:1px solid rgba(217,167,85,.14)!important;color:#d9a755!important;
+}
+#f2sAdminConsole .f2s-id-directory-tools{
+  display:flex;align-items:center;gap:6px;flex:0 0 auto;
+}
+#f2sAdminConsole #f2sIdDirectorySearch{
+  width:190px!important;max-width:190px!important;padding:7px 9px!important;
+  border-radius:8px!important;font-size:8px!important;
+}
+#f2sAdminConsole #f2sRefreshIdDirectory{
+  padding:7px 9px!important;border-radius:8px!important;font-size:8px!important;
+  white-space:nowrap!important;
+}
+#f2sAdminConsole .f2s-id-directory-table{
+  overflow:auto!important;border:1px solid rgba(255,255,255,.055)!important;
+  border-radius:9px!important;max-height:300px!important;
+}
+#f2sAdminConsole .f2s-id-directory-table table{
+  width:100%!important;min-width:560px!important;border-collapse:collapse!important;
+}
+#f2sAdminConsole .f2s-id-directory-table th,
+#f2sAdminConsole .f2s-id-directory-table td{
+  padding:6px 8px!important;font-size:8px!important;line-height:1.25!important;
+  border-bottom:1px solid rgba(255,255,255,.045)!important;
+}
+#f2sAdminConsole .f2s-id-directory-table th{
+  position:sticky;top:0;z-index:2;background:#0e141d!important;
+  color:#827b6c!important;font-size:7px!important;letter-spacing:.08em!important;
+  text-transform:uppercase!important;
+}
+#f2sAdminConsole .f2s-id-directory-table td{color:#c7cbd2!important}
+#f2sAdminConsole .f2s-id-directory-table tr:last-child td{border-bottom:0!important}
+#f2sAdminConsole .f2s-id-management-actions{gap:4px!important}
+#f2sAdminConsole .f2s-id-action{
+  padding:4px 7px!important;border-radius:6px!important;font-size:7px!important;
+}
+#f2sAdminConsole .f2s-id-edit-input{
+  padding:5px 6px!important;border-radius:6px!important;font-size:8px!important;
+}
+#f2sAdminConsole .f2s-a21-final{gap:8px!important;margin:10px 0 14px!important}
+#f2sAdminConsole .f2s-a21-stat{padding:11px!important;border-radius:12px!important}
+#f2sAdminConsole .f2s-a21-stat b{font-size:18px!important}
+#f2sAdminConsole .f2s-a21-stat span{font-size:7px!important}
+#f2sAdminConsole .f2s-a21-review{gap:8px!important}
+#f2sAdminConsole .f2s-a21-reviewbox{padding:11px!important;border-radius:12px!important}
+#f2sAdminConsole .f2s-a21-publish{padding-top:9px!important}
+
+@media(max-width:700px){
+  #f2sAdminConsole .f2s-a21-body{padding:12px!important}
+  #f2sAdminConsole .f2s-id-directory-head{align-items:stretch;flex-direction:column}
+  #f2sAdminConsole .f2s-id-directory-tools{width:100%}
+  #f2sAdminConsole #f2sIdDirectorySearch{flex:1;width:auto!important;max-width:none!important}
+  #f2sAdminConsole #f2sRefreshIdDirectory{flex:0 0 auto}
+  #f2sAdminConsole .f2s-id-directory-table{max-height:260px!important}
+  #f2sAdminConsole .f2s-id-directory-table table{min-width:500px!important}
+}
+</style>
+
+
+<style id="f2s-admin-v43-week-selection">
+/* V43 — Week Selection premium treatment + mobile delete placement */
+#f2sAdminConsole .f2s-a21-week{
+  position:relative!important;
+  overflow:hidden!important;
+  padding:18px!important;
+  border:1px solid rgba(217,167,85,.20)!important;
+  border-radius:20px!important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(217,167,85,.12), transparent 34%),
+    radial-gradient(circle at 0% 100%, rgba(80,100,130,.08), transparent 35%),
+    linear-gradient(145deg,rgba(22,27,36,.98),rgba(11,15,22,.98))!important;
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.28),
+    inset 0 1px 0 rgba(255,255,255,.045)!important;
+}
+#f2sAdminConsole .f2s-a21-week:before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(120deg,transparent 35%,rgba(217,167,85,.035) 50%,transparent 65%);
+}
+#f2sAdminConsole .f2s-a21-week > *{position:relative;z-index:1}
+#f2sAdminConsole .f2s-a21-week h2{
+  font-size:20px!important;letter-spacing:-.02em!important;
+  margin-bottom:4px!important;color:#f0e4cc!important;
+}
+#f2sAdminConsole .f2s-a21-week .week-subtitle,
+#f2sAdminConsole .f2s-a21-week p{
+  color:#85806f!important;
+}
+#f2sAdminConsole .f2s-a21-options{
+  display:grid!important;
+  grid-template-columns:repeat(auto-fit,minmax(130px,1fr))!important;
+  gap:9px!important;margin-top:14px!important;
+}
+#f2sAdminConsole .f2s-a21-option{
+  position:relative!important;min-height:106px!important;
+  padding:13px!important;border-radius:15px!important;
+  border:1px solid rgba(255,255,255,.065)!important;
+  background:linear-gradient(145deg,rgba(24,30,40,.95),rgba(13,18,26,.95))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important;
+}
+#f2sAdminConsole .f2s-a21-option:after{
+  content:"";position:absolute;left:12px;right:12px;bottom:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(217,167,85,.25),transparent);
+  opacity:.5;
+}
+#f2sAdminConsole .f2s-a21-option.selected,
+#f2sAdminConsole .f2s-a21-option.active{
+  border-color:rgba(217,167,85,.45)!important;
+  background:linear-gradient(145deg,rgba(43,37,28,.98),rgba(18,22,29,.98))!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.24),0 0 0 1px rgba(217,167,85,.05) inset!important;
+}
+#f2sAdminConsole .f2s-a21-option .ico{
+  width:32px!important;height:32px!important;display:grid!important;place-items:center!important;
+  border-radius:10px!important;margin-bottom:9px!important;
+  background:rgba(217,167,85,.08)!important;
+  border:1px solid rgba(217,167,85,.12)!important;
+}
+#f2sAdminConsole .f2s-a21-option b{font-size:10px!important;letter-spacing:.01em!important}
+#f2sAdminConsole .f2s-a21-option span{font-size:8px!important;color:#8c887e!important}
+#f2sAdminConsole .f2s-a21-option em{
+  display:inline-flex!important;padding:3px 6px!important;border-radius:999px!important;
+  background:rgba(255,255,255,.035)!important;border:1px solid rgba(255,255,255,.055)!important;
+  color:#7f796d!important;font-style:normal!important;
+}
+#f2sAdminConsole .f2s-week-delete{
+  margin-top:11px!important;padding:10px 12px!important;
+  border-radius:11px!important;border:1px solid rgba(190,75,75,.18)!important;
+  background:linear-gradient(145deg,rgba(72,29,31,.30),rgba(35,20,23,.24))!important;
+  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;
+}
+#f2sAdminConsole .f2s-week-delete .delete-copy{
+  min-width:0!important;
+}
+#f2sAdminConsole .f2s-week-delete .delete-copy b{
+  display:block!important;font-size:9px!important;color:#c8aaa4!important;
+}
+#f2sAdminConsole .f2s-week-delete .delete-copy span{
+  display:block!important;margin-top:2px!important;font-size:7px!important;color:#746b69!important;
+}
+#f2sAdminConsole .f2s-week-delete button{
+  flex:0 0 auto!important;padding:7px 10px!important;border-radius:8px!important;
+  font-size:7px!important;
+}
+@media(max-width:700px){
+  #f2sAdminConsole .f2s-a21-week{
+    padding:14px!important;border-radius:16px!important;
+  }
+  #f2sAdminConsole .f2s-a21-options{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  #f2sAdminConsole .f2s-a21-option{min-height:92px!important;padding:10px!important}
+  #f2sAdminConsole .f2s-week-delete{
+    order:99!important;margin-top:9px!important;
+    flex-direction:column!important;align-items:stretch!important;
+    padding:10px!important;
+  }
+  #f2sAdminConsole .f2s-week-delete button{width:100%!important}
+}
+@media(max-width:390px){
+  #f2sAdminConsole .f2s-a21-options{grid-template-columns:1fr!important}
+}
+</style>
+
+
+<style id="f2s-admin-v44-ultra-premium">
+/* V44 — Ultra Premium Admin Control Center */
+#f2sAdminConsole{
+  --adm-gold:#d9a755;
+  --adm-gold-soft:rgba(217,167,85,.14);
+  --adm-line:rgba(255,255,255,.065);
+}
+#f2sAdminConsole .f2s-a21-shell{
+  max-width:1180px!important;
+  overflow:hidden!important;
+  border-radius:22px!important;
+  border:1px solid rgba(217,167,85,.17)!important;
+  background:
+    radial-gradient(circle at 92% 8%,rgba(217,167,85,.065),transparent 27%),
+    linear-gradient(145deg,#0d1118,#0a0d13)!important;
+  box-shadow:0 35px 110px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.04)!important;
+}
+
+/* Premium navigation/header */
+#f2sAdminConsole .f2s-a21-top{
+  position:relative!important;
+  min-height:72px!important;
+  padding:12px 18px!important;
+  background:rgba(10,13,18,.92)!important;
+  border-bottom:1px solid var(--adm-line)!important;
+  backdrop-filter:blur(18px)!important;
+}
+#f2sAdminConsole .f2s-a21-top:after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(217,167,85,.4),transparent);
+}
+#f2sAdminConsole .f2s-a21-mark{
+  width:42px!important;height:42px!important;border-radius:13px!important;
+  background:linear-gradient(145deg,rgba(217,167,85,.2),rgba(217,167,85,.035))!important;
+  border:1px solid rgba(217,167,85,.25)!important;
+  box-shadow:0 0 28px rgba(217,167,85,.08)!important;
+}
+#f2sAdminConsole .f2s-a21-title{font-size:17px!important;font-weight:700!important}
+#f2sAdminConsole .f2s-a21-sub{
+  font-size:8px!important;letter-spacing:.14em!important;text-transform:uppercase!important;
+  color:#756f63!important;
+}
+
+/* Create a visual navigation strip from the existing step headings */
+#f2sAdminConsole .f2s-a21-body{padding:18px!important}
+#f2sAdminConsole .f2s-a21-body:before{
+  content:"ADMIN  /  OVERVIEW     •     WEEK CONTROL     •     PUBLISH     •     IDENTITY";
+  display:block!important;
+  margin:-2px 0 15px!important;
+  padding:9px 12px!important;
+  border-radius:10px!important;
+  border:1px solid rgba(255,255,255,.055)!important;
+  background:linear-gradient(90deg,rgba(217,167,85,.055),rgba(255,255,255,.018),rgba(217,167,85,.035))!important;
+  color:#827a6b!important;font-size:7px!important;letter-spacing:.13em!important;
+  text-transform:uppercase!important;
+}
+
+/* Section labels */
+#f2sAdminConsole .f2s-a21-step{
+  margin:15px 0 8px!important;
+  font-size:8px!important;letter-spacing:.13em!important;text-transform:uppercase!important;
+  color:#8d856f!important;
+}
+#f2sAdminConsole .f2s-a21-step span{
+  width:22px!important;height:22px!important;border-radius:7px!important;
+  background:rgba(217,167,85,.08)!important;border:1px solid rgba(217,167,85,.18)!important;
+  color:var(--adm-gold)!important;
+}
+
+/* Premium week module */
+#f2sAdminConsole .f2s-a21-week{
+  border-radius:19px!important;
+  border:1px solid rgba(217,167,85,.16)!important;
+  box-shadow:0 18px 55px rgba(0,0,0,.23),inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+#f2sAdminConsole .f2s-a21-options{gap:10px!important}
+#f2sAdminConsole .f2s-a21-option{
+  min-height:102px!important;border-radius:14px!important;
+  transition:all .18s ease!important;
+}
+#f2sAdminConsole .f2s-a21-option:hover{
+  transform:translateY(-2px)!important;
+  border-color:rgba(217,167,85,.25)!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.22)!important;
+}
+
+/* Management cards — dashboard feel */
+#f2sAdminConsole .f2s-a21-management,
+#f2sAdminConsole .f2s-a21-manage-grid{
+  gap:9px!important;
+}
+#f2sAdminConsole .f2s-a21-card,
+#f2sAdminConsole .f2s-a21-management > *,
+#f2sAdminConsole .f2s-a21-manage-grid > *{
+  border-radius:14px!important;
+  border-color:rgba(255,255,255,.06)!important;
+  background:linear-gradient(145deg,rgba(20,25,33,.94),rgba(11,15,21,.94))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important;
+}
+
+/* Review/publish areas */
+#f2sAdminConsole .f2s-a21-final,
+#f2sAdminConsole .f2s-a21-review{gap:9px!important}
+#f2sAdminConsole .f2s-a21-stat,
+#f2sAdminConsole .f2s-a21-reviewbox{
+  border-radius:13px!important;
+  border:1px solid rgba(255,255,255,.06)!important;
+  background:linear-gradient(145deg,rgba(19,24,32,.92),rgba(10,14,20,.92))!important;
+}
+#f2sAdminConsole .f2s-a21-publish{
+  border-radius:15px!important;
+  border:1px solid rgba(217,167,85,.12)!important;
+  background:linear-gradient(145deg,rgba(33,29,23,.65),rgba(13,16,21,.85))!important;
+}
+
+/* Compact directory retained */
+#f2sAdminConsole #f2sIdDirectoryManagement{
+  border-radius:14px!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important;
+}
+
+/* Buttons */
+#f2sAdminConsole button{
+  transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease!important;
+}
+#f2sAdminConsole button:hover{
+  transform:translateY(-1px)!important;
+}
+
+/* Mobile navigation strip */
+@media(max-width:700px){
+  #f2sAdminConsole .f2s-a21-body{padding:12px!important}
+  #f2sAdminConsole .f2s-a21-body:before{
+    content:"ADMIN  •  WEEK  •  PUBLISH  •  IDENTITY";
+    overflow:hidden!important;white-space:nowrap!important;text-overflow:ellipsis!important;
+  }
+  #f2sAdminConsole .f2s-a21-top{min-height:64px!important;padding:10px 12px!important}
+  #f2sAdminConsole .f2s-a21-shell{border-radius:17px!important}
+}
+</style>
+
+
+<!-- V47 — Desktop Admin Center access -->
+<button id="f2sDesktopAdminAccess" type="button" aria-label="Open F2S Admin Center"
+  onclick="if(typeof window.openF2SAdminCenter==='function'){window.openF2SAdminCenter()}else{setTimeout(()=>window.openF2SAdminCenter&&window.openF2SAdminCenter(),300)}">
+  <span class="f2s-desktop-admin-icon">✦</span>
+  <span class="f2s-desktop-admin-copy">
+    <b>Admin Center</b>
+    <small>F2S Control</small>
+  </span>
+</button>
+<style id="f2s-admin-v47-desktop-access">
+#f2sDesktopAdminAccess{
+  position:fixed!important;
+  top:16px!important;
+  right:18px!important;
+  z-index:2147482500!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:9px!important;
+  min-width:138px!important;
+  padding:8px 11px!important;
+  border-radius:13px!important;
+  border:1px solid rgba(217,167,85,.25)!important;
+  background:linear-gradient(145deg,rgba(20,23,30,.94),rgba(10,13,18,.94))!important;
+  color:#eee7d9!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.04)!important;
+  backdrop-filter:blur(16px)!important;
+  cursor:pointer!important;
+  font-family:Inter,system-ui,sans-serif!important;
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease!important;
+}
+#f2sDesktopAdminAccess:hover{
+  transform:translateY(-1px)!important;
+  border-color:rgba(217,167,85,.48)!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.30),0 0 22px rgba(217,167,85,.07)!important;
+}
+#f2sDesktopAdminAccess:active{transform:translateY(0)!important}
+#f2sDesktopAdminAccess .f2s-desktop-admin-icon{
+  width:30px!important;height:30px!important;display:grid!important;place-items:center!important;
+  border-radius:9px!important;
+  color:#d9a755!important;font-size:15px!important;
+  background:rgba(217,167,85,.09)!important;
+  border:1px solid rgba(217,167,85,.15)!important;
+}
+#f2sDesktopAdminAccess .f2s-desktop-admin-copy{
+  display:flex!important;flex-direction:column!important;align-items:flex-start!important;
+  line-height:1.05!important;
+}
+#f2sDesktopAdminAccess .f2s-desktop-admin-copy b{
+  font-size:9px!important;font-weight:800!important;letter-spacing:.01em!important;
+}
+#f2sDesktopAdminAccess .f2s-desktop-admin-copy small{
+  margin-top:3px!important;font-size:6.5px!important;letter-spacing:.11em!important;
+  text-transform:uppercase!important;color:#777062!important;
+}
+
+/* Never duplicate the desktop trigger on phones/tablets where the existing menu is used. */
+@media(max-width:860px){
+  #f2sDesktopAdminAccess{display:none!important}
+}
+/* Keep it out of the admin overlay itself. */
+#f2sAdminConsole.f2s-admin-visible ~ #f2sDesktopAdminAccess{display:none!important}
+</style>
+
+<div id="f2sAdminConsole" aria-label="F2S Admin Center">
+  <div class="f2s-a21-shell">
+    <header class="f2s-a21-top"><div class="f2s-a21-brand"><div class="f2s-a21-mark">✦</div><div><div class="f2s-a21-title">F2S Admin Center</div><div class="f2s-a21-sub">Secure weekly control room</div></div></div><div class="f2s-a21-top-actions"><button class="f2s-a21-icon" id="a21Back">←</button><button class="f2s-a21-icon" id="a21Close">×</button></div></header>
+    <main class="f2s-a21-body">
+      <div id="a21Status" class="f2s-a21-status">Checking secure administrator session…</div>
+      <section id="a21Login" class="f2s-a21-login"><div class="f2s-a21-step active"><span>1</span> Admin Login / Verification</div><h2>Administrator access</h2><p>Sign in with the F2S admin account. The workspace remains completely locked until the authenticated session is verified by the F2S admin check.</p><input id="a21Email" class="f2s-a21-input" type="email" autocomplete="email" placeholder="Admin email"><input id="a21Password" class="f2s-a21-input" type="password" autocomplete="current-password" placeholder="Password"><button id="a21SignIn" class="f2s-a21-btn primary" style="width:100%;margin-top:4px">Verify & Enter Admin Center</button></section>
+      <section id="a21Workspace" style="display:none">
+        <div class="f2s-a21-step active"><span>2</span> Week Selection</div>
+        <div class="f2s-a21-week"><div><h2 id="a21WeekTitle">Week 43</h2><div id="a21WeekDates" class="f2s-a21-muted">2026-09-14 → 2026-09-20</div></div><div class="f2s-a21-week-controls"><input id="a21Week" class="f2s-a21-input" type="number" min="1" value="43"><button id="a21LoadWeek" class="f2s-a21-btn primary">Load Week</button><button id="a21DeleteWeek" class="f2s-a21-btn danger" type="button">Delete This Week</button></div></div>
+        <div class="f2s-a21-step active"><span>3</span> Management</div>
+        <div class="f2s-a21-options"><button class="f2s-a21-option active" data-mode="t5"><div class="ico">⏱</div><b>1 · T5 Management</b><span>Upload new data / edit current / add row / review / submit</span><em id="a21T5Count">0 rows</em></button><button class="f2s-a21-option" data-mode="fcb"><div class="ico">👥</div><b>2 · FCB Management</b><span>Upload invites / edit current / add row / review / submit</span><em id="a21FCBCount">0 rows</em></button><button class="f2s-a21-option" data-mode="star"><div class="ico">⭐</div><b>3 · F2S Star</b><span>Weekly 7/7 candidates, separate review</span><em id="a21StarCount">0 candidates</em></button><button class="f2s-a21-option" data-mode="id"><div class="ico">🆔</div><b>4 · F2S-ID</b><span>Weekly ≥4/7 eligibility, separate review</span><em id="a21IDCount">0 eligible</em></button></div>
+        <div id="a21Panel"></div>
+        <section id="f2sIdDirectoryManagement" class="f2s-id-directory-management">
+          <div class="f2s-id-directory-head">
+            <div><h3>🆔 F2S-ID Directory <span id="f2sIdAvailableCount" class="f2s-id-available-badge">0 available</span></h3>
+            <p>Manage identity records. Removed IDs return to the reusable pool.</p></div>
+            <div class="f2s-id-directory-tools"><input id="f2sIdDirectorySearch" placeholder="Search F2S-ID or member name"><button type="button" id="f2sRefreshIdDirectory">↻ Refresh Directory</button></div>
+          </div>
+          <div class="f2s-id-directory-table"><table><thead><tr><th>F2S-ID</th><th>Name</th><th>Joined Week</th><th>Status</th><th>Admin Actions</th></tr></thead><tbody id="f2sIdDirectoryManagementBody"><tr><td colspan="5" class="f2s-id-empty">Sign in as admin to load the directory.</td></tr></tbody></table></div>
+        </section>
+        <div class="f2s-a21-step active"><span>5</span> Final Review</div>
+        <button id="a21FinalReview" class="f2s-a21-btn primary" style="width:100%;padding:14px;font-size:14px">Open Final Review — T5 + FCB + F2S Star + F2S-ID</button>
+        <div id="a21Final" style="display:none;margin-top:14px"></div>
+        <div class="f2s-a21-publish"><div class="f2s-a21-actions"><button id="a21SignOut" class="f2s-a21-btn danger">Sign out / Logout</button><button id="a21Close2" class="f2s-a21-btn">Close Admin Center</button></div></div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script id="f2s-admin-clean-v28-js">
+(function(){
+  const $=id=>document.getElementById(id); let sb=null, mode='t5', week=43, t5=[], fcb=[];
+  const dates=w=>{const d=new Date('2026-01-05T00:00:00');d.setDate(d.getDate()+(Number(w)-1)*7);const e=new Date(d);e.setDate(e.getDate()+6);return [d.toISOString().slice(0,10),e.toISOString().slice(0,10)]};
+  const fmt=s=>{s=Number(s||0);return String(Math.floor(s/3600)).padStart(2,'0')+':'+String(Math.floor(s%3600/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')};
+  const status=(m,k='')=>{const e=$('a21Status');e.textContent=m;e.className='f2s-a21-status '+k};
+  const derived=()=>({stars:t5.filter(x=>Number(x.completed_days)===7),ids:t5.filter(x=>Number(x.completed_days)>=4)});
+  function t5Parse(text){const lines=text.split(/\r?\n/).map(x=>x.trim()).filter(Boolean), rows=[];for(let i=0;i<lines.length;){let line=lines[i];let m=line.match(/^(.*?)\s+(F2S-\d+)\s*$/i);if(!m){m=line.match(/^(.*?)\s+([0-7])\/7\s+(\d{1,3}:\d{2}:\d{2})$/i);if(m){rows.push({name:m[1],f2s_id:'',completed_days:Number(m[2]),total_study_seconds:timeSec(m[3])});i++;continue}}if(m){const name=m[1],id=m[2];let days=null,time=null;if(lines[i+1]&&/^\d+\/7$/.test(lines[i+1])){days=Number(lines[i+1].split('/')[0]);time=lines[i+2]||'';i+=3}else if(lines[i+1]&&/^\d{1,3}:\d{2}:\d{2}$/.test(lines[i+1])){time=lines[i+1];days=0;i+=2}else{throw Error('Could not parse T5 row for '+name)}rows.push({name,f2s_id:id,completed_days:days,total_study_seconds:timeSec(time)});continue}throw Error('Could not parse line: '+line)}return rows}
+  function timeSec(v){if(/^\d+$/.test(String(v||'')))return Number(v);const p=String(v||'').split(':').map(Number);if(p.length!==3||p.some(Number.isNaN))throw Error('Invalid study time: '+v);return p[0]*3600+p[1]*60+p[2]}
+  function fcbParse(text){const lines=text.split(/\r?\n/).map(x=>x.trim()).filter(Boolean),rows=[];for(let i=0;i<lines.length;){const line=lines[i];const m=line.match(/^(.*?)\s+(F2S-\d+)\s*$/i);if(m&&lines[i+1]&&/^\d+$/.test(lines[i+1])){rows.push({name:m[1],f2s_id:m[2],total_invites:Number(lines[i+1])});i+=2;continue}if(lines[i+1]&&/^\d+$/.test(lines[i+1])&&!/^\d+$/.test(line)){rows.push({name:line,f2s_id:'',total_invites:Number(lines[i+1])});i+=2;continue}const c=line.split(/\s*[,,\t]\s*/);if(c.length>=3&&(!c[1]||/^F2S-\d+$/i.test(c[1]))&&/^\d+$/.test(c[2])){rows.push({name:c[0],f2s_id:c[1]||'',total_invites:Number(c[2])});i++;continue}if(c.length>=2&&/^\d+$/.test(c[c.length-1])){rows.push({name:c.slice(0,-1).join(' ').trim(),f2s_id:'',total_invites:Number(c[c.length-1])});i++;continue}throw Error('Could not parse FCB line: '+line)}return rows}
+  function validateT5(rows){if(!rows.length)throw Error('Add at least one T5 row.');rows.forEach((x,i)=>{if(!x.name)throw Error('T5 row '+(i+1)+': name required');if(Number(x.completed_days)<0||Number(x.completed_days)>7)throw Error('T5 row '+(i+1)+': days must be 0–7');if(Number(x.total_study_seconds)<0)throw Error('T5 row '+(i+1)+': study time invalid')})}
+  function validateFCB(rows){rows.forEach((x,i)=>{if(!x.name)throw Error('FCB row '+(i+1)+': name required');if(Number(x.total_invites)<0)throw Error('FCB row '+(i+1)+': invites invalid')})}
+  function tableT5(){return `<div class="f2s-a21-tablewrap"><table class="f2s-a21-table"><thead><tr><th>#</th><th>Name</th><th>F2S-ID</th><th>Days</th><th>Study time</th><th></th></tr></thead><tbody>${t5.map((x,i)=>`<tr><td>${i+1}</td><td><input data-i="${i}" data-k="name" value="${esc(x.name)}"></td><td><input data-i="${i}" data-k="f2s_id" value="${esc(x.f2s_id||'')}" placeholder="AUTO if ≥4/7"></td><td><input type="number" min="0" max="7" data-i="${i}" data-k="completed_days" value="${Number(x.completed_days)||0}"></td><td><input data-i="${i}" data-k="study" value="${fmt(x.total_study_seconds)}"></td><td><button type="button" class="f2s-a21-remove" data-remove="${i}">Remove</button></td></tr>`).join('')}</tbody></table></div>`}
+  function tableFCB(){return `<div class="f2s-a21-tablewrap"><table class="f2s-a21-table"><thead><tr><th>#</th><th>Name</th><th>F2S-ID <span class="f2s-a21-muted">(optional)</span></th><th>Total Invites / Rank</th><th></th></tr></thead><tbody>${fcb.map((x,i)=>`<tr><td>${i+1}</td><td><input data-i="${i}" data-k="name" value="${esc(x.name)}"></td><td><input data-i="${i}" data-k="f2s_id" value="${esc(x.f2s_id||'')}" placeholder="Optional"></td><td><input type="number" min="0" data-i="${i}" data-k="total_invites" value="${Number(x.total_invites)||0}"></td><td><button type="button" class="f2s-a21-remove" data-remove="${i}">Remove</button></td></tr>`).join('')}</tbody></table></div>`}
+  const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  function panel(){if(mode==='t5')return `<div class="f2s-a21-panel"><h3>T5 Management</h3><div class="help">Upload new YPT data, review/edit it, add rows manually, then submit this T5 draft to Final Review. Public data is unchanged until final Publish.</div><div class="f2s-a21-upload"><input id="a21T5File" class="f2s-a21-file" type="file" accept=".txt,.csv"><button id="a21T5FileRead" class="f2s-a21-btn">Read file</button></div><textarea id="a21T5Paste" class="f2s-a21-textarea" placeholder="Nowshin F2S-63\n7/7\n89:41:06\n\nAfiya F2S-95\n7/7\n44:53:51"></textarea><div class="f2s-a21-actions"><button id="a21T5Parse" class="f2s-a21-btn primary">Upload / Parse → Review</button><button id="a21T5Current" class="f2s-a21-btn">Load current Week ${week}</button><button id="a21T5Add" class="f2s-a21-btn">+ Add Row</button><button id="a21T5Clear" class="f2s-a21-btn">Clear draft</button></div>${tableT5()}<div class="f2s-a21-actions" style="margin-top:12px"><button id="a21T5Submit" class="f2s-a21-btn primary">Submit T5 to Final Review</button></div></div>`;
+    if(mode==='fcb')return `<div class="f2s-a21-panel"><h3>FCB Management</h3><div class="help">Upload invite data, review/edit it, add rows manually, then submit the FCB draft to Final Review. FCB is maintained as the current all-time invite table. F2S-ID is optional; FCB rank is determined by total invitations (highest first). Remove deletes the row from the draft and the next Final Publish replaces the current FCB table, so removed members are actually removed from Supabase.</div><div class="f2s-a21-upload"><input id="a21FCBFile" class="f2s-a21-file" type="file" accept=".txt,.csv"><button id="a21FCBFileRead" class="f2s-a21-btn">Read file</button></div><textarea id="a21FCBPaste" class="f2s-a21-textarea" placeholder="Zihad Al Islam F2S-79\n3\n\nNew member without F2S-ID\n5\n\nMehejaben Islam F2S-97\n1"></textarea><div class="f2s-a21-actions"><button id="a21FCBParse" class="f2s-a21-btn primary">Upload / Parse → Review</button><button id="a21FCBCurrent" class="f2s-a21-btn">Load current FCB</button><button id="a21FCBAdd" class="f2s-a21-btn">+ Add Row</button><button id="a21FCBClear" class="f2s-a21-btn">Clear draft</button></div>${tableFCB()}<div class="f2s-a21-actions" style="margin-top:12px"><button id="a21FCBSubmit" class="f2s-a21-btn primary">Submit FCB to Final Review</button></div></div>`;
+    if(mode==='star'){const d=derived();return `<div class="f2s-a21-panel"><h3>F2S Star — Weekly View</h3><div class="help">Separate weekly view. Exactly 7/7 earns +1 Star when final T5 is published and Star processing runs.</div>${d.stars.length?tableSimple(d.stars.map(x=>[x.name,x.f2s_id||'AUTO',x.completed_days+'/7','+1 Star'])):'<div class="f2s-a21-muted">No 7/7 candidates in the current T5 draft.</div>'}</div>`}
+    const d=derived();return `<div class="f2s-a21-panel"><h3>F2S-ID — Weekly View</h3><div class="help">Separate weekly view. Participants with ≥4/7 are eligible. Existing members keep their ID. Removed IDs are reusable: the next eligible new member receives the lowest available removed ID first; if none is available, the next ID after the highest-ever issued number is created and added to the Directory.</div>${d.ids.length?tableSimple(d.ids.map(x=>[x.name,x.f2s_id||'AUTO',x.completed_days+'/7',x.f2s_id?'Existing ID':'New ID at publish'])):'<div class="f2s-a21-muted">No ≥4/7 eligible participant in the current T5 draft.</div>'}</div>`}
+  function tableSimple(rows){return `<div class="f2s-a21-tablewrap"><table class="f2s-a21-table"><thead><tr><th>Name</th><th>F2S-ID</th><th>T5</th><th>Status</th></tr></thead><tbody>${rows.map(r=>`<tr>${r.map(v=>`<td>${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`}
+  function render(){ fcb.sort((a,b)=>Number(b.total_invites||0)-Number(a.total_invites||0)); $('a21Panel').innerHTML=panel();$('a21T5Count').textContent=t5.length+' rows';$('a21FCBCount').textContent=fcb.length+' rows';const d=derived();$('a21StarCount').textContent=d.stars.length+' candidates';$('a21IDCount').textContent=d.ids.length+' eligible';document.querySelectorAll('.f2s-a21-option').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));bindPanel(); }
+  async function loadT5(){const q=await sb.rpc('get_weekly_leaderboard',{p_week_number:week});if(q.error)throw Error(q.error.message);t5=(q.data||[]).map(x=>({name:x.name,f2s_id:x.f2s_id||'',completed_days:Number(x.completed_days)||0,total_study_seconds:Number(x.study_time_seconds)||0}));render()}
+  async function loadFCB(){const q=await sb.rpc('admin_get_fcb_current');if(q.error)throw Error(q.error.message);fcb=(q.data||[]).map(x=>({name:x.name,f2s_id:x.f2s_id||'',total_invites:Number(x.total_invites)||0}));fcb.sort((a,b)=>Number(b.total_invites||0)-Number(a.total_invites||0));render()}
+  async function loadAll(){const ds=dates(week);t5=[];fcb=[];$('a21Final').style.display='none';$('a21WeekTitle').textContent='Week '+week;$('a21WeekDates').textContent=ds[0]+' → '+ds[1];render();await loadT5();await loadFCB();mode='t5';render();status('Week '+week+' loaded fresh from Supabase. Previous week/test drafts were cleared.','ok')}
+  function bindPanel(){
+    const panelEl=$('a21Panel');
+    if(!panelEl) return;
+    // Robust delegated click handling for Android/mobile. The old per-button
+    // handlers could be lost after a render and made Remove appear inactive.
+    panelEl.querySelectorAll('[data-remove]').forEach(b=>{
+      b.type='button';
+      b.onclick=(ev)=>{
+        ev.preventDefault();
+        ev.stopPropagation();
+        const i=Number(b.dataset.remove);
+        const arr=mode==='t5'?t5:fcb;
+        if(!Number.isInteger(i)||i<0||i>=arr.length) return;
+        arr.splice(i,1);
+        render();
+        status((mode==='t5'?'T5':'FCB')+' row removed from draft. Click Submit/Final Review to apply the change.','ok');
+      };
+    });
+    panelEl.querySelectorAll('input[data-i]').forEach(inp=>inp.onchange=()=>{
+      const i=Number(inp.dataset.i),k=inp.dataset.k,arr=mode==='t5'?t5:fcb;
+      if(!arr[i]) return;
+      if(k==='study')arr[i].total_study_seconds=timeSec(inp.value);
+      else if(k==='completed_days')arr[i][k]=Number(inp.value);
+      else if(k==='total_invites')arr[i][k]=Number(inp.value);
+      else arr[i][k]=inp.value;
+      render();
+    });
+    $('a21T5FileRead')?.addEventListener('click',async()=>{const f=$('a21T5File')?.files?.[0];if(!f)return status('Choose a T5 file first.','err');$('a21T5Paste').value=await f.text();});$('a21T5Parse')?.addEventListener('click',()=>{try{t5=t5Parse($('a21T5Paste').value);validateT5(t5);render();status('T5 upload parsed. Review/edit rows before Submit.','ok')}catch(e){status(e.message,'err')}});$('a21T5Current')?.addEventListener('click',()=>loadT5().catch(e=>status('T5 load failed: '+e.message,'err')));$('a21T5Add')?.addEventListener('click',()=>{t5.push({name:'',f2s_id:'',completed_days:0,total_study_seconds:0});render()});$('a21T5Clear')?.addEventListener('click',()=>{t5=[];render()});$('a21T5Submit')?.addEventListener('click',()=>{try{validateT5(t5);status('T5 draft submitted to Final Review.','ok');mode='star';render()}catch(e){status(e.message,'err')}});
+    $('a21FCBFileRead')?.addEventListener('click',async()=>{const f=$('a21FCBFile')?.files?.[0];if(!f)return status('Choose an FCB file first.','err');$('a21FCBPaste').value=await f.text();});$('a21FCBParse')?.addEventListener('click',()=>{try{fcb=fcbParse($('a21FCBPaste').value);validateFCB(fcb);render();status('FCB upload parsed. Review/edit rows before Submit.','ok')}catch(e){status(e.message,'err')}});$('a21FCBCurrent')?.addEventListener('click',()=>loadFCB().catch(e=>status('FCB load failed: '+e.message,'err')));$('a21FCBAdd')?.addEventListener('click',()=>{fcb.push({name:'',f2s_id:'',total_invites:0});render()});$('a21FCBClear')?.addEventListener('click',()=>{fcb=[];render()});$('a21FCBSubmit')?.addEventListener('click',()=>{try{validateFCB(fcb);status('FCB draft submitted to Final Review.','ok');mode='t5';render()}catch(e){status(e.message,'err')}});}
+  function finalReview(){const d=derived();$('a21Final').style.display='block';$('a21Final').innerHTML=`<div class="f2s-a21-panel"><h3>Final Review — All 4</h3><div class="help">Nothing is published yet. Review the four datasets together, then use the single Publish button.</div><div class="f2s-a21-final"><div class="f2s-a21-stat"><b>${t5.length}</b><span>T5 rows</span></div><div class="f2s-a21-stat"><b>${fcb.length}</b><span>FCB rows</span></div><div class="f2s-a21-stat"><b>${d.stars.length}</b><span>Weekly Stars</span></div><div class="f2s-a21-stat"><b>${d.ids.length}</b><span>Weekly F2S-ID</span></div></div><div class="f2s-a21-review"><div class="f2s-a21-reviewbox"><h4>1 · T5</h4><div class="f2s-a21-list">${t5.map((x,i)=>`${i+1}. ${x.name} · ${x.f2s_id||'AUTO'} · ${x.completed_days}/7 · ${fmt(x.total_study_seconds)}`).join('\n')||'No T5 rows.'}</div></div><div class="f2s-a21-reviewbox"><h4>2 · FCB</h4><div class="f2s-a21-list">${fcb.map((x,i)=>`${i+1}. ${x.name} · ${x.f2s_id||'—'} · ${x.total_invites} invites`).join('\n')||'No FCB rows.'}</div></div><div class="f2s-a21-reviewbox"><h4>3 · F2S Star</h4><div class="f2s-a21-list">${d.stars.map(x=>`${x.name} · ${x.f2s_id||'AUTO'} · 7/7 · +1 Star`).join('\n')||'No 7/7 candidates.'}</div></div><div class="f2s-a21-reviewbox"><h4>4 · F2S-ID</h4><div class="f2s-a21-list">${d.ids.map(x=>`${x.name} · ${x.f2s_id||'AUTO'} · ${x.completed_days}/7 · ${x.f2s_id?'existing permanent ID':'new ID at publish'}`).join('\n')||'No eligible members.'}</div></div></div><div class="f2s-a21-actions" style="margin-top:16px"><button id="a21Publish" class="f2s-a21-btn primary" style="width:100%;padding:14px">PUBLISH ALL 4 → SUPABASE + LIVE LEADERBOARDS/TICKERS</button></div><div id="a21PublishStatus" class="f2s-a21-status" style="margin-top:12px">Final review only — public data unchanged.</div></div>`;$('a21Final').scrollIntoView({behavior:'smooth',block:'start'});$('a21Publish').onclick=publishAll}
+  async function publishAll(){
+    const btn=$('a21Publish');
+    const out=$('a21PublishStatus');
+    try{
+      validateT5(t5);
+      validateFCB(fcb);
+      btn.disabled=true;
+      out.className='f2s-a21-status';
+      out.textContent='Preparing encoded text payloads and publishing all 4 atomically…';
+
+      // IMPORTANT: publish path intentionally uses NO JSON at all.
+      // Every text field is UTF-8 base64 encoded, so names/IDs can contain
+      // spaces, punctuation, Unicode, etc. without breaking the payload.
+      const utf8b64=(value)=>{
+        const bytes=new TextEncoder().encode(String(value??''));
+        let binary='';
+        const chunk=0x8000;
+        for(let i=0;i<bytes.length;i+=chunk){
+          binary+=String.fromCharCode(...bytes.subarray(i,i+chunk));
+        }
+        return btoa(binary);
+      };
+
+      // Protocol:
+      // T5  = base64(name)|base64(f2s_id)|days|seconds\n...
+      // FCB = base64(name)|base64(f2s_id)|invites\n...
+      // No JSON is sent to Supabase.
+      const t5Payload=t5.map(x=>[
+        utf8b64(String(x.name||'').trim()),
+        utf8b64(String(x.f2s_id||'').trim()),
+        String(Number(x.completed_days)||0),
+        String(Number(x.total_study_seconds)||0)
+      ].join('|')).join('\n');
+
+      const fcbPayload=fcb.map(x=>[
+        utf8b64(String(x.name||'').trim()),
+        utf8b64(String(x.f2s_id||'').trim()),
+        String(Number(x.total_invites)||0)
+      ].join('|')).join('\n');
+
+      const ds=dates(week);
+      const q=await sb.rpc('admin_publish_week_text',{
+        p_week_number:week,
+        p_week_start:ds[0],
+        p_week_end:ds[1],
+        p_t5_payload:t5Payload,
+        p_fcb_payload:fcbPayload
+      });
+      if(q.error) throw Error(q.error.message);
+
+      // Finalize F2S-ID assignment after the weekly replacement. This guarantees
+      // eligible AUTO rows are written into the directory and back into weekly_t5.
+      const idSync=await sb.rpc('admin_assign_week_ids',{p_week_number:week});
+      if(idSync.error) throw Error('F2S-ID assignment failed: '+idSync.error.message);
+      // Run Star processing once more after IDs exist, so 7/7 new members can earn a Star.
+      const starSync=await sb.rpc('award_weekly_stars',{p_week_number:week});
+      if(starSync.error) throw Error('Star processing failed: '+starSync.error.message);
+
+      const result=q.data||{};
+      out.className='f2s-a21-status ok';
+      out.textContent='✓ Published atomically: T5 '+(result.t5_rows??t5.length)+' rows · F2S-ID processed · '+(result.star_awarded??0)+' new Star(s) · FCB '+(result.fcb_rows??fcb.length)+' rows.';
+
+      window.dispatchEvent(new CustomEvent('f2s:refresh-live'));
+      await loadAll();
+      finalReview();
+      status('Final publish completed for Week '+week+'. T5 + F2S-ID Directory + Stars synced.','ok');
+    }catch(e){
+      out.textContent='Publish failed: '+(e?.message||e);
+      out.className='f2s-a21-status err';
+      status('Publish failed. Check the Supabase RPC and admin session.','err');
+    }finally{
+      btn.disabled=false;
+    }
+  }
+
+  async function verify(){if(!sb){status('Supabase client is not ready.','err');return}const g=await sb.auth.getSession(),session=g.data?.session;if(!session){$('a21Login').style.display='block';$('a21Workspace').style.display='none';status('Step 1: sign in and verify the F2S administrator.');return}const q=await sb.rpc('is_f2s_admin');if(q.error||q.data!==true){$('a21Login').style.display='block';$('a21Workspace').style.display='none';status('Signed in, but this account is not verified as an F2S admin.','err');return}$('a21Login').style.display='none';$('a21Workspace').style.display='block';status('ADMIN VERIFIED · '+(session.user.email||'authenticated session'),'ok');await loadAll();if(window.f2sRefreshIdDirectory) await window.f2sRefreshIdDirectory()}
+  function open(){const c=$('f2sAdminConsole');if(!c)return;c.classList.add('f2s-admin-visible');verify().catch(e=>status(e.message,'err'))}
+  function close(){ $('f2sAdminConsole')?.classList.remove('f2s-admin-visible') }
+  function init(){sb=window.f2sSupabase;if(!sb)return;window.openF2SAdminCenter=open;window.f2sOpenDedicatedAdmin=open;$('a21SignIn').onclick=async()=>{const email=$('a21Email').value.trim(),password=$('a21Password').value;if(!email||!password)return status('Enter admin email and password.','err');status('Signing in and verifying…');const q=await sb.auth.signInWithPassword({email,password});if(q.error)return status('Sign-in failed: '+q.error.message,'err');await verify()};$('a21DeleteWeek').onclick=async()=>{const w=Number($('a21Week').value)||week;if(w<1)return status('Invalid week number.','err');const ok=confirm('DELETE ALL published records for Week '+w+'?\n\nThis removes the week from T5 history, reverses Star awards from this week, and restores/releases affected F2S-IDs.\n\nThis cannot be undone from the website.');if(!ok)return;const btn=$('a21DeleteWeek');btn.disabled=true;status('Deleting Week '+w+' and rolling back its Star/ID effects…');try{const q=await sb.rpc('admin_delete_week',{p_week_number:w});if(q.error)throw Error(q.error.message);status('Week '+w+' deleted. The public page will now continue from the newest remaining week. Reloading…','ok');setTimeout(()=>location.reload(),700)}catch(e){btn.disabled=false;status('Delete failed: '+e.message,'err')}};$('a21SignOut').onclick=async()=>{await sb.auth.signOut();close();status('Signed out.');};$('a21Close').onclick=close;$('a21Close2').onclick=close;$('a21Back').onclick=close;$('a21LoadWeek').onclick=async()=>{const selected=Math.max(1,Math.min(53,Number($('a21Week').value)||43));week=selected;t5=[];fcb=[];$('a21Final').style.display='none';render();try{await loadAll()}catch(e){status('Week '+week+' load failed: '+e.message,'err')}};document.querySelectorAll('.f2s-a21-option').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;render()});$('a21Week').addEventListener('change',()=>{t5=[];fcb=[];$('a21Final').style.display='none';render();status('Week changed. Click Load Week to load that week from Supabase.','ok')});$('a21FinalReview').onclick=finalReview;document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('f2sAdminConsole').classList.contains('f2s-admin-visible'))close()});sb.auth.onAuthStateChange(()=>{if($('f2sAdminConsole').classList.contains('f2s-admin-visible'))setTimeout(()=>verify(),0)});}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+
+
+<style id="f2s-week42-perfect-stars-overlap-v2">
+/* Week 42: every 7/7 member gets the same overlapping star card treatment as #1. */
+.t5w37-board-row.weekly-perfect{
+  position:relative !important;
+  overflow:visible !important;
+  z-index:5 !important;
+}
+.t5w37-board-row.weekly-perfect .t5w37-star-cell{
+  position:absolute !important;
+  right:-29px !important;
+  top:50% !important;
+  transform:translateY(-50%) !important;
+  z-index:20 !important;
+  width:58px !important;
+  min-height:54px !important;
+  padding:0 3px !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:0 !important;
+  border:1px solid rgba(217,167,85,.34) !important;
+  border-radius:12px !important;
+  background:linear-gradient(145deg,rgba(217,167,85,.10),rgba(217,167,85,.025)) !important;
+  box-shadow:0 8px 22px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.025) !important;
+}
+.t5w37-board-row.weekly-perfect .t5w37-star-cell .t5w37-star-count{
+  display:none !important;
+}
+.t5w37-board-row.weekly-perfect .t5w37-star-cell .t5w37-star{
+  display:block !important;
+  color:#F1C873 !important;
+  font-size:22px !important;
+  line-height:1 !important;
+  font-weight:900 !important;
+  text-shadow:0 0 16px rgba(217,167,85,.18) !important;
+}
+
+@media(max-width:760px){
+  .t5w37-board-row.weekly-perfect .t5w37-star-cell{
+    right:-22px !important;
+    width:44px !important;
+    min-height:44px !important;
+    border-radius:10px !important;
+    background:linear-gradient(145deg,rgba(8,9,11,.92),rgba(18,19,22,.86)) !important;
+    border-color:rgba(210,176,107,.34) !important;
+    box-shadow:0 6px 18px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.045) !important;
+  }
+  .t5w37-board-row.weekly-perfect .t5w37-star-cell .t5w37-star{
+    color:#F5C95F !important;
+    font-size:17px !important;
+    font-weight:900 !important;
+    text-shadow:0 0 7px rgba(245,201,95,.38) !important;
+  }
+}
+@media(max-width:520px){
+  .t5w37-board-row.weekly-perfect .t5w37-star-cell{
+    right:-20px !important;
+    width:44px !important;
+    min-height:38px !important;
+    border-radius:10px !important;
+  }
+  .t5w37-board-row.weekly-perfect .t5w37-star-cell .t5w37-star{
+    font-size:16px !important;
+  }
+}
+</style>
+<style>.f2s-id-available-badge{display:inline-flex;align-items:center;margin-left:8px;padding:4px 9px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.02em;background:rgba(217,167,85,.10);border:1px solid rgba(217,167,85,.24);color:#e9c97f;vertical-align:middle}
+</style>
+
+<script>
+(function(){
+  const $ = (s,r=document)=>r.querySelector(s);
+  let directoryRows = [];
+  let editingId = null;
+
+  async function loadDirectory(){
+    const body = $('#f2sIdDirectoryManagementBody');
+    if(!body) return;
+    body.innerHTML = '<tr><td colspan="5" class="f2s-muted">Loading directory…</td></tr>';
+
+    try{
+      if(!window.f2sSupabase) throw new Error('Supabase client not initialized');
+      const {data,error}=await window.f2sSupabase.rpc('admin_get_f2s_directory_management');
+      if(error) throw error;
+      directoryRows = data || [];
+      renderDirectory();
+    }catch(e){
+      body.innerHTML='<tr><td colspan="5">Failed to load directory: '+escapeHtml(e.message)+'</td></tr>';
+    }
+  }
+
+  function escapeHtml(v){
+    return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function renderDirectory(){
+    const body=$('#f2sIdDirectoryManagementBody');
+    const availableCount=directoryRows.filter(x=>String(x.status||'').toLowerCase()==='removed').length;
+    const badge=$('#f2sIdAvailableCount');
+    if(badge) badge.textContent=availableCount+' available';
+    if(!body) return;
+    const q=($('#f2sIdDirectorySearch')?.value||'').trim().toLowerCase();
+    const rows=directoryRows.filter(x =>
+      !q || String(x.f2s_id||'').toLowerCase().includes(q) ||
+      String(x.name||'').toLowerCase().includes(q)
+    );
+    if(!rows.length){
+      body.innerHTML='<tr><td colspan="5" class="f2s-muted">No F2S-ID records found.</td></tr>';
+      return;
+    }
+    body.innerHTML=rows.map(x=>{
+      if(editingId===x.id){
+        return `<tr>
+          <td><input class="f2s-id-edit-input" data-edit-id="${x.id}" data-field="f2s_id" value="${escapeHtml(x.f2s_id)}"></td>
+          <td><input class="f2s-id-edit-input" data-edit-id="${x.id}" data-field="name" value="${escapeHtml(x.name)}"></td>
+          <td>${escapeHtml(x.joined_week??'—')}</td>
+          <td><select class="f2s-id-edit-input" data-edit-id="${x.id}" data-field="status">
+            <option value="active" ${x.status==='active'?'selected':''}>active</option>
+            <option value="inactive" ${x.status==='inactive'?'selected':''}>inactive</option>
+            <option value="removed" ${x.status==='removed'?'selected':''}>removed / available</option>
+          </select></td>
+          <td><div class="f2s-id-management-actions">
+            <button type="button" class="f2s-id-action" data-id-save="${x.id}">Save</button>
+            <button type="button" class="f2s-id-action" data-id-cancel="${x.id}">Cancel</button>
+          </div></td>
+        </tr>`;
+      }
+      return `<tr>
+        <td><strong>${escapeHtml(x.f2s_id)}</strong></td>
+        <td>${escapeHtml(x.name)}</td>
+        <td>${escapeHtml(x.joined_week??'—')}</td>
+        <td class="${String(x.status||'active').toLowerCase()==='removed'?'f2s-id-status-removed':'f2s-id-status-active'}">${escapeHtml(x.status||'active')}</td>
+        <td><div class="f2s-id-management-actions">
+          <button type="button" class="f2s-id-action" data-id-edit="${x.id}">Edit</button>
+          <button type="button" class="f2s-id-action remove" data-id-remove="${x.id}">Remove</button>
+        </div></td>
+      </tr>`;
+    }).join('');
+  }
+
+  async function saveRow(id){
+    const row=directoryRows.find(x=>x.id===id);
+    if(!row) return;
+    const inputs=[...document.querySelectorAll(`[data-edit-id="${id}"]`)];
+    const val=f=>inputs.find(i=>i.dataset.field===f)?.value.trim();
+    const newId=val('f2s_id'), newName=val('name'), status=val('status')||'active';
+    if(!newId||!newName){ alert('F2S-ID and Name are required.'); return; }
+
+    if(!window.f2sSupabase){ alert('Supabase client not initialized'); return; }
+
+    const {error}=await window.f2sSupabase.rpc('admin_edit_f2s_identity',{
+      p_directory_id:id,
+      p_f2s_id:newId,
+      p_name:newName,
+      p_status:status
+    });
+    if(error){ alert('Edit failed: '+error.message); return; }
+    editingId=null;
+    await loadDirectory();
+
+    // Identity is canonical across the whole public site:
+    // directory + weekly T5 + Star + FCB + all tickers.
+    window.dispatchEvent(new CustomEvent("f2s:identity-updated", {
+      detail: { old: row, new: { f2s_id: newId, name: newName } }
+    }));
+    window.dispatchEvent(new CustomEvent("f2s:refresh-live"));
+    if (typeof window.refreshF2STickers === "function") {
+      window.refreshF2STickers(window.__f2sCurrentWeek || 42);
+    }
+  }
+
+  async function removeRow(id){
+    const row=directoryRows.find(x=>x.id===id);
+    if(!row) return;
+    if(!confirm(`Remove ${row.f2s_id} · ${row.name} from the permanent F2S-ID directory?\\n\\nThe ID will become AVAILABLE and can be assigned to a future eligible new member.`)) return;
+    if(!window.f2sSupabase){ alert('Supabase client not initialized'); return; }
+
+    const {error}=await window.f2sSupabase.rpc('admin_remove_f2s_directory',{
+      p_directory_id:id
+    });
+    if(error){ alert('Remove failed: '+error.message); return; }
+    await loadDirectory();
+  }
+
+  document.addEventListener('click',e=>{
+    const edit=e.target.closest('[data-id-edit]');
+    if(edit){ editingId=Number(edit.dataset.idEdit); renderDirectory(); return; }
+    const cancel=e.target.closest('[data-id-cancel]');
+    if(cancel){ editingId=null; renderDirectory(); return; }
+    const save=e.target.closest('[data-id-save]');
+    if(save){ saveRow(Number(save.dataset.idSave)); return; }
+    const rem=e.target.closest('[data-id-remove]');
+    if(rem){ removeRow(Number(rem.dataset.idRemove)); return; }
+  });
+
+  document.addEventListener('input',e=>{
+    if(e.target.id==='f2sIdDirectorySearch') renderDirectory();
+  });
+  document.addEventListener('click',e=>{
+    if(e.target.id==='f2sRefreshIdDirectory') loadDirectory();
+  });
+
+  // The main Admin Center calls loadDirectory() after successful admin verification.
+  window.f2sRefreshIdDirectory=loadDirectory;
+  window.addEventListener('f2s:refresh-directory',loadDirectory);
+})();
+</script>
+
+</body></html>
+
+<style id="f2s-admin-v45-final-polish">
+/* V45 — remove visual navigation strip; elevate the console itself */
+#f2sAdminConsole .f2s-a21-body:before{display:none!important}
+
+/* Premium command-center canvas */
+#f2sAdminConsole .f2s-a21-shell{
+  border-radius:24px!important;
+  border:1px solid rgba(217,167,85,.20)!important;
+  background:
+    radial-gradient(circle at 88% 0%,rgba(217,167,85,.075),transparent 30%),
+    radial-gradient(circle at 4% 100%,rgba(70,94,125,.055),transparent 27%),
+    linear-gradient(145deg,#0c1017 0%,#090c12 100%)!important;
+  box-shadow:
+    0 38px 120px rgba(0,0,0,.58),
+    0 0 0 1px rgba(255,255,255,.018) inset,
+    0 1px 0 rgba(255,255,255,.045) inset!important;
+}
+
+/* Header becomes a clean executive bar */
+#f2sAdminConsole .f2s-a21-top{
+  padding:14px 20px!important;
+  background:linear-gradient(180deg,rgba(18,21,28,.96),rgba(10,13,18,.96))!important;
+}
+#f2sAdminConsole .f2s-a21-mark{
+  width:44px!important;height:44px!important;border-radius:14px!important;
+}
+#f2sAdminConsole .f2s-a21-title{font-size:18px!important;letter-spacing:-.015em!important}
+#f2sAdminConsole .f2s-a21-sub{font-size:7px!important;letter-spacing:.16em!important}
+
+/* Body rhythm */
+#f2sAdminConsole .f2s-a21-body{padding:20px!important}
+#f2sAdminConsole .f2s-a21-status{
+  padding:9px 12px!important;border-radius:10px!important;
+  border:1px solid rgba(255,255,255,.055)!important;
+  background:rgba(255,255,255,.018)!important;
+}
+
+/* Make step labels feel like product sections */
+#f2sAdminConsole .f2s-a21-step{
+  display:flex!important;align-items:center!important;gap:8px!important;
+  margin:17px 0 9px!important;
+}
+#f2sAdminConsole .f2s-a21-step:after{
+  content:"";height:1px;flex:1;
+  background:linear-gradient(90deg,rgba(217,167,85,.16),transparent)!important;
+}
+
+/* Stronger cards, still compact */
+#f2sAdminConsole .f2s-a21-week,
+#f2sAdminConsole #f2sIdDirectoryManagement{
+  box-shadow:
+    0 16px 48px rgba(0,0,0,.20),
+    inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+
+/* Cleaner controls */
+#f2sAdminConsole input,
+#f2sAdminConsole select,
+#f2sAdminConsole textarea{
+  border-color:rgba(255,255,255,.075)!important;
+  background:rgba(7,10,15,.72)!important;
+}
+#f2sAdminConsole input:focus,
+#f2sAdminConsole select:focus,
+#f2sAdminConsole textarea:focus{
+  border-color:rgba(217,167,85,.34)!important;
+  box-shadow:0 0 0 3px rgba(217,167,85,.055)!important;
+}
+
+/* Directory remains minimized but looks intentional */
+#f2sAdminConsole #f2sIdDirectoryManagement{
+  background:linear-gradient(145deg,rgba(17,21,28,.92),rgba(9,12,17,.94))!important;
+  border-color:rgba(255,255,255,.065)!important;
+}
+
+/* Premium scrollbar */
+#f2sAdminConsole *::-webkit-scrollbar{width:6px;height:6px}
+#f2sAdminConsole *::-webkit-scrollbar-track{background:transparent}
+#f2sAdminConsole *::-webkit-scrollbar-thumb{
+  background:rgba(217,167,85,.18);border-radius:99px;
+}
+
+/* Mobile */
+@media(max-width:700px){
+  #f2sAdminConsole .f2s-a21-body{padding:13px!important}
+  #f2sAdminConsole .f2s-a21-top{padding:10px 13px!important}
+  #f2sAdminConsole .f2s-a21-mark{width:40px!important;height:40px!important}
+  #f2sAdminConsole .f2s-a21-title{font-size:15px!important}
+}
+</style>
+
+<style id="f2s-admin-v46-delete-mobile-fix">
+/* V46 — ensure Delete This Week is visible on mobile */
+@media(max-width:820px){
+  #f2sAdminConsole .f2s-a21-week{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:12px!important;
+    overflow:visible!important;
+  }
+  #f2sAdminConsole .f2s-a21-week-controls{
+    width:100%!important;
+    min-width:0!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+    gap:8px!important;
+    align-items:stretch!important;
+    overflow:visible!important;
+  }
+  #f2sAdminConsole .f2s-a21-week-controls .f2s-a21-input{
+    width:100%!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+  }
+  #f2sAdminConsole #a21LoadWeek{
+    width:auto!important;
+    min-width:108px!important;
+  }
+  #f2sAdminConsole #a21DeleteWeek{
+    grid-column:1 / -1!important;
+    width:100%!important;
+    min-height:44px!important;
+    margin-top:2px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    box-sizing:border-box!important;
+    position:relative!important;
+    z-index:5!important;
+    visibility:visible!important;
+    opacity:1!important;
+  }
+}
+@media(max-width:390px){
+  #f2sAdminConsole .f2s-a21-week-controls{
+    grid-template-columns:1fr!important;
+  }
+  #f2sAdminConsole #a21LoadWeek{
+    width:100%!important;
+    min-width:0!important;
+  }
+  #f2sAdminConsole #a21DeleteWeek{
+    grid-column:1!important;
+  }
+}
+
+/* Make the delete action visually deliberate rather than hidden among controls */
+#f2sAdminConsole #a21DeleteWeek{
+  border-radius:10px!important;
+  letter-spacing:.01em!important;
+}
+</style>
+
+<style id="f2s-admin-v48-sidebar-access">
+/* V48 — Admin control lives directly under desktop sidebar menu */
+.sidebar-admin-control{
+  width:100%!important;
+  margin-top:10px!important;
+  padding:10px 10px!important;
+  min-height:48px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:10px!important;
+  border:1px solid rgba(217,167,85,.18)!important;
+  border-radius:11px!important;
+  background:linear-gradient(145deg,rgba(217,167,85,.095),rgba(217,167,85,.025))!important;
+  color:#e9dfca!important;
+  text-align:left!important;
+  cursor:pointer!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease!important;
+}
+.sidebar-admin-control:hover{
+  transform:translateY(-1px)!important;
+  border-color:rgba(217,167,85,.38)!important;
+  box-shadow:0 10px 25px rgba(0,0,0,.20),0 0 20px rgba(217,167,85,.05)!important;
+}
+.sidebar-admin-icon{
+  width:29px!important;height:29px!important;display:grid!important;place-items:center!important;
+  flex:0 0 29px!important;border-radius:8px!important;
+  color:#d9a755!important;font-size:14px!important;
+  background:rgba(217,167,85,.10)!important;
+  border:1px solid rgba(217,167,85,.16)!important;
+}
+.sidebar-admin-copy{
+  display:flex!important;flex-direction:column!important;line-height:1.05!important;
+}
+.sidebar-admin-copy b{
+  font:700 10px/1.1 Inter,system-ui,sans-serif!important;
+  color:#e7dcc5!important;
+}
+.sidebar-admin-copy small{
+  margin-top:4px!important;
+  font:600 6.5px/1 Inter,system-ui,sans-serif!important;
+  color:#7f7666!important;
+  letter-spacing:.10em!important;
+  text-transform:uppercase!important;
+}
+/* Remove the old floating desktop trigger; sidebar is now the single desktop entry point. */
+#f2sDesktopAdminAccess{display:none!important}
+@media(max-width:860px){
+  .sidebar-admin-control{display:none!important}
+}
+</style>
+
+<style id="f2s-v49-t5-ticker-desktop-force">
+/* V49 — one authoritative desktop ticker engine */
+@media (min-width:861px){
+  .f2s-weekly-ticker-wrap,
+  .f2s-weekly-ticker{
+    overflow:hidden!important;
+  }
+  .f2s-weekly-ticker-track{
+    display:flex!important;
+    flex-direction:row!important;
+    flex-wrap:nowrap!important;
+    width:max-content!important;
+    min-width:max-content!important;
+    max-width:none!important;
+    animation:none!important;
+    transition:none!important;
+    will-change:transform!important;
+  }
+  .f2s-weekly-ticker-set{
+    display:flex!important;
+    flex:0 0 auto!important;
+    width:max-content!important;
+    min-width:max-content!important;
+  }
+  .f2s-weekly-ticker-item{
+    display:flex!important;
+    flex:0 0 auto!important;
+  }
+}
+</style>
+<script id="f2s-v49-t5-ticker-runtime">
+(function(){
+  'use strict';
+
+  var raf=0, track=null, copyWidth=0, x=0, last=0, speed=0;
+  var retryTimer=0, observer=null, resizeObserver=null;
+
+  function desktop(){
+    return window.matchMedia && window.matchMedia('(min-width:861px)').matches;
+  }
+
+  function stop(){
+    if(raf){ cancelAnimationFrame(raf); raf=0; }
+  }
+
+  function measure(){
+    if(!desktop()) return false;
+
+    var next=document.querySelector('.f2s-weekly-ticker-track');
+    if(!next) return false;
+
+    var sets=next.querySelectorAll('.f2s-weekly-ticker-set');
+    if(sets.length<2) return false;
+
+    track=next;
+
+    /* Wait until the browser has a real layout width. */
+    var w=sets[0].getBoundingClientRect().width;
+    if(!(w>1)) return false;
+
+    copyWidth=w;
+    speed=Math.max(34,Math.min(58,copyWidth/27));
+
+    track.style.setProperty('animation','none','important');
+    track.style.setProperty('transition','none','important');
+    track.style.setProperty('will-change','transform','important');
+    track.style.setProperty('transform','translate3d('+x+'px,0,0)','important');
+
+    return true;
+  }
+
+  function frame(now){
+    if(!desktop() || !track || !document.body.contains(track)){
+      stop();
+      return;
+    }
+
+    var dt=Math.min(0.05,Math.max(0,(now-last)/1000));
+    last=now;
+    x-=speed*dt;
+
+    if(copyWidth>1 && x<=-copyWidth){
+      x+=copyWidth;
+    }
+
+    track.style.setProperty(
+      'transform',
+      'translate3d('+x.toFixed(3)+'px,0,0)',
+      'important'
+    );
+
+    raf=requestAnimationFrame(frame);
+  }
+
+  function start(){
+    if(!desktop()){
+      stop();
+      return;
+    }
+
+    if(!measure()){
+      clearTimeout(retryTimer);
+      retryTimer=setTimeout(start,250);
+      return;
+    }
+
+    stop();
+    /* Preserve the current loop position where possible. */
+    if(copyWidth>1) x=((x%copyWidth)+copyWidth)%copyWidth;
+    x=-x;
+    if(x>0) x=-x;
+
+    last=performance.now();
+    raf=requestAnimationFrame(frame);
+  }
+
+  function bind(){
+    start();
+
+    if(resizeObserver){
+      try{ resizeObserver.disconnect(); }catch(e){}
+    }
+
+    var t=document.querySelector('.f2s-weekly-ticker-track');
+    if(t && window.ResizeObserver){
+      resizeObserver=new ResizeObserver(function(){
+        var sets=t.querySelectorAll('.f2s-weekly-ticker-set');
+        if(sets.length>=2){
+          var w=sets[0].getBoundingClientRect().width;
+          if(w>1 && Math.abs(w-copyWidth)>1){
+            copyWidth=w;
+            speed=Math.max(34,Math.min(58,copyWidth/27));
+          }
+        }
+      });
+      resizeObserver.observe(t);
+      if(t.parentElement) resizeObserver.observe(t.parentElement);
+    }
+  }
+
+  function boot(){
+    setTimeout(bind,50);
+    setTimeout(bind,350);
+    setTimeout(bind,1000);
+    setTimeout(bind,2000);
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',boot,{once:true});
+  }else{
+    boot();
+  }
+
+  window.addEventListener('load',boot,{once:true});
+  window.addEventListener('resize',function(){
+    if(desktop()) bind();
+    else stop();
+  },{passive:true});
+
+  /* React/SPA renders can replace the ticker after data arrives. */
+  var root=document.getElementById('root')||document.body;
+  observer=new MutationObserver(function(){
+    var current=document.querySelector('.f2s-weekly-ticker-track');
+    if(current && current!==track){
+      stop();
+      track=null;
+      x=0;
+      setTimeout(bind,80);
+      setTimeout(bind,350);
+    }
+  });
+  observer.observe(root,{childList:true,subtree:true});
+})();
+</script>
+
+<style id="f2s-admin-final-premium">
+/* =========================================================
+   F2S ADMIN CENTER — FINAL PREMIUM UI
+   Desktop + Tablet + Mobile
+   Functional selectors are intentionally untouched.
+   ========================================================= */
+#f2sAdminConsole{
+  --f2s-gold:#d9a755;
+  --f2s-gold-2:#f0c875;
+  --f2s-ink:#080b10;
+  --f2s-panel:#0e131b;
+  --f2s-panel-2:#121821;
+  --f2s-line:rgba(255,255,255,.065);
+  --f2s-muted:#858b96;
+}
+
+/* Overlay / modal */
+#f2sAdminConsole{
+  isolation:isolate!important;
+}
+#f2sAdminConsole .f2s-a21-overlay,
+#f2sAdminConsole .f2s-a21-modal{
+  backdrop-filter:blur(14px)!important;
+}
+
+/* Main shell */
+#f2sAdminConsole .f2s-a21-shell{
+  width:min(1180px,calc(100vw - 28px))!important;
+  max-width:1180px!important;
+  max-height:calc(100vh - 28px)!important;
+  border-radius:26px!important;
+  overflow:hidden!important;
+  border:1px solid rgba(217,167,85,.20)!important;
+  background:
+    radial-gradient(circle at 94% -8%,rgba(217,167,85,.095),transparent 29%),
+    radial-gradient(circle at -6% 110%,rgba(74,100,132,.07),transparent 30%),
+    linear-gradient(145deg,#0b0f15 0%,#080b10 100%)!important;
+  box-shadow:
+    0 40px 120px rgba(0,0,0,.62),
+    0 0 0 1px rgba(255,255,255,.018) inset,
+    inset 0 1px 0 rgba(255,255,255,.05)!important;
+}
+
+/* Header */
+#f2sAdminConsole .f2s-a21-top{
+  min-height:76px!important;
+  padding:13px 18px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:12px!important;
+  background:
+    linear-gradient(180deg,rgba(20,24,32,.96),rgba(10,13,18,.96))!important;
+  border-bottom:1px solid rgba(255,255,255,.065)!important;
+  position:relative!important;
+}
+#f2sAdminConsole .f2s-a21-top:after{
+  content:""!important;
+  position:absolute!important;
+  left:7%!important;right:7%!important;bottom:-1px!important;
+  height:1px!important;
+  background:linear-gradient(90deg,transparent,rgba(217,167,85,.48),transparent)!important;
+}
+#f2sAdminConsole .f2s-a21-mark{
+  width:45px!important;height:45px!important;flex:0 0 45px!important;
+  border-radius:14px!important;
+  display:grid!important;place-items:center!important;
+  background:
+    radial-gradient(circle at 35% 25%,rgba(240,200,117,.16),transparent 45%),
+    linear-gradient(145deg,rgba(217,167,85,.15),rgba(217,167,85,.025))!important;
+  border:1px solid rgba(217,167,85,.26)!important;
+  box-shadow:0 0 30px rgba(217,167,85,.075),inset 0 1px 0 rgba(255,255,255,.05)!important;
+}
+#f2sAdminConsole .f2s-a21-title{
+  font-size:18px!important;font-weight:800!important;
+  letter-spacing:-.02em!important;color:#f1eadf!important;
+}
+#f2sAdminConsole .f2s-a21-sub{
+  margin-top:4px!important;font-size:7px!important;
+  letter-spacing:.16em!important;text-transform:uppercase!important;
+  color:#777062!important;
+}
+#f2sAdminConsole .f2s-a21-top button{
+  min-width:48px!important;min-height:48px!important;
+  border-radius:14px!important;
+  border:1px solid rgba(255,255,255,.07)!important;
+  background:linear-gradient(145deg,rgba(22,28,38,.96),rgba(12,16,23,.96))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+
+/* Scrollable body */
+#f2sAdminConsole .f2s-a21-body{
+  padding:20px!important;
+  overflow:auto!important;
+  max-height:calc(100vh - 104px)!important;
+  scrollbar-width:thin!important;
+  scrollbar-color:rgba(217,167,85,.20) transparent!important;
+}
+
+/* Status */
+#f2sAdminConsole .f2s-a21-status{
+  padding:10px 13px!important;
+  border-radius:11px!important;
+  border:1px solid rgba(255,255,255,.06)!important;
+  background:linear-gradient(90deg,rgba(255,255,255,.025),rgba(255,255,255,.012))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important;
+}
+
+/* Section headings */
+#f2sAdminConsole .f2s-a21-step{
+  display:flex!important;align-items:center!important;gap:9px!important;
+  margin:18px 0 9px!important;
+  font-size:8px!important;letter-spacing:.14em!important;
+  text-transform:uppercase!important;color:#8e8777!important;
+}
+#f2sAdminConsole .f2s-a21-step span{
+  width:23px!important;height:23px!important;flex:0 0 23px!important;
+  display:grid!important;place-items:center!important;
+  border-radius:8px!important;
+  background:rgba(217,167,85,.075)!important;
+  border:1px solid rgba(217,167,85,.18)!important;
+  color:var(--f2s-gold)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+#f2sAdminConsole .f2s-a21-step:after{
+  content:""!important;height:1px!important;flex:1!important;
+  background:linear-gradient(90deg,rgba(217,167,85,.15),transparent)!important;
+}
+
+/* Week selection */
+#f2sAdminConsole .f2s-a21-week{
+  padding:18px!important;border-radius:20px!important;
+  border:1px solid rgba(217,167,85,.18)!important;
+  background:
+    radial-gradient(circle at 100% 0,rgba(217,167,85,.10),transparent 34%),
+    linear-gradient(145deg,rgba(22,27,36,.98),rgba(11,15,22,.98))!important;
+  box-shadow:0 18px 58px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.04)!important;
+}
+#f2sAdminConsole .f2s-a21-week h2{
+  font-size:21px!important;color:#f2eadc!important;
+  letter-spacing:-.025em!important;
+}
+#f2sAdminConsole .f2s-a21-options{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:10px!important;
+  margin-top:14px!important;
+}
+#f2sAdminConsole .f2s-a21-option{
+  min-height:104px!important;padding:12px!important;
+  border-radius:15px!important;
+  border:1px solid rgba(255,255,255,.065)!important;
+  background:linear-gradient(145deg,rgba(22,28,38,.94),rgba(12,17,24,.94))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important;
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease!important;
+}
+#f2sAdminConsole .f2s-a21-option:hover{
+  transform:translateY(-2px)!important;
+  border-color:rgba(217,167,85,.25)!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.24)!important;
+}
+#f2sAdminConsole .f2s-a21-option.selected,
+#f2sAdminConsole .f2s-a21-option.active{
+  border-color:rgba(217,167,85,.46)!important;
+  background:linear-gradient(145deg,rgba(48,39,26,.96),rgba(18,22,29,.98))!important;
+  box-shadow:0 14px 32px rgba(0,0,0,.25),0 0 0 1px rgba(217,167,85,.045) inset!important;
+}
+#f2sAdminConsole .f2s-a21-option .ico{
+  width:32px!important;height:32px!important;border-radius:10px!important;
+  display:grid!important;place-items:center!important;
+  background:rgba(217,167,85,.08)!important;
+  border:1px solid rgba(217,167,85,.13)!important;
+}
+#f2sAdminConsole .f2s-a21-option b{font-size:10px!important}
+#f2sAdminConsole .f2s-a21-option span{font-size:8px!important;color:#8a8f99!important}
+#f2sAdminConsole .f2s-a21-option em{
+  padding:3px 6px!important;border-radius:999px!important;
+  background:rgba(255,255,255,.035)!important;
+  border:1px solid rgba(255,255,255,.05)!important;
+  font-style:normal!important;font-size:7px!important;color:#777b83!important;
+}
+
+/* Delete week — always visually separate */
+#f2sAdminConsole .f2s-week-delete{
+  margin-top:11px!important;
+  padding:10px 12px!important;
+  border-radius:12px!important;
+  border:1px solid rgba(190,75,75,.20)!important;
+  background:linear-gradient(145deg,rgba(72,29,31,.28),rgba(35,20,23,.22))!important;
+}
+
+/* Management dashboard */
+#f2sAdminConsole .f2s-a21-management,
+#f2sAdminConsole .f2s-a21-manage-grid{
+  gap:10px!important;
+}
+#f2sAdminConsole .f2s-a21-card,
+#f2sAdminConsole .f2s-a21-management > *,
+#f2sAdminConsole .f2s-a21-manage-grid > *{
+  border-radius:15px!important;
+  border:1px solid rgba(255,255,255,.065)!important;
+  background:linear-gradient(145deg,rgba(19,25,34,.95),rgba(10,14,20,.95))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important;
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease!important;
+}
+#f2sAdminConsole .f2s-a21-card:hover,
+#f2sAdminConsole .f2s-a21-management > *:hover,
+#f2sAdminConsole .f2s-a21-manage-grid > *:hover{
+  transform:translateY(-1px)!important;
+  border-color:rgba(217,167,85,.18)!important;
+  box-shadow:0 12px 32px rgba(0,0,0,.20)!important;
+}
+
+/* Directory — compact premium table */
+#f2sAdminConsole #f2sIdDirectoryManagement{
+  margin-top:12px!important;
+  padding:11px!important;border-radius:15px!important;
+  border:1px solid rgba(255,255,255,.065)!important;
+  background:linear-gradient(145deg,rgba(16,21,28,.94),rgba(9,12,17,.96))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important;
+}
+#f2sAdminConsole .f2s-id-directory-table{
+  max-height:300px!important;
+  border-radius:9px!important;
+  border:1px solid rgba(255,255,255,.05)!important;
+  overflow:auto!important;
+}
+#f2sAdminConsole .f2s-id-directory-table th{
+  background:#0c1118!important;
+  color:#817a6d!important;
+}
+#f2sAdminConsole .f2s-id-directory-table th,
+#f2sAdminConsole .f2s-id-directory-table td{
+  padding:6px 8px!important;
+}
+
+/* Review + publish */
+#f2sAdminConsole .f2s-a21-final,
+#f2sAdminConsole .f2s-a21-review{gap:9px!important}
+#f2sAdminConsole .f2s-a21-stat,
+#f2sAdminConsole .f2s-a21-reviewbox{
+  border-radius:14px!important;
+  border:1px solid rgba(255,255,255,.06)!important;
+  background:linear-gradient(145deg,rgba(18,24,32,.94),rgba(9,13,19,.94))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025)!important;
+}
+#f2sAdminConsole .f2s-a21-publish{
+  border-radius:15px!important;
+  border:1px solid rgba(217,167,85,.12)!important;
+  background:linear-gradient(145deg,rgba(35,30,23,.52),rgba(12,16,21,.88))!important;
+}
+
+/* Inputs/buttons */
+#f2sAdminConsole input,
+#f2sAdminConsole select,
+#f2sAdminConsole textarea{
+  border-radius:9px!important;
+  border-color:rgba(255,255,255,.075)!important;
+  background:rgba(6,9,14,.72)!important;
+}
+#f2sAdminConsole input:focus,
+#f2sAdminConsole select:focus,
+#f2sAdminConsole textarea:focus{
+  border-color:rgba(217,167,85,.38)!important;
+  box-shadow:0 0 0 3px rgba(217,167,85,.055)!important;
+  outline:none!important;
+}
+#f2sAdminConsole button{
+  border-radius:9px!important;
+  transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease!important;
+}
+#f2sAdminConsole button:hover{transform:translateY(-1px)!important}
+
+/* Hide V47 floating trigger; V48 sidebar remains the desktop entry */
+#f2sDesktopAdminAccess{display:none!important}
+
+/* Tablet */
+@media(max-width:1000px) and (min-width:701px){
+  #f2sAdminConsole .f2s-a21-options{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+
+/* Mobile — deliberately compact and touch friendly */
+@media(max-width:700px){
+  #f2sAdminConsole .f2s-a21-shell{
+    width:calc(100vw - 12px)!important;
+    max-height:calc(100vh - 12px)!important;
+    border-radius:19px!important;
+  }
+  #f2sAdminConsole .f2s-a21-top{
+    min-height:64px!important;padding:9px 11px!important;
+  }
+  #f2sAdminConsole .f2s-a21-mark{
+    width:39px!important;height:39px!important;flex-basis:39px!important;
+    border-radius:12px!important;
+  }
+  #f2sAdminConsole .f2s-a21-title{font-size:15px!important}
+  #f2sAdminConsole .f2s-a21-sub{font-size:6px!important}
+  #f2sAdminConsole .f2s-a21-top button{
+    min-width:43px!important;min-height:43px!important;border-radius:12px!important;
+  }
+  #f2sAdminConsole .f2s-a21-body{
+    padding:12px!important;
+    max-height:calc(100vh - 76px)!important;
+  }
+  #f2sAdminConsole .f2s-a21-status{
+    padding:9px 10px!important;border-radius:10px!important;
+  }
+  #f2sAdminConsole .f2s-a21-step{
+    margin:14px 0 8px!important;font-size:7px!important;
+  }
+  #f2sAdminConsole .f2s-a21-step span{
+    width:21px!important;height:21px!important;flex-basis:21px!important;
+  }
+  #f2sAdminConsole .f2s-a21-week{
+    padding:13px!important;border-radius:16px!important;
+  }
+  #f2sAdminConsole .f2s-a21-week h2{font-size:18px!important}
+  #f2sAdminConsole .f2s-a21-options{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:7px!important;margin-top:11px!important;
+  }
+  #f2sAdminConsole .f2s-a21-option{
+    min-height:88px!important;padding:9px!important;border-radius:12px!important;
+  }
+  #f2sAdminConsole .f2s-a21-option .ico{
+    width:28px!important;height:28px!important;border-radius:9px!important;
+  }
+  #f2sAdminConsole .f2s-a21-option b{font-size:9px!important}
+  #f2sAdminConsole .f2s-a21-option span{font-size:7px!important}
+  #f2sAdminConsole .f2s-a21-option em{font-size:6px!important}
+  #f2sAdminConsole .f2s-week-delete{
+    display:flex!important;flex-direction:column!important;
+    align-items:stretch!important;gap:7px!important;
+    margin-top:8px!important;padding:9px!important;
+  }
+  #f2sAdminConsole .f2s-week-delete button{
+    width:100%!important;min-height:40px!important;
+  }
+  #f2sAdminConsole .f2s-a21-final,
+  #f2sAdminConsole .f2s-a21-review{
+    grid-template-columns:1fr!important;
+  }
+  #f2sAdminConsole .f2s-id-directory-table{
+    max-height:255px!important;
+  }
+}
+
+/* Very small phones */
+@media(max-width:390px){
+  #f2sAdminConsole .f2s-a21-options{
+    grid-template-columns:1fr!important;
+  }
+  #f2sAdminConsole .f2s-a21-option{min-height:78px!important}
+}
+</style>
+
+<style id="f2s-admin-refined-gold">
+/* Refined luxury gold: less glow, more metal, stronger hierarchy */
+#f2sAdminConsole{
+  --f2s-gold:#d2a85d;
+  --f2s-gold-soft:#b88d4b;
+  --f2s-gold-text:#e1c487;
+}
+#f2sAdminConsole .f2s-a21-top:after{
+  background:linear-gradient(90deg,transparent,rgba(210,168,93,.22),transparent)!important;
+}
+#f2sAdminConsole .f2s-a21-mark{
+  background:linear-gradient(145deg,#302719,#12171e)!important;
+  border-color:rgba(210,168,93,.24)!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.07)!important;
+}
+#f2sAdminConsole .f2s-a21-step span{
+  color:var(--f2s-gold-text)!important;
+  background:rgba(210,168,93,.055)!important;
+  border-color:rgba(210,168,93,.14)!important;
+  box-shadow:none!important;
+}
+#f2sAdminConsole .f2s-a21-week{
+  border-color:rgba(210,168,93,.14)!important;
+  background:
+    radial-gradient(circle at 100% 0,rgba(210,168,93,.055),transparent 32%),
+    linear-gradient(145deg,rgba(22,27,36,.98),rgba(11,15,22,.98))!important;
+  box-shadow:0 14px 42px rgba(0,0,0,.23),inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+#f2sAdminConsole .f2s-a21-option:hover{
+  border-color:rgba(210,168,93,.17)!important;
+  box-shadow:0 10px 26px rgba(0,0,0,.20)!important;
+}
+#f2sAdminConsole .f2s-a21-option.selected,
+#f2sAdminConsole .f2s-a21-option.active{
+  border-color:rgba(210,168,93,.34)!important;
+  background:linear-gradient(145deg,rgba(43,36,25,.94),rgba(18,22,29,.98))!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.035)!important;
+}
+#f2sAdminConsole .f2s-a21-option .ico{
+  background:rgba(210,168,93,.055)!important;
+  border-color:rgba(210,168,93,.11)!important;
+}
+#f2sAdminConsole .f2s-a21-publish{
+  border-color:rgba(210,168,93,.10)!important;
+  background:linear-gradient(145deg,rgba(34,29,23,.44),rgba(12,16,21,.88))!important;
+}
+#f2sAdminConsole button{
+  box-shadow:none!important;
+}
+#f2sAdminConsole button:hover{
+  box-shadow:0 5px 16px rgba(0,0,0,.20)!important;
+}
+#f2sAdminConsole button.primary,
+#f2sAdminConsole .primary{
+  background:linear-gradient(180deg,#c9a35e,#ad8543)!important;
+  color:#11100d!important;
+  border:1px solid rgba(232,204,148,.30)!important;
+  box-shadow:0 5px 18px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.20)!important;
+  text-shadow:none!important;
+}
+#f2sAdminConsole button.primary:hover,
+#f2sAdminConsole .primary:hover{
+  background:linear-gradient(180deg,#d2ad68,#b48d4b)!important;
+  box-shadow:0 7px 20px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.22)!important;
+}
+#f2sAdminConsole button.primary:active,
+#f2sAdminConsole .primary:active{
+  transform:translateY(0)!important;
+  box-shadow:0 3px 10px rgba(0,0,0,.24),inset 0 1px 2px rgba(0,0,0,.12)!important;
+}
 </style>
