@@ -12898,6 +12898,65 @@ body{overflow-x:hidden}
 })();
 </script>
 
+
+<script id="f2s-public-home-view-counter-fix">
+(function(){
+  'use strict';
+
+  function setPublicViews(v){
+    if(v === null || v === undefined || v === '') return false;
+    var n = Number(v);
+    if(!Number.isFinite(n)) return false;
+    var txt = n.toLocaleString();
+    var a = document.getElementById('f2sCoverViews');
+    var b = document.getElementById('f2sCoverViewsDesktop');
+    if(a) a.textContent = txt;
+    if(b) b.textContent = txt;
+    try{ localStorage.setItem('f2s_public_view_count', String(n)); }catch(e){}
+    return true;
+  }
+
+  function cached(){
+    try{
+      var n = Number(localStorage.getItem('f2s_public_view_count'));
+      return Number.isFinite(n) && n >= 0 ? n : null;
+    }catch(e){ return null; }
+  }
+
+  // Paint cached value immediately, before Supabase/network work.
+  var c = cached();
+  if(c !== null) setPublicViews(c);
+
+  // This function deliberately waits for the app's existing Supabase client.
+  function sync(){
+    try{
+      if(typeof window.sb !== 'function') return;
+      var client = window.sb();
+      if(!client) return;
+
+      // Existing F2S analytics RPC is authoritative.
+      client.rpc('get_f2s_website_analytics_v2').then(function(r){
+        if(r && !r.error && r.data){
+          var d = r.data;
+          var k = d.k || d.kpis || d.summary || d;
+          var n = k && (k.total_views ?? k.totalViews ?? d.total_views);
+          if(n !== undefined && n !== null) setPublicViews(n);
+        }
+      }).catch(function(){});
+    }catch(e){}
+  }
+
+  // Sync after the first paint. It cannot block Home rendering.
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', function(){
+      setTimeout(sync, 0);
+    }, {once:true});
+  }else{
+    setTimeout(sync, 0);
+  }
+})();
+</script>
+
 <script id="f2s-analytics-premium-v2-js">
 (function(){
   const $=id=>document.getElementById(id), sb=()=>window.f2sSupabase;
@@ -12912,7 +12971,37 @@ body{overflow-x:hidden}
   function browser(){const u=navigator.userAgent;return /Edg\//i.test(u)?'Edge':/OPR\//i.test(u)?'Opera':/Chrome\//i.test(u)?'Chrome':/Firefox\//i.test(u)?'Firefox':/Safari\//i.test(u)&&!/Chrome/i.test(u)?'Safari':'Other'}
   function page(){return (location.hash||'#home').slice(0,180)}
   function featureFrom(p){const s=p.toLowerCase();if(s.includes('t5'))return'T5';if(s.includes('leaderboard'))return'Weekly Leaderboard';if(s.includes('star'))return'F2S Star';if(s.includes('fcb'))return'FCB Stars';if(s.includes('study'))return'Study Room';if(s.includes('planner'))return'Planner';if(s.includes('timer'))return'Study Timer';if(s.includes('quran'))return'Quran';if(s.includes('profile'))return'Profile';return'Home / Other'}
-  async function track(type='page_view',meta={}){const s=sb();if(!s)return;try{const q=await s.rpc('track_f2s_event',{p_event_type:type,p_page:page(),p_feature:meta.feature||featureFrom(page()),p_device:device(),p_os:os(),p_browser:browser(),p_visitor_id:visitor(),p_session_id:session(),p_metadata:meta.metadata||{}});if(q.error)console.warn('F2S analytics:',q.error.message)}catch(e){console.warn('F2S analytics:',e.message)}}
+  const PUBLIC_VIEWS_CACHE_KEY='f2s_public_views_cache_v1';
+  function setPublicViewCount(value){
+    if(value==null || !Number.isFinite(Number(value))) return;
+    const text=fmt(value);
+    const m=$('f2sCoverViews'), d=$('f2sCoverViewsDesktop');
+    if(m) m.textContent=text;
+    if(d) d.textContent=text;
+    try{localStorage.setItem(PUBLIC_VIEWS_CACHE_KEY,String(Number(value)))}catch(_e){}
+  }
+  function getCachedPublicViewCount(){
+    try{const v=Number(localStorage.getItem(PUBLIC_VIEWS_CACHE_KEY));return Number.isFinite(v)&&v>=0?v:null}catch(_e){return null}
+  }
+  async function track(type='page_view',meta={}){
+    const s=sb();if(!s)return null;
+    try{
+      const q=await s.rpc('track_f2s_event',{p_event_type:type,p_page:page(),p_feature:meta.feature||featureFrom(page()),p_device:device(),p_os:os(),p_browser:browser(),p_visitor_id:visitor(),p_session_id:session(),p_metadata:meta.metadata||{}});
+      if(q.error){console.warn('F2S analytics:',q.error.message);return null}
+      /* If the RPC returns the new total, use it immediately. Supports either
+         {total_views:123} or [{total_views:123}] without requiring the heavy
+         analytics RPC. */
+      const row=Array.isArray(q.data)?q.data[0]:q.data;
+      const returnedTotal=Number(row?.total_views ?? row?.views ?? row?.total ?? NaN);
+      if(Number.isFinite(returnedTotal)) setPublicViewCount(returnedTotal);
+      return q.data;
+    }catch(e){console.warn('F2S analytics:',e.message);return null}
+  }
+  function showCachedPublicViewCount(){
+    const cached=getCachedPublicViewCount();
+    if(cached!=null) setPublicViewCount(cached);
+    return cached;
+  }
   function status(msg,err=false){const e=$('f2sAnalyticsStatus');if(e){e.textContent=msg;e.style.color=err?'#b87a7a':'#777d78'}}
   function chart(rows){const e=$('f2sAnalyticsChart');if(!e)return;if(!rows?.length){e.innerHTML='<div class="f2s-analytics-empty">No traffic data</div>';return}const max=Math.max(1,...rows.map(x=>+x.views||0));e.innerHTML=rows.map(x=>{const h=Math.max(3,Math.round((+x.views||0)/max*145));const d=new Date(x.day+'T00:00:00');return `<div class="f2s-chart-col"><span class="f2s-chart-value">${fmt(x.views)}</span><div class="f2s-chart-bar" style="--bar-h:${h}px"></div><span class="f2s-chart-label">${esc(d.toLocaleDateString(undefined,{weekday:'short'}))}</span></div>`}).join('')}
   function bars(rows){const e=$('f2sAnalyticsDevices');if(!e)return;if(!rows?.length){e.innerHTML='<div class="f2s-analytics-empty">No device data</div>';return}const total=Math.max(1,rows.reduce((a,x)=>a+(+x.views||0),0));e.innerHTML=rows.map(x=>`<div class="f2s-bar-row"><label>${esc(x.device)}</label><div class="f2s-bar-track"><div class="f2s-bar-fill" style="width:${Math.round((+x.views||0)/total*100)}%"></div></div><b>${Math.round((+x.views||0)/total*100)}%</b></div>`).join('')}
@@ -13030,7 +13119,41 @@ function realtime(rows){const e=$('f2sRealtimeActivity');if(!e)return;e.innerHTM
     }catch(e){status('Analytics V2 error: '+e.message,true);console.warn(e)}
   }
   function switchAnalyticsPanel(name){document.querySelectorAll('.f2s-analytics-subtab').forEach(b=>b.classList.toggle('active',b.dataset.analyticsPanel===name));['overview','engagement','retention','alerts'].forEach(n=>{const e=$('analyticsPanel'+n.charAt(0).toUpperCase()+n.slice(1));if(e)e.style.display=n===name?'block':'none'});if(name!=='overview')load()}
-  function boot(){document.querySelectorAll('.f2s-analytics-subtab').forEach(b=>b.addEventListener('click',()=>switchAnalyticsPanel(b.dataset.analyticsPanel)));$('f2sAnalyticsRefresh')?.addEventListener('click',load);track('page_view');window.addEventListener('hashchange',()=>track('page_view'));document.addEventListener('click',e=>{const el=e.target.closest('button,a,[data-feature]');if(!el)return;const f=el.dataset.feature||el.getAttribute('aria-label')||el.textContent?.trim();if(f&&f.length<80)track('feature_click',{feature:f})});setInterval(()=>{track('heartbeat')},30000);setInterval(load,60000);load()}
+  function boot(){
+    document.querySelectorAll('.f2s-analytics-subtab').forEach(b=>b.addEventListener('click',()=>switchAnalyticsPanel(b.dataset.analyticsPanel)));
+    $('f2sAnalyticsRefresh')?.addEventListener('click',load);
+
+    /* Public visitor counter: render the last known value instantly. Do NOT
+       block the Home page on the heavy premium analytics RPC. */
+    showCachedPublicViewCount();
+
+    /* Record the visit in the background. Optimistically advance the cached
+       public counter so returning visitors see the new view immediately.
+       A background analytics refresh then replaces it with the authoritative
+       Supabase total (important for the very first visitor / empty cache). */
+    const cachedViews=getCachedPublicViewCount();
+    if(cachedViews!=null) setPublicViewCount(cachedViews+1);
+    track('page_view').then(()=>{
+      setTimeout(()=>load(),350);
+    });
+    /* First visit has no local cache, so fetch the authoritative count shortly
+       after the Home UI is painted. This never blocks the page render. */
+    if(cachedViews==null) setTimeout(()=>load(),350);
+
+    window.addEventListener('hashchange',()=>{
+      track('page_view').then(()=>setTimeout(()=>load(),350));
+    });
+    document.addEventListener('click',e=>{
+      const el=e.target.closest('button,a,[data-feature]');
+      if(!el)return;
+      const f=el.dataset.feature||el.getAttribute('aria-label')||el.textContent?.trim();
+      if(f&&f.length<80)track('feature_click',{feature:f});
+    });
+    setInterval(()=>{track('heartbeat')},30000);
+
+    /* Premium analytics is loaded only when the Admin Center asks for it.
+       This keeps public Home fast for normal visitors. */
+  }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();window.f2sLoadWebsiteAnalytics=load;
 })();
 </script>
