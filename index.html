@@ -4,7 +4,7 @@
 <meta name="f2s-live-audit" content="T5 + Star + FCB fully live; Supabase source of truth; refreshed every 30s; RPC-only public reads">
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>F2S Complete Reference</title>
+<title>F2S Complete Reference — V10</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -5571,6 +5571,8 @@ function App() {
   const [showOriginMore, setShowOriginMore] = useState(true);
   const [voiceQuery, setVoiceQuery] = useState("");
   const [voiceCategory, setVoiceCategory] = useState("All Voices");
+  const [editorialVoices, setEditorialVoices] = useState([]);
+  const [editorialQAs, setEditorialQAs] = useState([]);
   const [featuredVoiceIndex, setFeaturedVoiceIndex] = useState(0);
   const [selectedLeaderboardMember, setSelectedLeaderboardMember] = useState(null);
   const [headerTickerIndex, setHeaderTickerIndex] = useState(0);
@@ -5946,6 +5948,56 @@ May Allah help us stay consistent.`;
 
 
 
+  // F2S Editorial Studio content: published Voices + Q&A are loaded from Supabase
+  // and merged with the original built-in content. This keeps the existing page
+  // intact while allowing Admin Content Studio to publish new entries without
+  // editing this HTML file again.
+  useEffect(() => {
+    let cancelled = false;
+    let retryTimer = null;
+    const loadEditorial = async () => {
+      try {
+        if (!window.f2sSupabase) {
+          retryTimer = window.setTimeout(loadEditorial, 500);
+          return;
+        }
+        const { data, error } = await window.f2sSupabase
+          .from("f2s_editorial_content")
+          .select("id,content_type,author,category,body_text,question_text,answer_text,image_data_1,image_data_2,display_number,created_at,updated_at")
+          .eq("published", true)
+          .order("created_at", { ascending: false });
+        if (cancelled || error) {
+          if (error) console.warn("[F2S] Editorial content load skipped:", error.message);
+          return;
+        }
+        const rows = Array.isArray(data) ? data : [];
+        setEditorialVoices(rows.filter(r => r.content_type === "voice").map(r => ({
+          id: r.id, text: r.body_text || "", author: r.author || "Anonymous F2Sian",
+          category: r.category || "Other", image: r.image_data_1 || "", displayNumber: r.display_number || null, createdAt: r.created_at || null
+        })));
+        setEditorialQAs(rows.filter(r => r.content_type === "qa" || r.content_type === "qna").map(r => ({
+          id: r.id, author: r.author || "Anonymous F2Sian", category: r.category || "Other",
+          question: r.question_text || "", answer: r.answer_text || "",
+          image1: r.image_data_1 || "", image2: r.image_data_2 || "", displayNumber: r.display_number || null, createdAt: r.created_at || null
+        })));
+      } catch (e) {
+        console.warn("[F2S] Editorial content load skipped:", e);
+      }
+    };
+    loadEditorial();
+    const refresh = () => loadEditorial();
+    window.addEventListener("f2s:editorial-updated", refresh);
+    window.addEventListener("f2s:refresh-live", refresh);
+    const timer = window.setInterval(loadEditorial, 60000);
+    return () => {
+      cancelled = true;
+      if (retryTimer) window.clearTimeout(retryTimer);
+      window.clearInterval(timer);
+      window.removeEventListener("f2s:editorial-updated", refresh);
+      window.removeEventListener("f2s:refresh-live", refresh);
+    };
+  }, []);
+
   const VOICE_CATEGORIES = [
     "All Voices","F2S","F2S Admin","Deen + Salah + Quran",
     "Study","Discipline","Comeback / Consistency","Other"
@@ -5964,12 +6016,16 @@ May Allah help us stay consistent.`;
   };
 
   const filteredVoices = useMemo(() => {
+    const allVoices = [...TESTIMONIALS, ...editorialVoices];
     const q = voiceQuery.trim().toLowerCase();
-    return TESTIMONIALS.filter((voice) => {
+    return allVoices.filter((voice) => {
       const haystack = `${voice.author || ""} ${voice.text || ""}`.toLowerCase();
-      return (!q || haystack.includes(q)) && voiceMatchesCategory(voice, voiceCategory);
+      const categoryMatch = voiceCategory === "All Voices"
+        ? true
+        : (voice.category && voice.category === voiceCategory) || voiceMatchesCategory(voice, voiceCategory);
+      return (!q || haystack.includes(q)) && categoryMatch;
     });
-  }, [voiceQuery, voiceCategory]);
+  }, [voiceQuery, voiceCategory, editorialVoices]);
 
   useEffect(() => {
     const featured = FEATURED_VOICE_INDICES;
@@ -8279,7 +8335,14 @@ F2S Ramadan Express is preparing to depart 🚂
 
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {filteredVoices.map((t, i) => (
-                <div className={`voice-story-card ${i === 0 ? "voice-featured" : ""}`}><Card key={i} accent="#D9A75544">
+                <div className={`voice-story-card ${i === 0 ? "voice-featured" : ""}`} key={t.id || i}><Card accent="#D9A75544">
+                  <div className="f2s-editorial-card-meta"><span className="f2s-editorial-number">#{String(t.displayNumber || (i + 1)).padStart(2,'0')}</span>{t.createdAt && <span>Uploaded · {new Date(t.createdAt).toLocaleString()}</span>}</div>
+                  {t.image && (
+                    <img src={t.image} alt="F2Sian Voice" loading="lazy"
+                      style={{display:"block",width:"100%",maxHeight:260,objectFit:"contain",borderRadius:12,margin:"0 0 12px",border:"1px solid #2E2415",background:"#0d0906",cursor:"zoom-in"}}
+                      onClick={()=>openLightbox(t.image)}
+                    />
+                  )}
                   <div style={{ fontFamily: "Fraunces", fontSize: 22, color: "#D9A755", lineHeight: 1, marginBottom: 6 }}>
                     &ldquo;
                   </div>
@@ -8356,7 +8419,8 @@ F2S Ramadan Express is preparing to depart 🚂
             </p>
 
             <div className="qna-card">
-              <div className="qna-topline"><div className="qna-meta">F2Sian Q&amp;A · #01 · Tanu Akter</div><span className="qna-category">SALAH</span></div>
+              <div className="f2s-editorial-card-meta"><span className="f2s-editorial-number">#01</span></div>
+              <div className="qna-topline"><div className="qna-meta">F2Sian Q&amp;A · Tanu Akter</div><span className="qna-category">SALAH</span></div>
               <div className="qna-question-head"><div className="qna-question-label">Q.</div><span className="qna-question-badge">QUESTION</span></div>
               <p className="qna-question">
                 accha namaj er task gula ki rat 10 ta porjonto time deowa jay nah?
@@ -8375,7 +8439,8 @@ F2S Ramadan Express is preparing to depart 🚂
             </div>
 
             <div className="qna-card">
-              <div className="qna-topline"><div className="qna-meta">F2Sian Q&amp;A · #02 · Pipet</div><span className="qna-category">STUDY</span></div>
+              <div className="f2s-editorial-card-meta"><span className="f2s-editorial-number">#02</span></div>
+              <div className="qna-topline"><div className="qna-meta">F2Sian Q&amp;A · Pipet</div><span className="qna-category">STUDY</span></div>
               <div className="qna-question-head"><div className="qna-question-label">Q.</div><span className="qna-question-badge">QUESTION</span></div>
               <p className="qna-question">
                 Bhaiya assalamu alaikum. Bhaiya jara rat jege pore 🥲 zemon ami, dekha zay study hours er task golo 11:55 tei shes hoye zay. 🥲 ar ami uti 12Am e ghum theke. Kono kicu ki kora jay eikhane?
@@ -8390,7 +8455,8 @@ F2S Ramadan Express is preparing to depart 🚂
             </div>
 
             <div className="qna-card">
-              <div className="qna-topline"><div className="qna-meta">F2Sian Q&amp;A · #03 · F2Sian</div><span className="qna-category">YPT</span></div>
+              <div className="f2s-editorial-card-meta"><span className="f2s-editorial-number">#03</span></div>
+              <div className="qna-topline"><div className="qna-meta">F2Sian Q&amp;A · F2Sian</div><span className="qna-category">YPT</span></div>
               <div className="qna-question-head"><div className="qna-question-label">Q.</div><span className="qna-question-badge">QUESTION</span></div>
               <p className="qna-question">
                 Amr YPT te Kono challenge e show hoitese na.. jar karone puron o Korte partesi na ekhon ki korbo?
@@ -8409,6 +8475,35 @@ F2S Ramadan Express is preparing to depart 🚂
                 Tarporew jodi task show na kre YPT uninstall kre abar install diye.. same gmail diye login kren
               </p>
             </div>
+
+            {editorialQAs.map((qa, idx) => {
+              // Built-in Q&A owns #01–#03. New editorial Q&A starts from #04.
+              const requested = Number(qa.displayNumber) || 0;
+              const used = new Set([1, 2, 3]);
+              for (let j = 0; j < idx; j++) {
+                const n = Number(editorialQAs[j]?.displayNumber) || 0;
+                if (n >= 4) used.add(n);
+              }
+              let cardNumber = requested >= 4 && !used.has(requested) ? requested : 4;
+              while (used.has(cardNumber)) cardNumber++;
+              used.add(cardNumber);
+              return (
+                <div className="qna-card" key={qa.id || idx}>
+                  <div className="f2s-editorial-card-meta">
+                    <span className="f2s-editorial-number">#{String(cardNumber).padStart(2,'0')}</span>
+                    {qa.createdAt && <span>Uploaded · {new Date(qa.createdAt).toLocaleString()}</span>}
+                  </div>
+                  <div className="qna-topline"><div className="qna-meta">F2Sian Q&amp;A · NEW · {qa.author || "Anonymous F2Sian"}</div><span className="qna-category">{qa.category || "OTHER"}</span></div>
+                  <div className="qna-question-head"><div className="qna-question-label">Q.</div><span className="qna-question-badge">QUESTION</span></div>
+                  {qa.image1 && <img src={qa.image1} alt="F2Sian Question" style={{display:"block",width:"100%",maxHeight:420,objectFit:"contain",borderRadius:12,margin:"0 0 14px",border:"1px solid #2E2415",background:"#0d0906",cursor:"zoom-in"}} onClick={()=>openLightbox(qa.image1)} />}
+                  <p className="qna-question" style={{whiteSpace:"pre-line"}}>{qa.question}</p>
+                  <div className="qna-divider" />
+                  <div className="qna-answer-head"><div className="qna-answer-label"><span className="qna-status-dot" /> Admin Reply</div><span className="qna-official">OFFICIAL</span></div>
+                  {qa.image2 && <img src={qa.image2} alt="Official F2S Answer" style={{display:"block",width:"100%",maxHeight:420,objectFit:"contain",borderRadius:12,margin:"0 0 14px",border:"1px solid #2E2415",background:"#0d0906",cursor:"zoom-in"}} onClick={()=>openLightbox(qa.image2)} />}
+                  <p className="qna-answer" style={{whiteSpace:"pre-line"}}>{qa.answer}</p>
+                </div>
+              );
+            })}
 
             <div className="qna-ask-box">
               <div className="qna-ask-kicker">#ASKF2S</div>
@@ -9311,7 +9406,7 @@ body::after{
 }
 /* Final interaction polish: no dramatic movement. */
 .home-voices-box,.voices-page .voice-story-card,.voices-page .voice-share-panel,.voices-page .voice-cta{
-  will-change:transform;
+  will-change:auto;
 }
 @media(prefers-reduced-motion:reduce){
   body::after{display:none}
@@ -11397,6 +11492,7 @@ body{overflow-x:hidden}
         <div class="f2s-admin-workspace-nav" role="tablist" aria-label="F2S Admin sections">
           <button type="button" class="f2s-admin-workspace-tab active" data-admin-view="analytics" role="tab" aria-selected="true"><span class="tab-ico">⌁</span><span><b>Analytics</b><small>Insights & traffic</small></span></button>
           <button type="button" class="f2s-admin-workspace-tab" data-admin-view="management" role="tab" aria-selected="false"><span class="tab-ico">⚙</span><span><b>Management</b><small>T5 & community</small></span></button>
+          <button type="button" class="f2s-admin-workspace-tab" data-admin-view="content" role="tab" aria-selected="false"><span class="tab-ico">✎</span><span><b>Content Studio</b><small>Voices & Q&amp;A</small></span></button>
         </div>
 
         <section id="a21AnalyticsView" class="f2s-admin-view" data-admin-view-panel="analytics">
@@ -11519,6 +11615,44 @@ body{overflow-x:hidden}
               <section class="f2s-analytics-card"><div class="f2s-ac-head"><div><span class="f2s-ac-kicker">PRIVACY</span><h3>Data policy</h3></div></div><div class="f2s-privacy-box"><b>Anonymous analytics</b><p>F2S stores a random visitor/session identifier, timestamp, page/feature, device, OS and browser metadata. No raw IP address is required by this implementation.</p></div></section>
             </div>
           </div>
+        </section>
+
+        <section id="a21ContentView" class="f2s-admin-view" data-admin-view-panel="content" style="display:none">
+          <div class="f2s-content-studio-hero">
+            <div><div class="f2s-analytics-eyebrow">F2S · CONTENT STUDIO</div><h2>F2Sian Voices + Q&amp;A</h2><p>Add text and/or attach an image → review/edit → publish directly to the live F2Sian editorial sections.</p></div>
+            <button type="button" id="f2sEditorialRefresh" class="f2s-a21-btn primary">↻ Refresh Content</button>
+          </div>
+          <div id="f2sEditorialStatus" class="f2s-analytics-status">Ready. Published content is stored in Supabase and appears on the live Voices / Q&amp;A pages.</div>
+          <div class="f2s-content-studio-tabs">
+            <button type="button" class="f2s-content-tab active" data-content-kind="voice">✦ F2Sian Voice</button>
+            <button type="button" class="f2s-content-tab" data-content-kind="qa">❓ F2Sian Q&amp;A</button>
+          </div>
+          <div id="f2sVoiceEditor" class="f2s-editorial-editor">
+            <div class="f2s-editorial-grid">
+              <label><span>Member / Display Name</span><input id="f2sVoiceAuthor" class="f2s-a21-input" placeholder="Anonymous F2Sian"></label>
+              <label><span>Card Number</span><input id="f2sVoiceNumber" class="f2s-a21-input" type="number" min="1" step="1" placeholder="Auto"></label>
+              <label><span>Category</span><select id="f2sVoiceCategory" class="f2s-a21-input"><option>F2S</option><option>F2S Admin</option><option>Deen + Salah + Quran</option><option>Study</option><option>Discipline</option><option>Comeback / Consistency</option><option>Other</option></select></label>
+            </div>
+            <label class="f2s-editorial-label"><span>Voice Text</span><textarea id="f2sVoiceText" class="f2s-a21-textarea" rows="8" placeholder="Paste the F2Sian voice here…"></textarea></label>
+            <div class="f2s-editorial-upload-grid">
+              <div class="f2s-editorial-upload-box"><b>🖼 Attach Image</b><small>Optional image attached to this Voice card.</small><button type="button" class="f2s-a21-btn f2s-attach-image-btn" data-file-target="f2sVoiceImage">＋ Attach Voice Image</button><input id="f2sVoiceImage" class="f2s-a21-file" type="file" accept="image/*" hidden></div>
+              <div class="f2s-editorial-preview" id="f2sVoiceImagePreview"></div>
+            </div>
+            <div class="f2s-a21-actions"><button type="button" id="f2sVoiceTextFile" class="f2s-a21-btn">Read .TXT</button><input id="f2sVoiceTextFileInput" type="file" accept=".txt,.md" hidden><button type="button" id="f2sVoicePublish" class="f2s-a21-btn primary">Publish Voice → Live</button><button type="button" id="f2sVoiceClear" class="f2s-a21-btn">Clear</button></div>
+          </div>
+          <div id="f2sQAEditor" class="f2s-editorial-editor" style="display:none">
+            <div class="f2s-editorial-grid">
+              <label><span>Member / Display Name</span><input id="f2sQAAuthor" class="f2s-a21-input" placeholder="Anonymous F2Sian"></label>
+              <label><span>Card Number (4+)</span><input id="f2sQANumber" class="f2s-a21-input" type="number" min="4" step="1" placeholder="Auto"></label>
+              <label><span>Category</span><select id="f2sQACategory" class="f2s-a21-input"><option>SALAH</option><option>STUDY</option><option>YPT</option><option>F2S</option><option>OTHER</option></select></label>
+            </div>
+            <div class="f2s-editorial-two-col">
+              <div><label class="f2s-editorial-label"><span>Question Text</span><textarea id="f2sQAQuestion" class="f2s-a21-textarea" rows="7" placeholder="Write/paste the question…"></textarea></label><div class="f2s-editorial-upload-box"><b>🖼 Attach Image</b><small>Optional image attached to the question.</small><button type="button" class="f2s-a21-btn f2s-attach-image-btn" data-file-target="f2sQAQuestionImage">＋ Attach Question Image</button><input id="f2sQAQuestionImage" class="f2s-a21-file" type="file" accept="image/*" hidden><div id="f2sQAQuestionPreview" class="f2s-editorial-preview"></div></div></div>
+              <div><label class="f2s-editorial-label"><span>Official Admin Answer</span><textarea id="f2sQAAnswer" class="f2s-a21-textarea" rows="7" placeholder="Write/paste the official answer…"></textarea></label><div class="f2s-editorial-upload-box"><b>🖼 Attach Image</b><small>Optional image attached to the official answer.</small><button type="button" class="f2s-a21-btn f2s-attach-image-btn" data-file-target="f2sQAAnswerImage">＋ Attach Answer Image</button><input id="f2sQAAnswerImage" class="f2s-a21-file" type="file" accept="image/*" hidden><div id="f2sQAAnswerPreview" class="f2s-editorial-preview"></div></div></div>
+            </div>
+            <div class="f2s-a21-actions"><button type="button" id="f2sQAQuestionTextFile" class="f2s-a21-btn">Upload Question .TXT</button><input id="f2sQAQuestionTextFileInput" class="f2s-a21-file f2s-qna-direct-file" type="file" accept=".txt,.md"><button type="button" id="f2sQAAnswerTextFile" class="f2s-a21-btn">Upload Answer .TXT</button><input id="f2sQAAnswerTextFileInput" class="f2s-a21-file f2s-qna-direct-file" type="file" accept=".txt,.md"><button type="button" id="f2sQAPublish" class="f2s-a21-btn primary">Publish Q&amp;A → Live</button><button type="button" id="f2sQAClear" class="f2s-a21-btn">Clear</button></div>
+          </div>
+          <div class="f2s-editorial-library"><div class="f2s-ac-head"><div><span class="f2s-ac-kicker">PUBLISHED LIBRARY</span><h3>Manage Voices &amp; Q&amp;A</h3></div><span id="f2sEditorialCount" class="f2s-ac-badge">0 items</span></div><div id="f2sEditorialLibraryBody" class="f2s-editorial-library-body"><div class="f2s-analytics-empty">Loading…</div></div></div>
         </section>
 
         <div id="a21ManagementView" class="f2s-admin-view" data-admin-view-panel="management" style="display:none">
@@ -12002,6 +12136,220 @@ body{overflow-x:hidden}
   }catch(e){}
 })();
 </script>
+
+
+<style id="f2s-voices-scroll-final-fix">
+/* Stable, low-jank scrolling for the long editorial Voices feed. */
+html{
+  scroll-behavior:smooth!important;
+  scroll-padding-top:82px!important;
+}
+body{
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+}
+.voices-page{
+  scroll-margin-top:82px!important;
+}
+.voices-page .voice-story-card{
+  will-change:auto!important;
+  contain:layout paint;
+  backface-visibility:hidden;
+}
+.voices-page .voice-story-card:hover{
+  transform:translate3d(0,-2px,0)!important;
+}
+@media(max-width:700px){
+  html{scroll-padding-top:74px!important}
+  .voices-page{scroll-margin-top:74px!important}
+  .voices-page .voice-story-card{
+    contain:layout paint;
+    transform:translateZ(0);
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto!important}
+  .voices-page .voice-story-card{transform:none!important}
+}
+</style>
+
+<style id="f2s-editorial-v6-real-ui">
+.f2s-editorial-card-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px;font-family:Inter,sans-serif;font-size:9.5px;line-height:1.4;color:#776b56;letter-spacing:.02em}
+.f2s-editorial-number{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:22px;padding:0 7px;border:1px solid rgba(217,167,85,.28);border-radius:999px;color:#D9A755;background:rgba(217,167,85,.055);font:700 10px/1 "JetBrains Mono",monospace;letter-spacing:.03em}
+.f2s-admin-image-read{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:10px 0 12px}
+.f2s-admin-image-read>div{border:1px solid rgba(217,167,85,.14);border-radius:12px;padding:7px;background:#090807}
+.f2s-admin-image-read img{display:block;width:100%;max-height:220px;object-fit:contain;border-radius:8px;background:#050505}
+.f2s-admin-image-read small{display:block;margin-top:6px;color:#8f826b;font:9px/1.4 "JetBrains Mono",monospace;text-transform:uppercase}
+#f2sAdminConsole .f2s-editorial-library-body{scroll-behavior:smooth}
+.voices-page{scroll-behavior:smooth!important;overscroll-behavior-y:auto!important;-webkit-overflow-scrolling:touch!important}
+.voices-page .voice-story-card{scroll-margin-top:88px!important}
+@media(max-width:700px){.f2s-editorial-card-meta{font-size:8.5px}.f2s-admin-image-read{grid-template-columns:1fr}.f2s-editorial-number{min-width:31px;height:21px}}
+</style>
+
+<style id="f2s-editorial-v7-actual">
+#f2sVoiceNumber,#f2sQANumber{max-width:150px}
+.f2s-editorial-upload-box img{max-width:100%;max-height:300px;object-fit:contain}
+</style>
+
+<style id="f2s-editorial-v8-fix">
+html,body{scroll-behavior:smooth!important}
+.voices-page{scroll-behavior:smooth!important;scroll-padding-top:90px!important;overscroll-behavior-y:contain!important}
+.f2s-editorial-item-preview{white-space:pre-line;word-break:break-word}
+.f2s-admin-image-read img{cursor:zoom-in}
+</style>
+
+<style id="f2s-voices-scroll-v9-smooth">
+/* Long Voices feed: let the browser skip off-screen cards to keep touch scrolling fluid. */
+.voices-page{scroll-behavior:smooth!important;overflow-anchor:none!important;}
+.voices-page > *{scroll-margin-top:84px;}
+.voices-page .voice-story-card{
+  content-visibility:auto;
+  contain-intrinsic-size:360px;
+  contain:layout style;
+  content-visibility:auto;
+  contain-intrinsic-size:420px;
+  transform:none!important;
+  backface-visibility:visible!important;
+  will-change:auto!important;
+}
+.voices-page .voice-story-card:hover{transform:none!important;}
+@media(max-width:700px){
+  .voices-page .voice-story-card{contain-intrinsic-size:330px;}
+}
+</style>
+<style id="f2s-voices-scroll-v10-touch">
+/* V10: native document scrolling for the Voices feed — no nested scroll physics. */
+.voices-page{scroll-behavior:smooth!important;scroll-padding-top:88px!important;overscroll-behavior:auto!important;overflow:visible!important;-webkit-overflow-scrolling:auto!important;overflow-anchor:none!important;}
+.voices-page .voice-story-card{scroll-margin-top:88px!important;content-visibility:auto!important;contain-intrinsic-size:420px!important;will-change:auto!important;transform:none!important;}
+@media(max-width:700px){.voices-page{scroll-behavior:smooth!important;-webkit-overflow-scrolling:auto!important;}.voices-page .voice-story-card{contain-intrinsic-size:330px!important;}}</style>
+
+
+<style id="f2s-voice-scroll-v15">
+/* V15 — native mobile momentum scrolling for the Voices feed.
+   Do not create a nested scrolling surface. Avoid content-visibility/layout
+   containment here because it can cause scroll jumps on long image feeds. */
+html, body, #root{
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior-y:auto!important;
+  touch-action:pan-y!important;
+}
+body{
+  overflow-x:hidden!important;
+}
+.voices-page{
+  overflow:visible!important;
+  height:auto!important;
+  max-height:none!important;
+  min-height:0!important;
+  touch-action:pan-y!important;
+  -webkit-overflow-scrolling:touch!important;
+  overscroll-behavior-y:auto!important;
+  scroll-behavior:auto!important;
+  overflow-anchor:none!important;
+}
+.voices-page .voice-story-card{
+  content-visibility:visible!important;
+  contain:none!important;
+  contain-intrinsic-size:auto!important;
+  transform:none!important;
+  will-change:auto!important;
+  backface-visibility:visible!important;
+}
+.voices-page .voice-story-card,
+.voices-page .voice-story-card *{
+  touch-action:pan-y;
+}
+.voices-page img{
+  max-width:100%;
+  height:auto;
+}
+@media(max-width:700px){
+  html,body,#root{
+    overscroll-behavior-y:auto!important;
+    touch-action:pan-y!important;
+  }
+  .voices-page{
+    padding-bottom:32px!important;
+    scroll-padding-top:72px!important;
+  }
+  .voices-page .voice-story-card{
+    transition:none!important;
+  }
+}
+</style>
+<script id="f2s-voice-scroll-v15-js">
+(function(){
+  function normalize(){
+    var v=document.querySelector('.voices-page');
+    if(!v) return;
+    v.style.overflow='visible';
+    v.style.height='auto';
+    v.style.maxHeight='none';
+    v.style.touchAction='pan-y';
+    v.style.webkitOverflowScrolling='touch';
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',normalize,{once:true});
+  else normalize();
+  window.addEventListener('resize',normalize,{passive:true});
+})();
+</script>
+
+
+<style id="f2s-featured-voice-fixed-v16">
+/* V16 — Featured F2Sian Voice: fixed card height + long-text ellipsis */
+.f2s-voice-rotator{
+  height:216px!important;
+  min-height:216px!important;
+  max-height:216px!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden!important;
+}
+.f2s-voice-rotator-kicker{
+  flex:0 0 auto!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  min-width:0!important;
+}
+.f2s-voice-rotator-quote{
+  flex:0 0 auto!important;
+  height:96px!important;
+  max-height:96px!important;
+  overflow:hidden!important;
+  display:-webkit-box!important;
+  -webkit-box-orient:vertical!important;
+  -webkit-line-clamp:3!important;
+  line-clamp:3!important;
+  text-overflow:ellipsis!important;
+}
+.f2s-voice-rotator-author{
+  flex:0 0 auto!important;
+  max-width:100%!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.f2s-voice-rotator-dots{
+  flex:0 0 auto!important;
+  margin-top:auto!important;
+}
+@media(max-width:700px){
+  .f2s-voice-rotator{
+    height:190px!important;
+    min-height:190px!important;
+    max-height:190px!important;
+    padding:18px 16px!important;
+  }
+  .f2s-voice-rotator-quote{
+    height:78px!important;
+    max-height:78px!important;
+    -webkit-line-clamp:3!important;
+    line-clamp:3!important;
+  }
+}
+</style>
 
 </body></html>
 
@@ -12825,11 +13173,41 @@ body{overflow-x:hidden}
 }
 </style>
 
+<style id="f2s-content-studio-style">
+#f2sAdminConsole .f2s-content-studio-hero{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;padding:22px;border:1px solid rgba(217,167,85,.18);border-radius:22px;background:linear-gradient(145deg,rgba(217,167,85,.08),rgba(255,255,255,.015));margin-bottom:14px}
+#f2sAdminConsole .f2s-content-studio-hero h2{margin:4px 0 6px;font-size:25px;font-family:Fraunces,serif;font-weight:550}
+#f2sAdminConsole .f2s-content-studio-hero p{margin:0;color:#a69b85;line-height:1.65;max-width:680px}
+#f2sAdminConsole .f2s-content-studio-tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+#f2sAdminConsole .f2s-content-tab{min-height:58px;border:1px solid #302517;border-radius:15px;background:#120d08;color:#a69b85;font-weight:800;cursor:pointer}
+#f2sAdminConsole .f2s-content-tab.active{border-color:rgba(217,167,85,.6);color:#e9e3d5;box-shadow:0 0 0 1px rgba(217,167,85,.12),0 10px 24px rgba(0,0,0,.2)}
+#f2sAdminConsole .f2s-editorial-editor{padding:18px;border:1px solid #302517;border-radius:20px;background:#100b07}
+#f2sAdminConsole .f2s-editorial-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#f2sAdminConsole .f2s-editorial-two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+#f2sAdminConsole .f2s-editorial-label,#f2sAdminConsole .f2s-editorial-grid label{display:block}
+#f2sAdminConsole .f2s-editorial-label>span,#f2sAdminConsole .f2s-editorial-grid label>span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#8e826b;margin:0 0 7px;font-weight:800}
+#f2sAdminConsole .f2s-editorial-upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+#f2sAdminConsole .f2s-editorial-upload-box{border:1px dashed rgba(217,167,85,.3);border-radius:15px;padding:14px;background:rgba(217,167,85,.025)}
+#f2sAdminConsole .f2s-editorial-upload-box b{display:block;color:#e9e3d5;margin-bottom:6px}
+#f2sAdminConsole .f2s-editorial-upload-box small{display:block;color:#8e826b;line-height:1.5;margin-bottom:10px}
+#f2sAdminConsole .f2s-editorial-mini{font-size:11px;color:#8e826b;margin-top:8px;min-height:16px}
+#f2sAdminConsole .f2s-editorial-preview{margin-top:10px;min-height:6px}
+#f2sAdminConsole .f2s-editorial-preview img{display:block;max-width:100%;max-height:220px;object-fit:contain;border-radius:11px;border:1px solid #302517;background:#0b0805}
+#f2sAdminConsole .f2s-editorial-library{margin-top:16px;padding:18px;border:1px solid #302517;border-radius:20px;background:#100b07}
+#f2sAdminConsole .f2s-editorial-library-body{display:flex;flex-direction:column;gap:10px}
+#f2sAdminConsole .f2s-editorial-item{padding:13px;border:1px solid #302517;border-radius:14px;background:#15100b}
+#f2sAdminConsole .f2s-editorial-item-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+#f2sAdminConsole .f2s-editorial-item-title{font-weight:800;color:#e9e3d5}.f2s-editorial-item-meta{font-size:10px;color:#8e826b;margin-top:4px}
+#f2sAdminConsole .f2s-editorial-item-preview{white-space:pre-line;color:#bdb3a1;line-height:1.55;font-size:12px;margin-top:10px;max-height:100px;overflow:auto}
+#f2sAdminConsole .f2s-editorial-item-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+#f2sAdminConsole .f2s-editorial-item-actions button{border:1px solid #4a3820;background:#120d08;color:#e9e3d5;border-radius:8px;padding:7px 10px;font-size:11px;cursor:pointer}
+#f2sAdminConsole .f2s-editorial-item-actions .danger{border-color:rgba(255,90,90,.35);color:#ffb0a8}
+@media(max-width:700px){#f2sAdminConsole .f2s-content-studio-hero{display:block;padding:17px}.f2s-content-studio-hero .f2s-a21-btn{margin-top:12px;width:100%}#f2sAdminConsole .f2s-editorial-grid,#f2sAdminConsole .f2s-editorial-two-col,#f2sAdminConsole .f2s-editorial-upload-grid{grid-template-columns:1fr}.f2s-content-tab{font-size:12px}#f2sAdminConsole .f2s-admin-workspace-nav{grid-template-columns:1fr!important}.f2s-editorial-item-head{display:block}}
+</style>
 <style id="f2s-management-nav-fix">
-/* Premium Admin Analytics / Management switcher fix */
+/* Premium Admin Analytics / Management / Content Studio switcher */
 #f2sAdminConsole .f2s-admin-workspace-nav{
   display:grid!important;
-  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
   gap:12px!important;
   width:100%!important;
   margin:18px 0!important;
@@ -12855,7 +13233,8 @@ body{overflow-x:hidden}
 }
 #f2sAdminConsole .f2s-admin-workspace-tab .tab-ico{flex:0 0 auto}
 #f2sAdminConsole [data-admin-view-panel="analytics"],
-#f2sAdminConsole [data-admin-view-panel="management"]{width:100%}
+#f2sAdminConsole [data-admin-view-panel="management"],
+#f2sAdminConsole [data-admin-view-panel="content"]{width:100%}
 @media(max-width:700px){
   #f2sAdminConsole .f2s-admin-workspace-nav{gap:8px!important;margin:12px 0!important}
   #f2sAdminConsole .f2s-admin-workspace-tab{min-height:62px!important;padding:10px 12px!important;border-radius:16px!important;gap:8px!important}
@@ -12867,7 +13246,7 @@ body{overflow-x:hidden}
 <script id="f2s-management-nav-fix-js">
 (function(){
   function setAdminView(name){
-    const allowed=name==='management'?'management':'analytics';
+    const allowed=['analytics','management','content'].includes(name)?name:'analytics';
     document.querySelectorAll('#f2sAdminConsole .f2s-admin-workspace-tab').forEach(function(btn){
       const active=btn.dataset.adminView===allowed;
       btn.classList.toggle('active',active);
@@ -12876,9 +13255,8 @@ body{overflow-x:hidden}
     document.querySelectorAll('#f2sAdminConsole [data-admin-view-panel]').forEach(function(panel){
       panel.style.display=panel.dataset.adminViewPanel===allowed?'block':'none';
     });
-    if(allowed==='analytics' && typeof window.f2sLoadWebsiteAnalytics==='function'){
-      window.f2sLoadWebsiteAnalytics();
-    }
+    if(allowed==='analytics' && typeof window.f2sLoadWebsiteAnalytics==='function'){ window.f2sLoadWebsiteAnalytics(); }
+    if(allowed==='content' && typeof window.f2sEditorialStudioLoad==='function'){ window.f2sEditorialStudioLoad(); }
   }
   function bind(){
     const nav=document.querySelector('#f2sAdminConsole .f2s-admin-workspace-nav');
@@ -12899,65 +13277,105 @@ body{overflow-x:hidden}
 </script>
 
 
-<script id="f2s-public-home-view-counter-fix">
+
+
+<style id="f2s-image-attach-only-css">
+.f2s-attach-image-btn{margin-top:8px;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:36px;cursor:pointer}
+.f2s-editorial-upload-box{min-height:92px}
+.f2s-editorial-preview img{display:block;width:100%;max-height:240px;object-fit:contain;border-radius:10px;border:1px solid rgba(217,167,85,.16);background:#070605;margin-top:8px}
+</style>
+<script id="f2s-content-studio-js">
 (function(){
-  'use strict';
-
-  function setPublicViews(v){
-    if(v === null || v === undefined || v === '') return false;
-    var n = Number(v);
-    if(!Number.isFinite(n)) return false;
-    var txt = n.toLocaleString();
-    var a = document.getElementById('f2sCoverViews');
-    var b = document.getElementById('f2sCoverViewsDesktop');
-    if(a) a.textContent = txt;
-    if(b) b.textContent = txt;
-    try{ localStorage.setItem('f2s_public_view_count', String(n)); }catch(e){}
-    return true;
+  const $=id=>document.getElementById(id);
+  const state={editingId:null,kind:'voice',voiceImage:'',qImage:'',aImage:'',voiceNumber:null,qaNumber:null,rows:[]};
+  const sb=()=>window.f2sSupabase;
+  const esc=v=>String(v??'').replace(/[&<>\"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+  const status=(msg,kind='')=>{const e=$('f2sEditorialStatus');if(e){e.textContent=msg;e.className='f2s-analytics-status '+kind}};
+  function setKind(kind){state.kind=kind;document.querySelectorAll('.f2s-content-tab').forEach(b=>b.classList.toggle('active',b.dataset.contentKind===kind));$('f2sVoiceEditor').style.display=kind==='voice'?'block':'none';$('f2sQAEditor').style.display=kind==='qa'?'block':'none';}
+  function readAsDataURL(file){return new Promise((resolve,reject)=>{if(!file)return resolve('');const r=new FileReader();r.onload=()=>resolve(String(r.result||''));r.onerror=reject;r.readAsDataURL(file)})}
+  function readText(file){return file?file.text():Promise.resolve('')}
+  function preview(id,data,alt){const e=$(id);if(!e)return;e.innerHTML=data?'<img src="'+esc(data)+'" alt="'+esc(alt)+'">':''}
+  function clearVoice(){state.editingId=null;state.voiceImage='';state.voiceNumber=null;$('f2sVoiceAuthor').value='';$('f2sVoiceNumber').value='';$('f2sVoiceCategory').value='F2S';$('f2sVoiceText').value='';$('f2sVoiceImage').value='';preview('f2sVoiceImagePreview','');document.querySelector('[data-file-target=\"f2sVoiceImage\"]')?.replaceChildren(document.createTextNode('＋ Attach Voice Image'));$('f2sVoicePublish').textContent='Publish Voice → Live'}
+  function clearQA(){state.editingId=null;state.qImage='';state.aImage='';state.qaNumber=null;$('f2sQAAuthor').value='';$('f2sQANumber').value='';$('f2sQACategory').value='SALAH';$('f2sQAQuestion').value='';$('f2sQAAnswer').value='';$('f2sQAQuestionImage').value='';$('f2sQAAnswerImage').value='';preview('f2sQAQuestionPreview','');preview('f2sQAAnswerPreview','');document.querySelector('[data-file-target=\"f2sQAQuestionImage\"]')?.replaceChildren(document.createTextNode('＋ Attach Question Image'));document.querySelector('[data-file-target=\"f2sQAAnswerImage\"]')?.replaceChildren(document.createTextNode('＋ Attach Answer Image'));$('f2sQAPublish').textContent='Publish Q&A → Live'}
+  function fillVoice(row){setKind('voice');state.editingId=row.id;window.__f2sEditorialEditingId=row.id;state.voiceImage=row.image_data_1||'';state.voiceNumber=row.display_number||null;$('f2sVoiceAuthor').value=row.author||'';$('f2sVoiceNumber').value=row.display_number||'';$('f2sVoiceCategory').value=row.category||'Other';$('f2sVoiceText').value=row.body_text||'';preview('f2sVoiceImagePreview',state.voiceImage,'Voice image');$('f2sVoicePublish').textContent='Save Voice Changes → Live';document.querySelector('#f2sAdminConsole [data-admin-view="content"]')?.scrollIntoView({block:'nearest'})}
+  function fillQA(row){setKind('qa');state.editingId=row.id;window.__f2sEditorialEditingId=row.id;state.qImage=row.image_data_1||'';state.aImage=row.image_data_2||'';state.qaNumber=row.display_number||null;$('f2sQAAuthor').value=row.author||'';$('f2sQANumber').value=row.display_number||'';$('f2sQACategory').value=row.category||'OTHER';$('f2sQAQuestion').value=row.question_text||'';$('f2sQAAnswer').value=row.answer_text||'';preview('f2sQAQuestionPreview',state.qImage,'Question image');preview('f2sQAAnswerPreview',state.aImage,'Answer image');$('f2sQAPublish').textContent='Save Q&A Changes → Live'}
+  async function load(){const s=sb();if(!s)return;const q=await s.from('f2s_editorial_content').select('id,content_type,author,category,body_text,question_text,answer_text,image_data_1,image_data_2,display_number,published,created_at,updated_at').order('created_at',{ascending:false});if(q.error){status('Content load failed: '+q.error.message,'err');return}state.rows=q.data||[];renderLibrary()}
+  function renderLibrary(){const box=$('f2sEditorialLibraryBody');if(!box)return;$('f2sEditorialCount').textContent=state.rows.length+' items';if(!state.rows.length){box.innerHTML='<div class="f2s-analytics-empty">No published editorial content yet.</div>';return}box.innerHTML=state.rows.map(r=>{const isQ=r.content_type==='qa'||r.content_type==='qna';const title=isQ?'❓ Q&A':'✦ Voice';const previewText=isQ?((r.question_text||'')+'\n\n→ '+(r.answer_text||'')):(r.body_text||'');const imgs=(isQ?[(r.image_data_1||''),(r.image_data_2||'')]:[(r.image_data_1||'')]).filter(Boolean);const imageHtml=imgs.length?'<div class="f2s-admin-image-read">'+imgs.map((im,n)=>'<div><img src="'+esc(im)+'" alt="Uploaded '+(isQ?(n===0?'question':'answer'):'voice')+' image"><small>IMAGE '+(n+1)+' · Click to inspect</small></div>').join('')+'</div>':'';return '<div class="f2s-editorial-item"><div class="f2s-editorial-item-head"><div><div class="f2s-editorial-item-title">'+title+' · '+esc(r.author||'Anonymous F2Sian')+'</div><div class="f2s-editorial-item-meta">#'+String(r.display_number||'AUTO').padStart(2,'0')+' · '+esc(r.category||'Other')+' · '+(r.published?'PUBLISHED':'DRAFT')+' · '+esc(new Date(r.created_at||Date.now()).toLocaleString())+'</div></div><span class="f2s-ac-badge">'+(isQ?'Q&A':'VOICE')+'</span></div>'+imageHtml+'<div class="f2s-editorial-item-preview">'+esc(previewText.slice(0,1200))+'</div><div class="f2s-editorial-item-actions"><button type="button" data-edit-editorial="'+esc(r.id)+'">Edit</button><button type="button" class="danger" data-delete-editorial="'+esc(r.id)+'">Delete</button></div></div>'}).join('')}
+  async function save(kind){const s=sb();if(!s)return status('Supabase client is not ready.','err');let payload;if(kind==='voice'){payload={content_type:'voice',author:$('f2sVoiceAuthor').value.trim()||'Anonymous F2Sian',category:$('f2sVoiceCategory').value||'Other',body_text:$('f2sVoiceText').value.trim(),question_text:'',answer_text:'',image_data_1:state.voiceImage||'',image_data_2:'',published:true,display_number:Number($('f2sVoiceNumber').value)||null}}else{payload={content_type:'qa',author:$('f2sQAAuthor').value.trim()||'Anonymous F2Sian',category:$('f2sQACategory').value||'OTHER',body_text:'',question_text:$('f2sQAQuestion').value.trim(),answer_text:$('f2sQAAnswer').value.trim(),image_data_1:state.qImage||'',image_data_2:state.aImage||'',published:true,display_number:Number($('f2sQANumber').value)||null}};
+    if(kind==='voice'&&!payload.body_text&&!payload.image_data_1)return status('Add voice text or an image first.','err');
+    if(kind==='qa'&&(!payload.question_text&&!payload.image_data_1 || !payload.answer_text&&!payload.image_data_2))return status('Q&A needs both a question and an official answer (text or image).','err');
+    status(state.editingId?'Saving changes…':'Publishing…');
+    let q;if(state.editingId)q=await s.from('f2s_editorial_content').update(payload).eq('id',state.editingId);else q=await s.from('f2s_editorial_content').insert(payload);
+    if(q.error && /display_number|column/i.test(q.error.message||'')){const fallback={...payload};delete fallback.display_number;if(state.editingId)q=await s.from('f2s_editorial_content').update(fallback).eq('id',state.editingId);else q=await s.from('f2s_editorial_content').insert(fallback)}
+    if(q.error){status('Publish failed: '+q.error.message,'err');return}
+    status(kind==='voice'?'✓ Voice published to live F2Sian Voices.':'✓ Q&A published to live F2Sian Q&A.','ok');
+    kind==='voice'?clearVoice():clearQA();await load();window.dispatchEvent(new CustomEvent('f2s:editorial-updated'));
   }
-
-  function cached(){
-    try{
-      var n = Number(localStorage.getItem('f2s_public_view_count'));
-      return Number.isFinite(n) && n >= 0 ? n : null;
-    }catch(e){ return null; }
+  async function del(id){if(!confirm('Delete this editorial item? This cannot be undone from the website.'))return;const s=sb();const q=await s.from('f2s_editorial_content').delete().eq('id',id);if(q.error){status('Delete failed: '+q.error.message,'err');return}status('Deleted.','ok');await load();window.dispatchEvent(new CustomEvent('f2s:editorial-updated'))}
+  function bind(){
+    document.querySelectorAll('.f2s-content-tab').forEach(b=>b.onclick=()=>setKind(b.dataset.contentKind));
+    document.querySelectorAll('.f2s-attach-image-btn[data-file-target]').forEach(btn=>btn.addEventListener('click',()=>$(btn.dataset.fileTarget)?.click()));
+    $('f2sEditorialRefresh')?.addEventListener('click',()=>load().catch(e=>status('Refresh failed: '+e.message,'err')));
+    $('f2sVoiceImage')?.addEventListener('change',async e=>{state.voiceImage=await readAsDataURL(e.target.files?.[0]);preview('f2sVoiceImagePreview',state.voiceImage,'Attached voice image');const b=document.querySelector('[data-file-target=\"f2sVoiceImage\"]');if(b&&e.target.files?.[0])b.textContent='✓ Image Attached';});
+    $('f2sQAQuestionImage')?.addEventListener('change',async e=>{state.qImage=await readAsDataURL(e.target.files?.[0]);preview('f2sQAQuestionPreview',state.qImage,'Attached question image');const b=document.querySelector('[data-file-target=\"f2sQAQuestionImage\"]');if(b&&e.target.files?.[0])b.textContent='✓ Image Attached';});
+    $('f2sQAAnswerImage')?.addEventListener('change',async e=>{state.aImage=await readAsDataURL(e.target.files?.[0]);preview('f2sQAAnswerPreview',state.aImage,'Attached answer image');const b=document.querySelector('[data-file-target=\"f2sQAAnswerImage\"]');if(b&&e.target.files?.[0])b.textContent='✓ Image Attached';});
+    $('f2sVoiceTextFile')?.addEventListener('click',()=>$('f2sVoiceTextFileInput').click());
+    $('f2sVoiceTextFileInput')?.addEventListener('change',async e=>{const t=await readText(e.target.files?.[0]);$('f2sVoiceText').value=t});
+    $('f2sVoicePublish')?.addEventListener('click',()=>save('voice'));
+    $('f2sVoiceClear')?.addEventListener('click',clearVoice);
+    $('f2sQAQuestionTextFile')?.addEventListener('click',()=>$('f2sQAQuestionTextFileInput').click());$('f2sQAQuestionTextFileInput')?.addEventListener('change',async e=>$('f2sQAQuestion').value=await readText(e.target.files?.[0]));
+    $('f2sQAAnswerTextFile')?.addEventListener('click',()=>$('f2sQAAnswerTextFileInput').click());$('f2sQAAnswerTextFileInput')?.addEventListener('change',async e=>$('f2sQAAnswer').value=await readText(e.target.files?.[0]));
+    $('f2sQAPublish')?.addEventListener('click',()=>save('qa'));$('f2sQAClear')?.addEventListener('click',clearQA);
+    $('f2sEditorialLibraryBody')?.addEventListener('click',e=>{const ed=e.target.closest('[data-edit-editorial]');const de=e.target.closest('[data-delete-editorial]');if(ed){const row=state.rows.find(x=>String(x.id)===String(ed.dataset.editEditorial));if(row)row.content_type==='voice'?fillVoice(row):fillQA(row)}if(de)del(de.dataset.deleteEditorial)});
   }
-
-  // Paint cached value immediately, before Supabase/network work.
-  var c = cached();
-  if(c !== null) setPublicViews(c);
-
-  // This function deliberately waits for the app's existing Supabase client.
-  function sync(){
-    try{
-      if(typeof window.sb !== 'function') return;
-      var client = window.sb();
-      if(!client) return;
-
-      // Existing F2S analytics RPC is authoritative.
-      client.rpc('get_f2s_website_analytics_v2').then(function(r){
-        if(r && !r.error && r.data){
-          var d = r.data;
-          var k = d.k || d.kpis || d.summary || d;
-          var n = k && (k.total_views ?? k.totalViews ?? d.total_views);
-          if(n !== undefined && n !== null) setPublicViews(n);
-        }
-      }).catch(function(){});
-    }catch(e){}
-  }
-
-  // Sync after the first paint. It cannot block Home rendering.
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', function(){
-      setTimeout(sync, 0);
-    }, {once:true});
-  }else{
-    setTimeout(sync, 0);
-  }
+  window.f2sEditorialStudioLoad=load;
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();
 })();
 </script>
 
-<script id="f2s-analytics-premium-v2-js">
+<style id="f2s-editorial-v2-fixes">
+/* Q&A upload: reliable native file controls on Android/mobile + desktop */
+#f2sAdminConsole .f2s-qna-direct-file{
+  display:block!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:9px!important;
+  font-size:10px!important;
+}
+#f2sAdminConsole .f2s-editorial-upload-box .f2s-a21-file{
+  cursor:pointer!important;
+}
+#f2sAdminConsole .f2s-editorial-upload-box .f2s-a21-file::file-selector-button,
+#f2sAdminConsole .f2s-qna-direct-file::file-selector-button{
+  margin-right:8px;
+  padding:7px 10px;
+  border-radius:8px;
+  border:1px solid rgba(217,167,85,.25);
+  background:rgba(217,167,85,.08);
+  color:#e9e3d5;
+  font:700 10px Inter,sans-serif;
+  cursor:pointer;
+}
+#f2sAdminConsole .f2s-editorial-two-col{
+  align-items:start;
+}
+#f2sAdminConsole .f2s-editorial-upload-box{
+  min-width:0;
+}
+@media(max-width:700px){
+  #f2sAdminConsole .f2s-qna-direct-file{
+    width:100%!important;
+    min-height:42px;
+  }
+}
+/* Voices are editorial-first: no artificial "new upload" lift to the top. */
+.voices-page .voice-story-card{
+  contain:layout paint;
+  will-change:auto!important;
+}
+</style>
+
+<script id="f2s-analytics-premium-v5-js">
 (function(){
   const $=id=>document.getElementById(id), sb=()=>window.f2sSupabase;
   const fmt=n=>Number(n||0).toLocaleString();
@@ -13123,26 +13541,99 @@ function realtime(rows){const e=$('f2sRealtimeActivity');if(!e)return;e.innerHTM
     document.querySelectorAll('.f2s-analytics-subtab').forEach(b=>b.addEventListener('click',()=>switchAnalyticsPanel(b.dataset.analyticsPanel)));
     $('f2sAnalyticsRefresh')?.addEventListener('click',load);
 
-    /* Public visitor counter: render the last known value instantly. Do NOT
-       block the Home page on the heavy premium analytics RPC. */
-    showCachedPublicViewCount();
+    /* F2S PUBLIC VISITOR COUNTER V7
+       SINGLE SOURCE OF TRUTH:
+       public.website_events, the same event stream used by Analytics V2.
+       We record the visit through the existing track_f2s_event RPC and then
+       read the exact database total through a tiny public read-only RPC.
+       No local +1 and no second visitor table are used. */
+    const V7_CACHE='f2s_public_views_authoritative_v7';
+    let v7SyncBusy=false;
+    let v7VisitStarted=false;
 
-    /* Record the visit in the background. Optimistically advance the cached
-       public counter so returning visitors see the new view immediately.
-       A background analytics refresh then replaces it with the authoritative
-       Supabase total (important for the very first visitor / empty cache). */
-    const cachedViews=getCachedPublicViewCount();
-    if(cachedViews!=null) setPublicViewCount(cachedViews+1);
-    track('page_view').then(()=>{
-      setTimeout(()=>load(),350);
-    });
-    /* First visit has no local cache, so fetch the authoritative count shortly
-       after the Home UI is painted. This never blocks the page render. */
-    if(cachedViews==null) setTimeout(()=>load(),350);
+    function v7ReadCache(){
+      try{
+        const raw=localStorage.getItem(V7_CACHE);
+        if(raw===null)return null;
+        const n=Number(raw);
+        return Number.isFinite(n)&&n>=0?n:null;
+      }catch(_e){return null;}
+    }
+    function v7WriteAuthoritative(n){
+      n=Number(n);
+      if(!Number.isFinite(n)||n<0)return false;
+      setPublicViewCount(n);
+      try{localStorage.setItem(V7_CACHE,String(n));}catch(_e){}
+      const t=$('f2sAnalyticsUpdated');
+      if(t)t.textContent='Updated '+new Date().toLocaleTimeString('en-GB',{
+        hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,
+        timeZone:'Asia/Dhaka'
+      });
+      return true;
+    }
+    function v7ShowCache(){
+      const n=v7ReadCache();
+      if(n!=null)setPublicViewCount(n);
+      return n;
+    }
+    async function v7GetClient(maxMs=12000){
+      const started=Date.now();
+      while(!window.f2sSupabase && Date.now()-started<maxMs){
+        await new Promise(r=>setTimeout(r,100));
+      }
+      return window.f2sSupabase||null;
+    }
+    async function v7Sync(){
+      const s=window.f2sSupabase;
+      if(!s||v7SyncBusy)return null;
+      v7SyncBusy=true;
+      try{
+        const q=await s.rpc('get_public_website_view_count');
+        if(q.error)throw Error(q.error.message);
+        const raw=Array.isArray(q.data)?q.data[0]:q.data;
+        const total=Number(raw?.total_views ?? raw?.views ?? raw?.get_public_website_view_count ?? raw ?? NaN);
+        if(Number.isFinite(total)&&total>=0){v7WriteAuthoritative(total);return total;}
+        throw Error('Public counter RPC returned no numeric total');
+      }catch(e){console.warn('F2S visitor counter sync:',e.message)}
+      finally{v7SyncBusy=false;}
+      return null;
+    }
+    async function v7RecordVisit(){
+      if(v7VisitStarted)return;
+      v7VisitStarted=true;
+      await v7GetClient();
+      if(!window.f2sSupabase)return;
+      try{
+        /* This is the existing production analytics RPC. It inserts the
+           page_view into public.website_events and already has 15-second
+           duplicate suppression for the same session/page. */
+        const result=await track('page_view');
+        if(result===null)throw Error('track_f2s_event failed');
+        await new Promise(r=>setTimeout(r,100));
+        await v7Sync();
+      }catch(e){
+        console.warn('F2S visitor counter record:',e.message);
+        /* Do not invent a number when recording fails. */
+      }
+    }
 
-    window.addEventListener('hashchange',()=>{
-      track('page_view').then(()=>setTimeout(()=>load(),350));
+    /* Only a previously verified V7 value may be shown before Supabase replies.
+       Old V1/V3/V4/V5/V6 caches are intentionally ignored. */
+    v7ShowCache();
+    setTimeout(()=>v7Sync(),100);
+    setTimeout(()=>v7RecordVisit(),300);
+    setTimeout(()=>v7Sync(),1000);
+    setInterval(()=>{
+      if(document.visibilityState==='visible')v7Sync();
+    },15000);
+    document.addEventListener('visibilitychange',()=>{
+      if(document.visibilityState==='visible')v7Sync();
     });
+    window.addEventListener('pageshow',()=>{
+      v7ShowCache();
+      v7Sync();
+    });
+
     document.addEventListener('click',e=>{
       const el=e.target.closest('button,a,[data-feature]');
       if(!el)return;
