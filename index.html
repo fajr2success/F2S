@@ -5971,11 +5971,21 @@ May Allah help us stay consistent.`;
           return;
         }
         const rows = Array.isArray(data) ? data : [];
-        setEditorialVoices(rows.filter(r => r.content_type === "voice").map(r => ({
+        const voiceRows = rows.filter(r => r.content_type === "voice").sort((a,b) => {
+          const an = Number(a.display_number) || 999999;
+          const bn = Number(b.display_number) || 999999;
+          return an - bn || new Date(a.created_at || 0) - new Date(b.created_at || 0);
+        });
+        const qaRows = rows.filter(r => r.content_type === "qa" || r.content_type === "qna").sort((a,b) => {
+          const an = Number(a.display_number) || 999999;
+          const bn = Number(b.display_number) || 999999;
+          return an - bn || new Date(a.created_at || 0) - new Date(b.created_at || 0);
+        });
+        setEditorialVoices(voiceRows.map(r => ({
           id: r.id, text: r.body_text || "", author: r.author || "Anonymous F2Sian",
           category: r.category || "Other", image: r.image_data_1 || "", displayNumber: r.display_number || null, createdAt: r.created_at || null
         })));
-        setEditorialQAs(rows.filter(r => r.content_type === "qa" || r.content_type === "qna").map(r => ({
+        setEditorialQAs(qaRows.map(r => ({
           id: r.id, author: r.author || "Anonymous F2Sian", category: r.category || "Other",
           question: r.question_text || "", answer: r.answer_text || "",
           image1: r.image_data_1 || "", image2: r.image_data_2 || "", displayNumber: r.display_number || null, createdAt: r.created_at || null
@@ -6016,7 +6026,39 @@ May Allah help us stay consistent.`;
   };
 
   const filteredVoices = useMemo(() => {
-    const allVoices = [...TESTIMONIALS, ...editorialVoices];
+    const editorialPositions = new Set(
+      editorialVoices
+        .map(v => Number(v.displayNumber))
+        .filter(n => Number.isFinite(n) && n > 0)
+    );
+
+    // Uploaded cards own their exact requested slot. Built-in cards take the
+    // lowest remaining slots. Thus an uploaded #06 is #06; it never becomes
+    // #07 merely because uploaded #01 exists.
+    let nextFree = 1;
+    const builtInPositions = TESTIMONIALS.map(() => {
+      while (editorialPositions.has(nextFree)) nextFree++;
+      const p = nextFree;
+      nextFree++;
+      return p;
+    });
+
+    const allVoices = [
+      ...TESTIMONIALS.map((v, idx) => ({
+        ...v,
+        __f2sEditorial: false,
+        __f2sEffectivePosition: builtInPositions[idx]
+      })),
+      ...editorialVoices.map(v => ({
+        ...v,
+        __f2sEditorial: true,
+        __f2sEffectivePosition: Number(v.displayNumber) || 999999
+      }))
+    ].sort((a,b) => {
+      const ap = Number(a.__f2sEffectivePosition) || 999999;
+      const bp = Number(b.__f2sEffectivePosition) || 999999;
+      return ap - bp || (a.__f2sEditorial ? -1 : 1);
+    }).map(v => ({...v, __f2sDisplayNumber: v.__f2sEffectivePosition}));
     const q = voiceQuery.trim().toLowerCase();
     return allVoices.filter((voice) => {
       const haystack = `${voice.author || ""} ${voice.text || ""}`.toLowerCase();
@@ -8336,7 +8378,7 @@ F2S Ramadan Express is preparing to depart 🚂
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {filteredVoices.map((t, i) => (
                 <div className={`voice-story-card ${i === 0 ? "voice-featured" : ""}`} key={t.id || i}><Card accent="#D9A75544">
-                  <div className="f2s-editorial-card-meta"><span className="f2s-editorial-number">#{String(t.displayNumber || (i + 1)).padStart(2,'0')}</span>{t.createdAt && <span>Uploaded · {new Date(t.createdAt).toLocaleString()}</span>}</div>
+                  <div className="f2s-editorial-card-meta"><span className="f2s-editorial-number">#{String(t.__f2sDisplayNumber || (i + 1)).padStart(2,'0')}</span>{t.createdAt && <span>Uploaded · {new Date(t.createdAt).toLocaleString()}</span>}</div>
                   {t.image && (
                     <img src={t.image} alt="F2Sian Voice" loading="lazy"
                       style={{display:"block",width:"100%",maxHeight:260,objectFit:"contain",borderRadius:12,margin:"0 0 12px",border:"1px solid #2E2415",background:"#0d0906",cursor:"zoom-in"}}
@@ -8418,7 +8460,7 @@ F2S Ramadan Express is preparing to depart 🚂
               Questions from F2Sians, answered by the F2S Admin team — so everyone can understand the system clearly and fairly.
             </p>
 
-            <div className="qna-card">
+            <div className="qna-card" data-f2s-editorial="0" data-f2s-base-position="1">
               <div className="f2s-editorial-card-meta"><span className="f2s-editorial-number">#01</span></div>
               <div className="qna-topline"><div className="qna-meta">F2Sian Q&amp;A · Tanu Akter</div><span className="qna-category">SALAH</span></div>
               <div className="qna-question-head"><div className="qna-question-label">Q.</div><span className="qna-question-badge">QUESTION</span></div>
@@ -8438,7 +8480,7 @@ F2S Ramadan Express is preparing to depart 🚂
               </p>
             </div>
 
-            <div className="qna-card">
+            <div className="qna-card" data-f2s-editorial="0" data-f2s-base-position="2">
               <div className="f2s-editorial-card-meta"><span className="f2s-editorial-number">#02</span></div>
               <div className="qna-topline"><div className="qna-meta">F2Sian Q&amp;A · Pipet</div><span className="qna-category">STUDY</span></div>
               <div className="qna-question-head"><div className="qna-question-label">Q.</div><span className="qna-question-badge">QUESTION</span></div>
@@ -8454,7 +8496,7 @@ F2S Ramadan Express is preparing to depart 🚂
               </p>
             </div>
 
-            <div className="qna-card">
+            <div className="qna-card" data-f2s-editorial="0" data-f2s-base-position="3">
               <div className="f2s-editorial-card-meta"><span className="f2s-editorial-number">#03</span></div>
               <div className="qna-topline"><div className="qna-meta">F2Sian Q&amp;A · F2Sian</div><span className="qna-category">YPT</span></div>
               <div className="qna-question-head"><div className="qna-question-label">Q.</div><span className="qna-question-badge">QUESTION</span></div>
@@ -8477,20 +8519,11 @@ F2S Ramadan Express is preparing to depart 🚂
             </div>
 
             {editorialQAs.map((qa, idx) => {
-              // Built-in Q&A owns #01–#03. New editorial Q&A starts from #04.
-              const requested = Number(qa.displayNumber) || 0;
-              const used = new Set([1, 2, 3]);
-              for (let j = 0; j < idx; j++) {
-                const n = Number(editorialQAs[j]?.displayNumber) || 0;
-                if (n >= 4) used.add(n);
-              }
-              let cardNumber = requested >= 4 && !used.has(requested) ? requested : 4;
-              while (used.has(cardNumber)) cardNumber++;
-              used.add(cardNumber);
+              const requested = Number(qa.displayNumber) || 999999;
               return (
-                <div className="qna-card" key={qa.id || idx}>
+                <div className="qna-card" data-f2s-editorial="1" data-f2s-base-position={requested} key={qa.id || idx}>
                   <div className="f2s-editorial-card-meta">
-                    <span className="f2s-editorial-number">#{String(cardNumber).padStart(2,'0')}</span>
+                    <span className="f2s-editorial-number">#--</span>
                     {qa.createdAt && <span>Uploaded · {new Date(qa.createdAt).toLocaleString()}</span>}
                   </div>
                   <div className="qna-topline"><div className="qna-meta">F2Sian Q&amp;A · NEW · {qa.author || "Anonymous F2Sian"}</div><span className="qna-category">{qa.category || "OTHER"}</span></div>
@@ -11630,7 +11663,7 @@ body{overflow-x:hidden}
           <div id="f2sVoiceEditor" class="f2s-editorial-editor">
             <div class="f2s-editorial-grid">
               <label><span>Member / Display Name</span><input id="f2sVoiceAuthor" class="f2s-a21-input" placeholder="Anonymous F2Sian"></label>
-              <label><span>Card Number</span><input id="f2sVoiceNumber" class="f2s-a21-input" type="number" min="1" step="1" placeholder="Auto"></label>
+              <label><span>Card Number</span><input id="f2sVoiceNumber" class="f2s-a21-input" type="number" min="1" step="1" placeholder="Auto"><small style="display:block;color:#8a8064;margin-top:5px">Position: enter 6 to make this Voice #06; the old #06 shifts to #07 automatically.</small></label>
               <label><span>Category</span><select id="f2sVoiceCategory" class="f2s-a21-input"><option>F2S</option><option>F2S Admin</option><option>Deen + Salah + Quran</option><option>Study</option><option>Discipline</option><option>Comeback / Consistency</option><option>Other</option></select></label>
             </div>
             <label class="f2s-editorial-label"><span>Voice Text</span><textarea id="f2sVoiceText" class="f2s-a21-textarea" rows="8" placeholder="Paste the F2Sian voice here…"></textarea></label>
@@ -11643,7 +11676,7 @@ body{overflow-x:hidden}
           <div id="f2sQAEditor" class="f2s-editorial-editor" style="display:none">
             <div class="f2s-editorial-grid">
               <label><span>Member / Display Name</span><input id="f2sQAAuthor" class="f2s-a21-input" placeholder="Anonymous F2Sian"></label>
-              <label><span>Card Number (4+)</span><input id="f2sQANumber" class="f2s-a21-input" type="number" min="4" step="1" placeholder="Auto"></label>
+              <label><span>Card Number</span><input id="f2sQANumber" class="f2s-a21-input" type="number" min="1" step="1" placeholder="Auto"><small style="display:block;color:#8a8064;margin-top:5px">Position: enter 6 to make this Q&amp;A #06; the old #06 shifts to #07 automatically.</small></label>
               <label><span>Category</span><select id="f2sQACategory" class="f2s-a21-input"><option>SALAH</option><option>STUDY</option><option>YPT</option><option>F2S</option><option>OTHER</option></select></label>
             </div>
             <div class="f2s-editorial-two-col">
@@ -12350,6 +12383,75 @@ body{
   }
 }
 </style>
+
+
+<style id="f2s-unified-numbering-v18">
+.f2s-editorial-card-meta .f2s-editorial-number{flex:0 0 auto}
+</style>
+<script id="f2s-unified-numbering-v20-js">
+(function(){
+  let busy=false;
+
+  function numberQAs(){
+    const page=document.querySelector('.qna-page');
+    if(!page) return;
+
+    const cards=[...page.querySelectorAll(':scope > .qna-card')];
+    if(!cards.length) return;
+
+    const editorial=cards
+      .filter(el=>el.dataset.f2sEditorial==='1')
+      .map((el,idx)=>({el,idx,pos:Number(el.dataset.f2sBasePosition)||999999}));
+
+    const builtIn=cards
+      .filter(el=>el.dataset.f2sEditorial!=='1')
+      .map((el,idx)=>({el,idx}));
+
+    const occupied=new Set(editorial.filter(x=>x.pos<999999).map(x=>x.pos));
+    let next=1;
+    const builtInItems=builtIn.map(x=>{
+      while(occupied.has(next)) next++;
+      const item={...x,pos:next};
+      occupied.add(next);
+      next++;
+      return item;
+    });
+
+    const all=[...editorial,...builtInItems].sort((a,b)=>
+      a.pos-b.pos || a.idx-b.idx
+    );
+
+    busy=true;
+    all.forEach((x,n)=>{
+      const badge=x.el.querySelector('.f2s-editorial-number');
+      if(badge) badge.textContent='#'+String(x.pos).padStart(2,'0');
+      page.appendChild(x.el);
+    });
+    busy=false;
+  }
+
+  function numberVoices(){
+    // Voice cards are already assigned their exact effective position by
+    // React. Do not renumber them by DOM index (that caused #06 -> #07).
+  }
+
+  function run(){
+    if(busy) return;
+    numberQAs();
+    numberVoices();
+  }
+
+  if(document.readyState==='loading')
+    document.addEventListener('DOMContentLoaded',run,{once:true});
+  else run();
+
+  const obs=new MutationObserver(()=>{
+    if(!busy) requestAnimationFrame(run);
+  });
+  obs.observe(document.body,{childList:true,subtree:true});
+  window.addEventListener('f2s:editorial-updated',()=>setTimeout(run,100));
+})();
+</script>
 
 </body></html>
 
@@ -13301,15 +13403,117 @@ body{
   function fillQA(row){setKind('qa');state.editingId=row.id;window.__f2sEditorialEditingId=row.id;state.qImage=row.image_data_1||'';state.aImage=row.image_data_2||'';state.qaNumber=row.display_number||null;$('f2sQAAuthor').value=row.author||'';$('f2sQANumber').value=row.display_number||'';$('f2sQACategory').value=row.category||'OTHER';$('f2sQAQuestion').value=row.question_text||'';$('f2sQAAnswer').value=row.answer_text||'';preview('f2sQAQuestionPreview',state.qImage,'Question image');preview('f2sQAAnswerPreview',state.aImage,'Answer image');$('f2sQAPublish').textContent='Save Q&A Changes → Live'}
   async function load(){const s=sb();if(!s)return;const q=await s.from('f2s_editorial_content').select('id,content_type,author,category,body_text,question_text,answer_text,image_data_1,image_data_2,display_number,published,created_at,updated_at').order('created_at',{ascending:false});if(q.error){status('Content load failed: '+q.error.message,'err');return}state.rows=q.data||[];renderLibrary()}
   function renderLibrary(){const box=$('f2sEditorialLibraryBody');if(!box)return;$('f2sEditorialCount').textContent=state.rows.length+' items';if(!state.rows.length){box.innerHTML='<div class="f2s-analytics-empty">No published editorial content yet.</div>';return}box.innerHTML=state.rows.map(r=>{const isQ=r.content_type==='qa'||r.content_type==='qna';const title=isQ?'❓ Q&A':'✦ Voice';const previewText=isQ?((r.question_text||'')+'\n\n→ '+(r.answer_text||'')):(r.body_text||'');const imgs=(isQ?[(r.image_data_1||''),(r.image_data_2||'')]:[(r.image_data_1||'')]).filter(Boolean);const imageHtml=imgs.length?'<div class="f2s-admin-image-read">'+imgs.map((im,n)=>'<div><img src="'+esc(im)+'" alt="Uploaded '+(isQ?(n===0?'question':'answer'):'voice')+' image"><small>IMAGE '+(n+1)+' · Click to inspect</small></div>').join('')+'</div>':'';return '<div class="f2s-editorial-item"><div class="f2s-editorial-item-head"><div><div class="f2s-editorial-item-title">'+title+' · '+esc(r.author||'Anonymous F2Sian')+'</div><div class="f2s-editorial-item-meta">#'+String(r.display_number||'AUTO').padStart(2,'0')+' · '+esc(r.category||'Other')+' · '+(r.published?'PUBLISHED':'DRAFT')+' · '+esc(new Date(r.created_at||Date.now()).toLocaleString())+'</div></div><span class="f2s-ac-badge">'+(isQ?'Q&A':'VOICE')+'</span></div>'+imageHtml+'<div class="f2s-editorial-item-preview">'+esc(previewText.slice(0,1200))+'</div><div class="f2s-editorial-item-actions"><button type="button" data-edit-editorial="'+esc(r.id)+'">Edit</button><button type="button" class="danger" data-delete-editorial="'+esc(r.id)+'">Delete</button></div></div>'}).join('')}
-  async function save(kind){const s=sb();if(!s)return status('Supabase client is not ready.','err');let payload;if(kind==='voice'){payload={content_type:'voice',author:$('f2sVoiceAuthor').value.trim()||'Anonymous F2Sian',category:$('f2sVoiceCategory').value||'Other',body_text:$('f2sVoiceText').value.trim(),question_text:'',answer_text:'',image_data_1:state.voiceImage||'',image_data_2:'',published:true,display_number:Number($('f2sVoiceNumber').value)||null}}else{payload={content_type:'qa',author:$('f2sQAAuthor').value.trim()||'Anonymous F2Sian',category:$('f2sQACategory').value||'OTHER',body_text:'',question_text:$('f2sQAQuestion').value.trim(),answer_text:$('f2sQAAnswer').value.trim(),image_data_1:state.qImage||'',image_data_2:state.aImage||'',published:true,display_number:Number($('f2sQANumber').value)||null}};
-    if(kind==='voice'&&!payload.body_text&&!payload.image_data_1)return status('Add voice text or an image first.','err');
-    if(kind==='qa'&&(!payload.question_text&&!payload.image_data_1 || !payload.answer_text&&!payload.image_data_2))return status('Q&A needs both a question and an official answer (text or image).','err');
+  async function save(kind){
+    const s=sb();
+    if(!s)return status('Supabase client is not ready.','err');
+
+    let payload;
+    const requestedNumber = Number(kind==='voice' ? $('f2sVoiceNumber').value : $('f2sQANumber').value) || null;
+
+    if(kind==='voice'){
+      payload={
+        content_type:'voice',
+        author:$('f2sVoiceAuthor').value.trim()||'Anonymous F2Sian',
+        category:$('f2sVoiceCategory').value||'Other',
+        body_text:$('f2sVoiceText').value.trim(),
+        question_text:'',
+        answer_text:'',
+        image_data_1:state.voiceImage||'',
+        image_data_2:'',
+        published:true,
+        display_number:requestedNumber
+      };
+    }else{
+      payload={
+        content_type:'qa',
+        author:$('f2sQAAuthor').value.trim()||'Anonymous F2Sian',
+        category:$('f2sQACategory').value||'OTHER',
+        body_text:'',
+        question_text:$('f2sQAQuestion').value.trim(),
+        answer_text:$('f2sQAAnswer').value.trim(),
+        image_data_1:state.qImage||'',
+        image_data_2:state.aImage||'',
+        published:true,
+        display_number:requestedNumber
+      };
+    }
+
+    if(kind==='voice'&&!payload.body_text&&!payload.image_data_1)
+      return status('Add voice text or an image first.','err');
+    if(kind==='qa'&&(!payload.question_text&&!payload.image_data_1 || !payload.answer_text&&!payload.image_data_2))
+      return status('Q&A needs both a question and an official answer (text or image).','err');
+
+    /*
+      Card Number is an insertion position, not just a label.
+      Example: existing #1,#2,#3 and a new Voice/Q&A is published as #3:
+      old #3 -> #4, while old #1/#2 keep their positions.
+      Publishing another item as #1 shifts the old #1,#2,#3 to #2,#3,#4.
+      Blank number = append after the current highest editorial number.
+    */
+    let existing=[];
+    if(!state.editingId){
+      const types = kind==='voice' ? ['voice'] : ['qa','qna'];
+      const listQ = await s.from('f2s_editorial_content')
+        .select('id,content_type,display_number')
+        .in('content_type',types);
+      if(listQ.error){
+        status('Numbering check failed: '+listQ.error.message,'err');
+        return;
+      }
+      existing = (listQ.data||[]).filter(r=>r.id!==state.editingId);
+
+      let position = requestedNumber;
+      if(!position){
+        position = existing.reduce((m,r)=>Math.max(m,Number(r.display_number)||0),0)+1;
+      }
+      payload.display_number = Math.max(1, Math.floor(position));
+
+      /*
+        Shift from the highest number downward so every old card keeps its
+        relative order and the requested position becomes available.
+      */
+      const toShift = existing
+        .filter(r=>(Number(r.display_number)||0) >= payload.display_number)
+        .sort((a,b)=>(Number(b.display_number)||0)-(Number(a.display_number)||0));
+
+      for(const row of toShift){
+        const oldN = Number(row.display_number)||0;
+        if(!oldN) continue;
+        const uq = await s.from('f2s_editorial_content')
+          .update({display_number:oldN+1})
+          .eq('id',row.id);
+        if(uq.error){
+          status('Numbering update failed: '+uq.error.message,'err');
+          return;
+        }
+      }
+    }
+
     status(state.editingId?'Saving changes…':'Publishing…');
-    let q;if(state.editingId)q=await s.from('f2s_editorial_content').update(payload).eq('id',state.editingId);else q=await s.from('f2s_editorial_content').insert(payload);
-    if(q.error && /display_number|column/i.test(q.error.message||'')){const fallback={...payload};delete fallback.display_number;if(state.editingId)q=await s.from('f2s_editorial_content').update(fallback).eq('id',state.editingId);else q=await s.from('f2s_editorial_content').insert(fallback)}
-    if(q.error){status('Publish failed: '+q.error.message,'err');return}
+
+    let q;
+    if(state.editingId){
+      q=await s.from('f2s_editorial_content').update(payload).eq('id',state.editingId);
+    }else{
+      q=await s.from('f2s_editorial_content').insert(payload);
+    }
+
+    if(q.error && /display_number|column/i.test(q.error.message||'')){
+      const fallback={...payload};
+      delete fallback.display_number;
+      if(state.editingId)q=await s.from('f2s_editorial_content').update(fallback).eq('id',state.editingId);
+      else q=await s.from('f2s_editorial_content').insert(fallback);
+    }
+
+    if(q.error){
+      status('Publish failed: '+q.error.message,'err');
+      return;
+    }
+
     status(kind==='voice'?'✓ Voice published to live F2Sian Voices.':'✓ Q&A published to live F2Sian Q&A.','ok');
-    kind==='voice'?clearVoice():clearQA();await load();window.dispatchEvent(new CustomEvent('f2s:editorial-updated'));
+    kind==='voice'?clearVoice():clearQA();
+    await load();
+    window.dispatchEvent(new CustomEvent('f2s:editorial-updated'));
   }
   async function del(id){if(!confirm('Delete this editorial item? This cannot be undone from the website.'))return;const s=sb();const q=await s.from('f2s_editorial_content').delete().eq('id',id);if(q.error){status('Delete failed: '+q.error.message,'err');return}status('Deleted.','ok');await load();window.dispatchEvent(new CustomEvent('f2s:editorial-updated'))}
   function bind(){
