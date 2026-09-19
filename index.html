@@ -5724,13 +5724,20 @@ May Allah help us stay consistent.`;
   }, []);
 
 
-  // Header highlights: each item stays visible for exactly 3 seconds.
+  // Header highlights: rotate through the live F2S Star + FCB Star
+  // items in an interleaved order: #1 F2S → #1 FCB → #2 F2S →
+  // #2 FCB → #3 F2S → #3 FCB. Each item stays visible for 3 seconds.
   useEffect(() => {
+    const itemCount = Math.max(1,
+      Math.min(3, liveStarRows.length) + Math.min(3, liveFCBRows.length)
+    );
+    setHeaderTickerIndex((i) => i >= itemCount ? 0 : i);
+
     const timer = window.setInterval(() => {
-      setHeaderTickerIndex((i) => (i + 1) % 4);
+      setHeaderTickerIndex((i) => (i + 1) % itemCount);
     }, 3000);
     return () => window.clearInterval(timer);
-  }, []);
+  }, [liveStarRows.length, liveFCBRows.length]);
   const directMsgBoxRef = useRef(null);
   const voicesSectionRef = useRef(null);
   const writeSectionRef = useRef(null);
@@ -6418,24 +6425,36 @@ May Allah help us stay consistent.`;
         <div className="f2s-header-highlight-viewport">
           {(() => {
             const stars = liveStarRows.slice(0, 3);
-            const fcb = liveFCBRows[0];
+            const fcb = liveFCBRows.slice(0, 3);
             const tickerItems = [];
-            stars.forEach((r, i) => tickerItems.push({
-              key: `f2s-${i + 1}`,
-              icon: "★",
-              label: `#${i + 1} F2S STAR`,
-              value: `${r.name} · ${r.f2s_id} · ${r.total_stars}★`,
-              type: "f2s"
-            }));
-            if (fcb) {
-              tickerItems.push({
-                key: "fcb-1",
-                icon: "♟",
-                label: "#1 FCB STAR",
-                value: `${fcb.name} · ${fcb.f2s_id} · ${fcb.total_invites} invites`,
-                type: "fcb"
-              });
+
+            // Interleave the two live leaderboards by rank: F2S #1, FCB #1,
+            // F2S #2, FCB #2, F2S #3, FCB #3.
+            for (let rank = 0; rank < 3; rank++) {
+              const star = stars[rank];
+              const fcbStar = fcb[rank];
+
+              if (star) {
+                tickerItems.push({
+                  key: `f2s-${rank + 1}`,
+                  icon: "★",
+                  label: `#${rank + 1} F2S STAR`,
+                  value: `${star.name} · ${star.f2s_id} · ${star.total_stars}★`,
+                  type: "f2s"
+                });
+              }
+
+              if (fcbStar) {
+                tickerItems.push({
+                  key: `fcb-${rank + 1}`,
+                  icon: "♟",
+                  label: `#${rank + 1} FCB STAR`,
+                  value: `${fcbStar.name} · ${fcbStar.f2s_id} · ${fcbStar.total_invites} invites`,
+                  type: "fcb"
+                });
+              }
             }
+
             return tickerItems.map((item, i) => (
             <div
               key={item.key}
@@ -6461,7 +6480,11 @@ May Allah help us stay consistent.`;
           })()}
         </div>
         <div className="f2s-header-highlight-dots" aria-hidden="true">
-          {Array.from({ length: Math.max(1, Math.min(4, liveStarRows.slice(0, 3).length + (liveFCBRows[0] ? 1 : 0))) }, (_, i) =>
+          {Array.from({
+            length: Math.max(1,
+              Math.min(3, liveStarRows.length) + Math.min(3, liveFCBRows.length)
+            )
+          }, (_, i) =>
             <i key={i} className={i === headerTickerIndex ? "is-active" : ""} />
           )}
         </div>
@@ -10903,11 +10926,13 @@ body{overflow-x:hidden}
 
 
 <script>
-/* F2S FCB LEADERBOARD — FINAL INVITE METRIC */
+/* F2S FCB LEADERBOARD — PERSISTENT / MANUALLY MAINTAINED INVITE METRIC */
 (function () {
   if (!window.f2sSupabase) return;
 
   window.getF2SFCBLeaderboard = async function () {
+    // FCB is NOT weekly. Keep the existing all-time/manual dataset intact.
+    // Weekly T5 changes must never overwrite or reset FCB.
     const { data, error } = await window.f2sSupabase.rpc("get_fcb_leaderboard");
     if (error) {
       console.warn("[F2S] FCB leaderboard RPC unavailable:", error.message);
@@ -10940,7 +10965,7 @@ body{overflow-x:hidden}
 /* F2S — THREE LIVE TICKERS
    T5: Top 3 + any additional 7/7
    ⭐ Star: All-time Top 3
-   🏆 FCB Star: Top 1 by invites
+   🏆 FCB Star: All-time manual data, ranked by invites
 */
 (function () {
   const root = window.f2sSupabase;
@@ -11689,9 +11714,9 @@ body{overflow-x:hidden}
         </section>
 
         <div id="a21ManagementView" class="f2s-admin-view" data-admin-view-panel="management" style="display:none">
-        <div class="f2s-a21-step active"><span>2</span> Week Selection</div>
+        <div class="f2s-a21-legacy-week"><div class="f2s-a21-step active"><span>2</span> Week Selection</div>
         <div class="f2s-a21-week"><div><h2 id="a21WeekTitle">Week 43</h2><div id="a21WeekDates" class="f2s-a21-muted">2026-09-14 → 2026-09-20</div></div><div class="f2s-a21-week-controls"><input id="a21Week" class="f2s-a21-input" type="number" min="1" value="43"><button id="a21LoadWeek" class="f2s-a21-btn primary">Load Week</button><button id="a21DeleteWeek" class="f2s-a21-btn danger" type="button">Delete This Week</button></div></div>
-        <div class="f2s-a21-step active"><span>3</span> Management</div>
+        </div><div class="f2s-a21-step active"><span>3</span> Management</div>
         <div class="f2s-a21-options"><button class="f2s-a21-option active" data-mode="t5"><div class="ico">⏱</div><b>1 · T5 Management</b><span>Upload new data / edit current / add row / review / submit</span><em id="a21T5Count">0 rows</em></button><button class="f2s-a21-option" data-mode="fcb"><div class="ico">👥</div><b>2 · FCB Management</b><span>Upload invites / edit current / add row / review / submit</span><em id="a21FCBCount">0 rows</em></button><button class="f2s-a21-option" data-mode="star"><div class="ico">⭐</div><b>3 · F2S Star</b><span>Weekly 7/7 candidates, separate review</span><em id="a21StarCount">0 candidates</em></button><button class="f2s-a21-option" data-mode="id"><div class="ico">🆔</div><b>4 · F2S-ID</b><span>Weekly ≥4/7 eligibility, separate review</span><em id="a21IDCount">0 eligible</em></button></div>
         <div id="a21Panel"></div>
         <section id="f2sIdDirectoryManagement" class="f2s-id-directory-management">
@@ -11715,7 +11740,7 @@ body{overflow-x:hidden}
 <script id="f2s-admin-clean-v28-js">
 (function(){
   const $=id=>document.getElementById(id); let sb=null, mode='t5', week=43, t5=[], fcb=[];
-  const dates=w=>{const d=new Date('2026-01-05T00:00:00');d.setDate(d.getDate()+(Number(w)-1)*7);const e=new Date(d);e.setDate(e.getDate()+6);return [d.toISOString().slice(0,10),e.toISOString().slice(0,10)]};
+  const dates=w=>{const d=new Date(2026,9,14);d.setDate(d.getDate()+(Number(w)-43)*7);const e=new Date(d);e.setDate(e.getDate()+6);const fmt=x=>`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`;return [fmt(d),fmt(e)]};
   const fmt=s=>{s=Number(s||0);return String(Math.floor(s/3600)).padStart(2,'0')+':'+String(Math.floor(s%3600/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')};
   const status=(m,k='')=>{const e=$('a21Status');e.textContent=m;e.className='f2s-a21-status '+k};
   const derived=()=>({stars:t5.filter(x=>Number(x.completed_days)===7),ids:t5.filter(x=>Number(x.completed_days)>=4)});
@@ -11727,7 +11752,7 @@ body{overflow-x:hidden}
   function tableT5(){return `<div class="f2s-a21-tablewrap"><table class="f2s-a21-table"><thead><tr><th>#</th><th>Name</th><th>F2S-ID</th><th>Days</th><th>Study time</th><th></th></tr></thead><tbody>${t5.map((x,i)=>`<tr><td>${i+1}</td><td><input data-i="${i}" data-k="name" value="${esc(x.name)}"></td><td><input data-i="${i}" data-k="f2s_id" value="${esc(x.f2s_id||'')}" placeholder="AUTO if ≥4/7"></td><td><input type="number" min="0" max="7" data-i="${i}" data-k="completed_days" value="${Number(x.completed_days)||0}"></td><td><input data-i="${i}" data-k="study" value="${fmt(x.total_study_seconds)}"></td><td><button type="button" class="f2s-a21-remove" data-remove="${i}">Remove</button></td></tr>`).join('')}</tbody></table></div>`}
   function tableFCB(){return `<div class="f2s-a21-tablewrap"><table class="f2s-a21-table"><thead><tr><th>#</th><th>Name</th><th>F2S-ID <span class="f2s-a21-muted">(optional)</span></th><th>Total Invites / Rank</th><th></th></tr></thead><tbody>${fcb.map((x,i)=>`<tr><td>${i+1}</td><td><input data-i="${i}" data-k="name" value="${esc(x.name)}"></td><td><input data-i="${i}" data-k="f2s_id" value="${esc(x.f2s_id||'')}" placeholder="Optional"></td><td><input type="number" min="0" data-i="${i}" data-k="total_invites" value="${Number(x.total_invites)||0}"></td><td><button type="button" class="f2s-a21-remove" data-remove="${i}">Remove</button></td></tr>`).join('')}</tbody></table></div>`}
   const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  function panel(){if(mode==='t5')return `<div class="f2s-a21-panel"><h3>T5 Management</h3><div class="help">Upload new YPT data, review/edit it, add rows manually, then submit this T5 draft to Final Review. Public data is unchanged until final Publish.</div><div class="f2s-a21-upload"><input id="a21T5File" class="f2s-a21-file" type="file" accept=".txt,.csv"><button id="a21T5FileRead" class="f2s-a21-btn">Read file</button></div><textarea id="a21T5Paste" class="f2s-a21-textarea" placeholder="Nowshin F2S-63\n7/7\n89:41:06\n\nAfiya F2S-95\n7/7\n44:53:51"></textarea><div class="f2s-a21-actions"><button id="a21T5Parse" class="f2s-a21-btn primary">Upload / Parse → Review</button><button id="a21T5Current" class="f2s-a21-btn">Load current Week ${week}</button><button id="a21T5Add" class="f2s-a21-btn">+ Add Row</button><button id="a21T5Clear" class="f2s-a21-btn">Clear draft</button></div>${tableT5()}<div class="f2s-a21-actions" style="margin-top:12px"><button id="a21T5Submit" class="f2s-a21-btn primary">Submit T5 to Final Review</button></div></div>`;
+  function panel(){if(mode==='t5')return `<section class="f2s-a21-t5-scope"><div class="f2s-a21-scope-head"><div><span class="f2s-a21-scope-kicker">T5 · WEEK SCOPE</span><h3>Week <span id="a21WeekCompactLabel">${week}</span></h3><p id="a21WeekCompactDates">${dates(week)[0]} → ${dates(week)[1]}</p></div><span class="f2s-a21-live-pill">● LIVE SCOPE</span></div><div class="f2s-a21-scope-controls"><label>Week<select id="a21WeekCompact">${Array.from({length:53},(_,i)=>{const w=i+1;return `<option value="${w}" ${w===week?'selected':''}>${w}</option>`}).join('')}</select></label><button id="a21LoadWeekCompact" class="f2s-a21-btn primary" type="button">Load Week</button><button id="a21DeleteWeekCompact" class="f2s-a21-btn danger" type="button">Delete</button></div></section><div class="f2s-a21-panel"><h3>T5 Management</h3><div class="help">Upload new YPT data, review/edit it, add rows manually, then submit this T5 draft to Final Review. Public data is unchanged until final Publish.</div><div class="f2s-a21-upload"><input id="a21T5File" class="f2s-a21-file" type="file" accept=".txt,.csv"><button id="a21T5FileRead" class="f2s-a21-btn">Read file</button></div><textarea id="a21T5Paste" class="f2s-a21-textarea" placeholder="Nowshin F2S-63\n7/7\n89:41:06\n\nAfiya F2S-95\n7/7\n44:53:51"></textarea><div class="f2s-a21-actions"><button id="a21T5Parse" class="f2s-a21-btn primary">Upload / Parse → Review</button><button id="a21T5Current" class="f2s-a21-btn">Load current Week ${week}</button><button id="a21T5Add" class="f2s-a21-btn">+ Add Row</button><button id="a21T5Clear" class="f2s-a21-btn">Clear draft</button></div>${tableT5()}<div class="f2s-a21-actions" style="margin-top:12px"><button id="a21T5Submit" class="f2s-a21-btn primary">Submit T5 to Final Review</button></div></div>`;
     if(mode==='fcb')return `<div class="f2s-a21-panel"><h3>FCB Management</h3><div class="help">Upload invite data, review/edit it, add rows manually, then submit the FCB draft to Final Review. FCB is maintained as the current all-time invite table. F2S-ID is optional; FCB rank is determined by total invitations (highest first). Remove deletes the row from the draft and the next Final Publish replaces the current FCB table, so removed members are actually removed from Supabase.</div><div class="f2s-a21-upload"><input id="a21FCBFile" class="f2s-a21-file" type="file" accept=".txt,.csv"><button id="a21FCBFileRead" class="f2s-a21-btn">Read file</button></div><textarea id="a21FCBPaste" class="f2s-a21-textarea" placeholder="Zihad Al Islam F2S-79\n3\n\nNew member without F2S-ID\n5\n\nMehejaben Islam F2S-97\n1"></textarea><div class="f2s-a21-actions"><button id="a21FCBParse" class="f2s-a21-btn primary">Upload / Parse → Review</button><button id="a21FCBCurrent" class="f2s-a21-btn">Load current FCB</button><button id="a21FCBAdd" class="f2s-a21-btn">+ Add Row</button><button id="a21FCBClear" class="f2s-a21-btn">Clear draft</button></div>${tableFCB()}<div class="f2s-a21-actions" style="margin-top:12px"><button id="a21FCBSubmit" class="f2s-a21-btn primary">Submit FCB to Final Review</button></div></div>`;
     if(mode==='star'){const d=derived();return `<div class="f2s-a21-panel"><h3>F2S Star — Weekly View</h3><div class="help">Separate weekly view. Exactly 7/7 earns +1 Star when final T5 is published and Star processing runs.</div>${d.stars.length?tableSimple(d.stars.map(x=>[x.name,x.f2s_id||'AUTO',x.completed_days+'/7','+1 Star'])):'<div class="f2s-a21-muted">No 7/7 candidates in the current T5 draft.</div>'}</div>`}
     const d=derived();return `<div class="f2s-a21-panel"><h3>F2S-ID — Weekly View</h3><div class="help">Separate weekly view. Participants with ≥4/7 are eligible. Existing members keep their ID. Removed IDs are reusable: the next eligible new member receives the lowest available removed ID first; if none is available, the next ID after the highest-ever issued number is created and added to the Directory.</div>${d.ids.length?tableSimple(d.ids.map(x=>[x.name,x.f2s_id||'AUTO',x.completed_days+'/7',x.f2s_id?'Existing ID':'New ID at publish'])):'<div class="f2s-a21-muted">No ≥4/7 eligible participant in the current T5 draft.</div>'}</div>`}
@@ -11844,7 +11869,7 @@ body{overflow-x:hidden}
   async function verify(){if(!sb){status('Supabase client is not ready.','err');return}const g=await sb.auth.getSession(),session=g.data?.session;if(!session){$('a21Login').style.display='block';$('a21Workspace').style.display='none';status('Step 1: sign in and verify the F2S administrator.');return}const q=await sb.rpc('is_f2s_admin');if(q.error||q.data!==true){$('a21Login').style.display='block';$('a21Workspace').style.display='none';status('Signed in, but this account is not verified as an F2S admin.','err');return}$('a21Login').style.display='none';$('a21Workspace').style.display='block';status('ADMIN VERIFIED · '+(session.user.email||'authenticated session'),'ok');await loadAll();if(window.f2sRefreshIdDirectory) await window.f2sRefreshIdDirectory()}
   function open(){const c=$('f2sAdminConsole');if(!c)return;c.classList.add('f2s-admin-visible');verify().catch(e=>status(e.message,'err'))}
   function close(){ $('f2sAdminConsole')?.classList.remove('f2s-admin-visible') }
-  function init(){sb=window.f2sSupabase;if(!sb)return;window.openF2SAdminCenter=open;window.f2sOpenDedicatedAdmin=open;$('a21SignIn').onclick=async()=>{const email=$('a21Email').value.trim(),password=$('a21Password').value;if(!email||!password)return status('Enter admin email and password.','err');status('Signing in and verifying…');const q=await sb.auth.signInWithPassword({email,password});if(q.error)return status('Sign-in failed: '+q.error.message,'err');await verify()};$('a21DeleteWeek').onclick=async()=>{const w=Number($('a21Week').value)||week;if(w<1)return status('Invalid week number.','err');const ok=confirm('DELETE ALL published records for Week '+w+'?\n\nThis removes the week from T5 history, reverses Star awards from this week, and restores/releases affected F2S-IDs.\n\nThis cannot be undone from the website.');if(!ok)return;const btn=$('a21DeleteWeek');btn.disabled=true;status('Deleting Week '+w+' and rolling back its Star/ID effects…');try{const q=await sb.rpc('admin_delete_week',{p_week_number:w});if(q.error)throw Error(q.error.message);status('Week '+w+' deleted. The public page will now continue from the newest remaining week. Reloading…','ok');setTimeout(()=>location.reload(),700)}catch(e){btn.disabled=false;status('Delete failed: '+e.message,'err')}};$('a21SignOut').onclick=async()=>{await sb.auth.signOut();close();status('Signed out.');};$('a21Close').onclick=close;$('a21Close2').onclick=close;$('a21Back').onclick=close;$('a21LoadWeek').onclick=async()=>{const selected=Math.max(1,Math.min(53,Number($('a21Week').value)||43));week=selected;t5=[];fcb=[];$('a21Final').style.display='none';render();try{await loadAll()}catch(e){status('Week '+week+' load failed: '+e.message,'err')}};document.querySelectorAll('.f2s-a21-option').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;render()});$('a21Week').addEventListener('change',()=>{t5=[];fcb=[];$('a21Final').style.display='none';render();status('Week changed. Click Load Week to load that week from Supabase.','ok')});$('a21FinalReview').onclick=finalReview;document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('f2sAdminConsole').classList.contains('f2s-admin-visible'))close()});sb.auth.onAuthStateChange(()=>{if($('f2sAdminConsole').classList.contains('f2s-admin-visible'))setTimeout(()=>verify(),0)});}
+  function init(){sb=window.f2sSupabase;if(!sb)return;window.openF2SAdminCenter=open;window.f2sOpenDedicatedAdmin=open;$('a21SignIn').onclick=async()=>{const email=$('a21Email').value.trim(),password=$('a21Password').value;if(!email||!password)return status('Enter admin email and password.','err');status('Signing in and verifying…');const q=await sb.auth.signInWithPassword({email,password});if(q.error)return status('Sign-in failed: '+q.error.message,'err');await verify()};$('a21DeleteWeek').onclick=async()=>{const w=Number($('a21Week').value)||week;if(w<1)return status('Invalid week number.','err');const ok=confirm('DELETE ALL published records for Week '+w+'?\n\nThis removes the week from T5 history, reverses Star awards from this week, and restores/releases affected F2S-IDs.\n\nThis cannot be undone from the website.');if(!ok)return;const btn=$('a21DeleteWeek');btn.disabled=true;status('Deleting Week '+w+' and rolling back its Star/ID effects…');try{const q=await sb.rpc('admin_delete_week',{p_week_number:w});if(q.error)throw Error(q.error.message);status('Week '+w+' deleted. The public page will now continue from the newest remaining week. Reloading…','ok');setTimeout(()=>location.reload(),700)}catch(e){btn.disabled=false;status('Delete failed: '+e.message,'err')}};$('a21SignOut').onclick=async()=>{await sb.auth.signOut();close();status('Signed out.');};$('a21Close').onclick=close;$('a21Close2').onclick=close;$('a21Back').onclick=close;$('a21LoadWeek').onclick=async()=>{const selected=Math.max(1,Math.min(53,Number($('a21Week').value)||43));week=selected;t5=[];fcb=[];$('a21Final').style.display='none';render();try{await loadAll()}catch(e){status('Week '+week+' load failed: '+e.message,'err')}};document.querySelectorAll('.f2s-a21-option').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;render()});document.addEventListener('click',async e=>{if(e.target.closest('#a21LoadWeekCompact')){const selected=Math.max(1,Math.min(53,Number($('a21WeekCompact')?.value)||week));week=selected;if($('a21Week'))$('a21Week').value=selected;t5=[];fcb=[];$('a21Final').style.display='none';render();try{await loadAll()}catch(err){status('Week '+week+' load failed: '+err.message,'err')}}else if(e.target.closest('#a21DeleteWeekCompact')){const legacy=$('a21DeleteWeek');if(legacy)legacy.click()}});document.addEventListener('change',e=>{if(e.target.id==='a21WeekCompact'){week=Math.max(1,Math.min(53,Number(e.target.value)||43));if($('a21Week'))$('a21Week').value=week;t5=[];fcb=[];$('a21Final').style.display='none';render();status('Week changed. Click Load Week to load that week from Supabase.','ok')}});$('a21Week').addEventListener('change',()=>{t5=[];fcb=[];$('a21Final').style.display='none';render();status('Week changed. Click Load Week to load that week from Supabase.','ok')});$('a21FinalReview').onclick=finalReview;document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('f2sAdminConsole').classList.contains('f2s-admin-visible'))close()});sb.auth.onAuthStateChange(()=>{if($('f2sAdminConsole').classList.contains('f2s-admin-visible'))setTimeout(()=>verify(),0)});}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
@@ -13852,3 +13877,11 @@ function realtime(rows){const e=$('f2sRealtimeActivity');if(!e)return;e.innerHTM
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();window.f2sLoadWebsiteAnalytics=load;
 })();
 </script>
+
+<style id="f2s-admin-final-polish-v50">
+.f2s-a21-legacy-week{display:none!important}
+.f2s-a21-t5-scope{margin:0 0 14px;padding:14px 16px;border:1px solid rgba(255,215,90,.16);border-radius:18px;background:linear-gradient(135deg,rgba(255,215,90,.075),rgba(255,255,255,.025));box-shadow:0 12px 34px rgba(0,0,0,.18);backdrop-filter:blur(14px)}
+.f2s-a21-scope-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.f2s-a21-scope-kicker{font-size:9px;font-weight:900;letter-spacing:.16em;opacity:.62}.f2s-a21-scope-head h3{margin:3px 0 1px;font-size:20px}.f2s-a21-scope-head p{margin:0;font-size:11px;opacity:.62}.f2s-a21-live-pill{font-size:9px;font-weight:900;letter-spacing:.08em;padding:7px 9px;border-radius:999px;background:rgba(66,220,145,.09);border:1px solid rgba(66,220,145,.18);white-space:nowrap}.f2s-a21-scope-controls{display:flex;align-items:end;gap:8px;margin-top:12px}.f2s-a21-scope-controls label{display:flex;flex-direction:column;gap:5px;font-size:9px;font-weight:800;opacity:.7}.f2s-a21-scope-controls select{height:36px;min-width:82px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.22);color:inherit;padding:0 10px;font-weight:800}.f2s-a21-scope-controls .f2s-a21-btn{min-height:36px;border-radius:10px;transition:transform .18s ease,filter .18s ease}.f2s-a21-scope-controls .f2s-a21-btn:hover{transform:translateY(-1px);filter:brightness(1.08)}.f2s-a21-options{gap:10px!important}.f2s-a21-option{border-radius:16px!important;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease!important}.f2s-a21-option:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.16)}
+@media(max-width:700px){.f2s-a21-t5-scope{padding:13px;margin-bottom:12px}.f2s-a21-scope-head{align-items:flex-start}.f2s-a21-scope-head h3{font-size:18px}.f2s-a21-live-pill{font-size:8px;padding:6px 8px}.f2s-a21-scope-controls{display:grid;grid-template-columns:1fr 1fr;align-items:stretch}.f2s-a21-scope-controls label{grid-column:1/-1}.f2s-a21-scope-controls select{width:100%}.f2s-a21-scope-controls .f2s-a21-btn{width:100%}.f2s-a21-options{grid-template-columns:1fr!important}}
+@media(prefers-reduced-motion:reduce){.f2s-a21-option,.f2s-a21-scope-controls .f2s-a21-btn{transition:none!important}}
+</style>
