@@ -6162,6 +6162,7 @@ May Allah help us stay consistent.`;
       <link href={FONTS_LINK} rel="stylesheet" />
       <div className="scroll-progress" aria-hidden="true"><span style={{ width: `${scrollProgress}%` }} /></div>
 
+      {page === "home" && (
       <div className="hero-cover mobile-hero-cover" style={{ width: "100%", position: "relative" }}>
         <img
           src={IMG_COVER}
@@ -6175,6 +6176,7 @@ May Allah help us stay consistent.`;
           <span className="f2s-cover-view-label">views</span>
         </div>
       </div>
+      )}
 
       <header className={`site-header ${scrollProgress > 3 ? "f2s-scrolled" : ""}`}
         style={{
@@ -8203,7 +8205,27 @@ F2S Ramadan Express is preparing to depart 🚂
             </div>
           </>
         ) : page === "voices" ? (
-          <main className="content-column voices-page">
+          <div className="desktop-layout destination-page-layout">
+            <aside className="desktop-sidebar destination-sidebar" aria-label="F2S sections">
+  <div className="sidebar-title">F2S · A to Z</div>
+  <div className="sidebar-subtitle">Complete reference</div>
+  <nav className="sidebar-nav">
+    {SECTIONS.map((s) => (
+      <button key={s.id} onClick={() => { f2sNavigate("home"); setTimeout(() => scrollTo(s.id), 120); }} className="sidebar-link">
+        <NavIcon id={s.id} color="#8a8064" />
+        <span>{s.label}</span>
+      </button>
+    ))}
+  </nav>
+  <button type="button" className="sidebar-admin-control" aria-label="Open F2S Admin Center" onClick={() => {
+    if (typeof window.openF2SAdminCenter === "function") window.openF2SAdminCenter();
+    else setTimeout(() => window.openF2SAdminCenter && window.openF2SAdminCenter(), 300);
+  }}>
+    <span className="sidebar-admin-icon">✦</span>
+    <span className="sidebar-admin-copy"><b>F2S Control</b><small>Admin Center</small></span>
+  </button>
+</aside>
+            <main className="content-column voices-page">
             <button
               onClick={() => f2sNavigate("home")}
               style={{
@@ -8460,9 +8482,30 @@ F2S Ramadan Express is preparing to depart 🚂
               <span>F2S Family</span><span>·</span><span>Built with intention</span>
             </div>
           </footer>
-          </main>
+            </main>
+          </div>
         ) : (
-          <main className="content-column qna-page">
+          <div className="desktop-layout destination-page-layout">
+            <aside className="desktop-sidebar destination-sidebar" aria-label="F2S sections">
+  <div className="sidebar-title">F2S · A to Z</div>
+  <div className="sidebar-subtitle">Complete reference</div>
+  <nav className="sidebar-nav">
+    {SECTIONS.map((s) => (
+      <button key={s.id} onClick={() => { f2sNavigate("home"); setTimeout(() => scrollTo(s.id), 120); }} className="sidebar-link">
+        <NavIcon id={s.id} color="#8a8064" />
+        <span>{s.label}</span>
+      </button>
+    ))}
+  </nav>
+  <button type="button" className="sidebar-admin-control" aria-label="Open F2S Admin Center" onClick={() => {
+    if (typeof window.openF2SAdminCenter === "function") window.openF2SAdminCenter();
+    else setTimeout(() => window.openF2SAdminCenter && window.openF2SAdminCenter(), 300);
+  }}>
+    <span className="sidebar-admin-icon">✦</span>
+    <span className="sidebar-admin-copy"><b>F2S Control</b><small>Admin Center</small></span>
+  </button>
+</aside>
+            <main className="content-column qna-page">
             <button
               onClick={() => f2sNavigate("home")}
               style={{
@@ -8578,7 +8621,8 @@ F2S Ramadan Express is preparing to depart 🚂
               <span>More F2Sian Q&amp;A</span>
               <small>More questions and official admin replies will be added here over time.</small>
             </div>
-          </main>
+            </main>
+          </div>
         )}
       </div>
 
@@ -8613,7 +8657,25 @@ F2S Ramadan Express is preparing to depart 🚂
         button, a { -webkit-tap-highlight-color: transparent; }
         button { font: inherit; }
 
-        .qna-page{max-width:900px;margin:0 auto;}
+        .destination-page-layout{
+          grid-template-columns:252px minmax(0,1080px);
+          gap:34px;
+          align-items:start;
+          justify-content:center;
+        }
+        .destination-sidebar{display:flex;position:sticky;top:82px;max-height:calc(100vh - 104px);overflow:auto;}
+        .destination-page-layout > .content-column{min-width:0;}
+        @media(max-width:1200px){
+          .destination-page-layout{grid-template-columns:220px minmax(0,1fr);gap:24px;}
+        }
+        @media(max-width:860px){
+          .destination-page-layout{display:block;}
+          .destination-sidebar{display:none;}
+        }
+        .qna-page{max-width:900px;margin:0 auto;display:flex;flex-direction:column;}
+        .qna-page > .qna-card{order:10;}
+        .qna-page > .qna-ask-box{order:20;}
+        .qna-page > .qna-coming-soon{order:30;}
         .qna-card{position:relative;overflow:hidden;background:linear-gradient(145deg,#0c0b09 0%,#070605 68%,#040302 100%);border:1px solid rgba(217,167,85,.24);border-radius:18px;padding:24px;box-shadow:0 18px 48px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.025);}
         .qna-card::before{content:"";position:absolute;left:8%;right:8%;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(217,167,85,.6),transparent);}
         .qna-ask-box{position:relative;overflow:hidden;margin-top:22px;padding:22px;border:1px solid rgba(217,167,85,.25);border-radius:20px;background:radial-gradient(420px 180px at 100% 0%,rgba(217,167,85,.10),transparent 65%),linear-gradient(145deg,rgba(34,26,16,.97),rgba(13,10,7,.99));box-shadow:0 20px 55px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.025)}
