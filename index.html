@@ -5968,13 +5968,15 @@ May Allah help us stay consistent.`;
           retryTimer = window.setTimeout(loadEditorial, 500);
           return;
         }
-        const { data, error } = await window.f2sSupabase
-          .from("f2s_editorial_content")
-          .select("id,content_type,author,category,body_text,question_text,answer_text,image_data_1,image_data_2,display_number,created_at,updated_at")
-          .eq("published", true)
-          .order("created_at", { ascending: false });
+        /*
+         * IMPORTANT: Public Voices/Q&A must NOT read the editorial table
+         * directly. The table is admin-controlled and its RLS can block the
+         * anonymous client after Admin signs out. Use the SECURITY DEFINER
+         * public RPC instead, which returns only published editorial rows.
+         */
+        const { data, error } = await window.f2sSupabase.rpc("get_f2s_editorial_public");
         if (cancelled || error) {
-          if (error) console.warn("[F2S] Editorial content load skipped:", error.message);
+          if (error) console.warn("[F2S] Public editorial RPC load skipped:", error.message);
           return;
         }
         const rows = Array.isArray(data) ? data : [];
@@ -6005,7 +6007,7 @@ May Allah help us stay consistent.`;
     const refresh = () => loadEditorial();
     window.addEventListener("f2s:editorial-updated", refresh);
     window.addEventListener("f2s:refresh-live", refresh);
-    const timer = window.setInterval(loadEditorial, 60000);
+    const timer = window.setInterval(loadEditorial, 30000);
     return () => {
       cancelled = true;
       if (retryTimer) window.clearTimeout(retryTimer);
