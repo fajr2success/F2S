@@ -1,25 +1,27 @@
 
 {
-  "id": "./",
+  "id": "/F2S/",
   "name": "Fajr to Success",
   "short_name": "F2S",
-  "description": "Fajr to Success - Your daily productivity companion",
-  "start_url": "./",
-  "scope": "./",
+  "description": "Fajr to Success - Islamic Productivity and Study Community",
+  "start_url": "/F2S/",
+  "scope": "/F2S/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#080808",
-  "theme_color": "#080808",
+  "background_color": "#100C08",
+  "theme_color": "#100C08",
   "icons": [
     {
-      "src": "./icons/icon-192.png",
+      "src": "/F2S/icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "./icons/icon-512.png",
+      "src": "/F2S/icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
